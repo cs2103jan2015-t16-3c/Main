@@ -1,4 +1,4 @@
-#include "TextBuddy.h"
+#include "Constan.h"
 
 
 const string TextBuddy::MESSAGE_ADDED = "Added to file";
@@ -41,35 +41,81 @@ TextBuddy::COMMAND_TYPE getCommandType(string command){
 }
 
 void TextBuddy::addToFile(string input) {
-	myTextFile.push_back(input);
+	entry temp = {"","",""};
+	string signal;
+	istringstream in(input);
+	in >> temp.task;
+//	in >> signal;
+	while (in >> signal) {
+		if ( signal == "-s" ) {
+			in >> temp.start;
+		} else if ( signal == "-e" ) {
+			in >> temp.end;
+		} else if ( signal == "-r" ) {
+			in >> temp.repeat;
+		}
+	}
+	logBook.push_back(temp);
 }
 
 void TextBuddy::displayFile(){
-	for (int i = 0; i < myTextFile.size(); i++) {
+	for (int i = 0; i < logBook.size(); i++) {
 		cout << i + 1 << ". " << getText(i) << endl;
 	}
 }
 
 string TextBuddy::getText(int line) {
-	return myTextFile[line];
+	string task = logBook[line].task;
+	string start = logBook[line].start;
+	string end = logBook[line].end;
+	string repeat = logBook[line].repeat;
+	string output = task;
+	if (start != "") {
+		output = output + " start time: " + start;
+	}
+	if (end != "") {
+		output = output + " end time: " + end;
+	}
+	if (repeat != "") {
+		output = output + " repeat: " + repeat;
+	}
+	return output;
 }
 
 void TextBuddy::deleteInput(int a) {
-	myTextFile.erase(myTextFile.begin() + (a - 1));
+	logBook.erase(logBook.begin() + (a - 1));
 }
 
 void TextBuddy::clearFile() {
-	myTextFile.clear();
+	logBook.clear();
 }
 
 void TextBuddy::saveFile() {
 	ofstream writeFile("mytextfile.txt", ios::out);
 
-	for (int i = 0; i < myTextFile.size(); i++) {
-		writeFile << myTextFile[i] << endl;
+	for (int i = 0; i < logBook.size(); i++) {
+		writeFile << getInfo(i) << endl;
 	}
 
 	writeFile.close();
+}
+
+string TextBuddy::getInfo(int line) {
+	string task = logBook[line].task;
+	string start = logBook[line].start;
+	string end = logBook[line].end;
+	string repeat = logBook[line].repeat;
+	string output = task;
+	if (start != "") {
+		output = output + " -s " + start;
+	}
+	if (end != "") {
+		output = output + " -s " + end;
+	}
+	if (repeat != "") {
+		output = output + " -r " + repeat;
+	}
+	return output;
 }
 
 void TextBuddy::retrieveFile() {
@@ -78,15 +124,15 @@ void TextBuddy::retrieveFile() {
 	ifstream readFile("mytextfile.txt", ios::in);
 
 	while (getline (readFile, temp)) {
-		myTextFile.push_back(temp);
+		addToFile(temp);
 	}
 
 	readFile.close();
 }
 
-void TextBuddy::sortFile() {
-	sort(myTextFile.begin(), myTextFile.end());
-}
+//void TextBuddy::sortFile() {
+//	sort(logBook.begin(), logBook.end());
+//}
 
 int TextBuddy::searchFile(string input) {
 	int lineNumber = -1;
@@ -99,8 +145,8 @@ int TextBuddy::searchFile(string input) {
 int TextBuddy::searchKeyWord(string input) {
 	int answer = -1;
 
-	for (int i = 0; i < myTextFile.size(); i++) {
-		if ((myTextFile[i]).find(input) != -1) {
+	for (int i = 0; i < logBook.size(); i++) {
+		if ((logBook[i].task).find(input) != -1) {
 			answer = i + 1;
 		}
 	}
@@ -114,13 +160,13 @@ int main(int argc, char* argv[]) {
 		return 0;
 	}
 
-	TextBuddy textFile;
+	TextBuddy myList;
 
-	textFile.showToUser(TextBuddy::MESSAGE_WELCOME);
+	myList.showToUser(TextBuddy::MESSAGE_WELCOME);
 
 	cout << argv[1] << endl;
 
-	textFile.retrieveFile();
+	myList.retrieveFile();
 
 	while (true) {
 		cout << endl << "Enter command: ";
@@ -134,38 +180,38 @@ int main(int argc, char* argv[]) {
 		switch (commandType) {
 		case TextBuddy::COMMAND_TYPE::ADD:
 			getline(cin, input);
-			textFile.addToFile(input);
-			textFile.showToUser(TextBuddy::MESSAGE_ADDED);
+			myList.addToFile(input);
+			myList.showToUser(TextBuddy::MESSAGE_ADDED);
 			break;
 		case TextBuddy::COMMAND_TYPE::DISPLAY:
-			textFile.displayFile();
+			myList.displayFile();
 			break;
 		case TextBuddy::COMMAND_TYPE::DELETE:
 			int a;
 			cin >> a;
-			textFile.deleteInput(a);
-			textFile.showToUser(TextBuddy::MESSAGE_DELETED);
+			myList.deleteInput(a);
+			myList.showToUser(TextBuddy::MESSAGE_DELETED);
 			break;
 		case TextBuddy::COMMAND_TYPE::CLEAR:
-			textFile.clearFile();
-			textFile.showToUser(TextBuddy::MESSAGE_CLEARED);
+			myList.clearFile();
+			myList.showToUser(TextBuddy::MESSAGE_CLEARED);
 			break;
 		case TextBuddy::COMMAND_TYPE::INVALID:
 			cout << "Invalid Command" << endl;
 			break;
-		case TextBuddy::COMMAND_TYPE::SORT:
-			textFile.sortFile();
-			textFile.showToUser(TextBuddy::MESSAGE_SORTED);
-			break;
+//		case TextBuddy::COMMAND_TYPE::SORT:
+//			myList.sortFile();
+//			myList.showToUser(TextBuddy::MESSAGE_SORTED);
+//			break;
 		case TextBuddy::COMMAND_TYPE::SEARCH:
 			int lineNumber;
 			getline(cin, input);
-			lineNumber = textFile.searchFile(input);
+			lineNumber = myList.searchFile(input);
 			if (lineNumber == -1){
-				textFile.showToUser(TextBuddy::MESSAGE_NOT_FOUND);
+				myList.showToUser(TextBuddy::MESSAGE_NOT_FOUND);
 			}
 			else {
-				textFile.showToUser(TextBuddy::MESSAGE_FOUND);
+				myList.showToUser(TextBuddy::MESSAGE_FOUND);
 				cout << "Line number " << lineNumber << endl;
 			}
 			break;
@@ -173,7 +219,7 @@ int main(int argc, char* argv[]) {
 			exit(EXIT_SUCCESS);
 		}
 
-		textFile.saveFile();
+		myList.saveFile();
 
 	}
 

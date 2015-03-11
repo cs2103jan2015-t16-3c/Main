@@ -1,5 +1,5 @@
-#ifndef TextBuddy_H_
-#define TextBuddy_H_
+#ifndef CONSTAN_H_
+#define CONSTAN_H_
 
 #include <iostream>
 #include <string>
@@ -8,12 +8,21 @@
 #include <stdio.h>
 #include <iterator>
 #include <vector>
+#include <list>
+#include <sstream>
 
 using namespace std;
 
+struct entry {
+	string task;
+	string start;
+	string end;
+	string repeat;
+};
+
 class TextBuddy{
 private:
-	vector<string> myTextFile;
+	vector<entry> logBook;
 
 public:
 	// These are the possible command types
@@ -39,6 +48,8 @@ public:
 
 	string getText(int line);
 
+	string getInfo(int line);
+
 	void deleteInput(int a);
 
 	void clearFile();
@@ -47,7 +58,7 @@ public:
 
 	void retrieveFile();
 
-	void sortFile();
+//	void sortFile();
 
 	int searchFile(string input);
 
