@@ -2,7 +2,7 @@
 
 
 const string TextBuddy::MESSAGE_ADDED = "Added to file";
-const string TextBuddy::MESSAGE_WELCOME = "Welcome to TextBuddy!";
+const string TextBuddy::MESSAGE_WELCOME = "Welcome to CONSTAN";
 const string TextBuddy::MESSAGE_DELETED = "Deleted from file";
 const string TextBuddy::MESSAGE_CLEARED = "All content deleted from file";
 const string TextBuddy::MESSAGE_SORTED = "File has been sorted";
