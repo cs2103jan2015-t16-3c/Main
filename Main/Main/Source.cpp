@@ -83,6 +83,7 @@ string TextBuddy::getText(int line) {
 }
 
 void TextBuddy::deleteInput(int a) {
+	assert (a > 0);
 	logBook.erase(logBook.begin() + (a - 1));
 }
 

@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <iterator>
 #include <vector>
-#include <list>
+#include <assert.h>
 #include <sstream>
 
 using namespace std;
