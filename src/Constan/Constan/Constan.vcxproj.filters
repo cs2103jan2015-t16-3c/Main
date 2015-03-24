@@ -24,12 +24,18 @@
     <ClCompile Include="CommandAdd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CommandDelete.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CommandAdd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandDelete.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

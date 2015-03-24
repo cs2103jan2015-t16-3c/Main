@@ -64,11 +64,13 @@
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandAdd.cpp" />
+    <ClCompile Include="CommandDelete.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandAdd.h" />
+    <ClInclude Include="CommandDelete.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
