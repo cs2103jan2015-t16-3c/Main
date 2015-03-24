@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Constan", "Constan\Constan.vcxproj", "{292FBCCC-DFFB-4B31-8F91-2B696BF5B546}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{292FBCCC-DFFB-4B31-8F91-2B696BF5B546}.Debug|Win32.ActiveCfg = Debug|Win32
+		{292FBCCC-DFFB-4B31-8F91-2B696BF5B546}.Debug|Win32.Build.0 = Debug|Win32
+		{292FBCCC-DFFB-4B31-8F91-2B696BF5B546}.Release|Win32.ActiveCfg = Release|Win32
+		{292FBCCC-DFFB-4B31-8F91-2B696BF5B546}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
