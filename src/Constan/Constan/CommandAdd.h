@@ -4,19 +4,25 @@
 
 #include "Command.h"
 
+using namespace std;
+
 class CommandAdd :
 	public Command {
 private:
-	std::string _taskName;
-	std::string _startTime;
-	std::string _endTime;
-	bool _isCompleted;
-	int _index;
+	string _taskName;
+	string _startTime;
+	string _endTime;
+	string _priority;
+	string _feedback;
+	Task* _newTask;
+
 public:
-	CommandAdd(std::string taskName, std::string startTime, std::string endTime, bool isCompleted);
-	~CommandAdd(void);
+	CommandAdd(string taskName, string startTime, string endTime, string priority);
+	//~CommandAdd(void);
 	void execute();
-	Command getInverseCommand();
+	//Command getInverseCommand();
+	vector<Task> getTaskToDisplay();
+
 };
 
 #endif

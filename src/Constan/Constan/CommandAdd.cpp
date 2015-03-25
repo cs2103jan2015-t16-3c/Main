@@ -1,23 +1,30 @@
 #include "CommandAdd.h"
 
-CommandAdd::CommandAdd(std::string taskName, std::string startTime, std::string endTime, bool isCompleted) {
+CommandAdd::CommandAdd(string taskName, string startTime, string endTime, string priority) {
 	_taskName = taskName;
 	_startTime = startTime;
 	_endTime = endTime;
-	_isCompleted = isCompleted;
+	_priority = priority;
+	_newTask = new Task (_taskName, _startTime, _endTime, _priority);
 }
 
 
-CommandAdd::~CommandAdd(void)
-{
-}
+//CommandAdd::~CommandAdd(void) {
+//}
 
 void CommandAdd::execute() {
+	TaskManager::getInstance()->addTask(*_newTask);
 }
 
-Command CommandAdd::getInverseCommand() {
+vector<Task> CommandAdd::getTaskToDisplay() {
+	vector<Task>* newTaskVector = new vector<Task>;
+	newTaskVector->push(*_newTask);
+	return *newTaskVector;
+}
+
+//Command CommandAdd::getInverseCommand() {
 	//find location;
 	//int index = location;
-	CommandDelete invAdd(_index);
-	return invAdd;
-}
+//	CommandDelete invAdd(_index);
+//	return invAdd;
+//}

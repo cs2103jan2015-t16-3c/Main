@@ -10,11 +10,9 @@ static const string MATCH_FOUND = "The following entries match your query: ";
 class TaskManager {
 private:
 	vector<Task> _tasks;
-	static TaskManager* _instance;
-	TaskManager();
 
 public:
-	static TaskManager* getInstance();
+	TaskManager();
 	~TaskManager();
 	void readFromFile(vector<Task>& _tasks, char *argv[]);
 	void writeToFile(vector<Task>& _tasks, char *argv[]);

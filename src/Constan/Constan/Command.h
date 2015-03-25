@@ -3,6 +3,8 @@
 #define COMMAND_H_
 
 #include <string>
+#include "Task.h"
+#include "TaskManager.h"
 
 class Command {
 public:

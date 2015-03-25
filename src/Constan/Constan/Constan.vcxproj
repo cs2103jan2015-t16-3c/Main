@@ -62,15 +62,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\CONSTAN\Task.cpp" />
+    <ClCompile Include="..\..\..\CONSTAN\TaskManager.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandAdd.cpp" />
     <ClCompile Include="CommandDelete.cpp" />
+    <ClCompile Include="Logic.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\CONSTAN\Task.h" />
+    <ClInclude Include="..\..\..\CONSTAN\TaskManager.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandAdd.h" />
     <ClInclude Include="CommandDelete.h" />
+    <ClInclude Include="Logic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

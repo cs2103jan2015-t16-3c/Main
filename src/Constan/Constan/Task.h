@@ -10,16 +10,13 @@ const string DEFAULT_END_TIME = "No end time specified";
 class Task {
 private:
 	string _taskName;
-	string _startDate;
 	string _startTime;
-	string _endDate;
 	string _endTime;
-//	bool _isComplete;
-	string _priority;
+	bool _isComplete;
 
 public:
 	Task();
-	Task(string taskName, string startTime, string endTime, string priority);
+	Task(string taskName, string startTime, string endTime);
 	~Task();
 	void setTaskName(string taskName);
 	string getTaskName();
@@ -27,8 +24,6 @@ public:
 	string getStartTime();
 	void setEndTime(string endTime);
 	string getEndTime();
-	void setPriority(string priority);
-	string getPriority();
 	void setCompletionStatus(bool isComplete);
 	bool getCompletionStatus();
 };

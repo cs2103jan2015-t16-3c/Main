@@ -8,13 +8,12 @@ Task::Task() {
 	setCompletionStatus(false);
 }
 
-Task::Task(string taskName, string startTime, string endTime, string priority) {
+Task::Task(string taskName, string startTime, string endTime) {
 	//constructor
 	setTaskName(taskName);
 	setStartTime(startTime);
 	setEndTime(endTime);
-	setPriority(priority);
-	//setCompletionStatus(false);
+	setCompletionStatus(false);
 }
 
 Task::~Task() {
@@ -43,14 +42,6 @@ void Task::setEndTime(string endTime) {
 
 string Task::getEndTime() {
 	return _endTime;
-}
-
-void Task::setPriority(string priority) {
-	_priority = priority;
-}
-
-string Task::getPriority() {
-	return _priority;
 }
 
 void Task::setCompletionStatus(bool isComplete) {
