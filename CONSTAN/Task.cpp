@@ -3,17 +3,21 @@
 Task::Task() {
 	//default constructor
 	setTaskName(DEFAULT_TASK_NAME);
+	setStartDate(DEFAULT_START_DATE);
 	setStartTime(DEFAULT_START_TIME);
+	setEndDate(DEFAULT_END_DATE);
 	setEndTime(DEFAULT_END_TIME);
-	setCompletionStatus(false);
+	//setCompletionStatus(false);
 }
 
-Task::Task(string taskName, string startTime, string endTime, string priority) {
+Task::Task(string taskName, string startDate, string startTime, string endDate, string endTime, string type) {
 	//constructor
 	setTaskName(taskName);
+	setStartDate(startDate);
 	setStartTime(startTime);
+	setEndDate(endDate);
 	setEndTime(endTime);
-	setPriority(priority);
+	setType(type);
 	//setCompletionStatus(false);
 }
 
@@ -29,12 +33,28 @@ string Task::getTaskName() {
 	return _taskName;
 }
 
+void Task::setStartDate(string startDate) {
+	_startDate = startDate;
+}
+
+string Task::getStartDate() {
+	return _startDate;
+}
+
 void Task::setStartTime(string startTime) {
 	_startTime = startTime;
 }
 
 string Task::getStartTime() {
 	return _startTime;
+}
+
+void Task::setEndDate(string endDate) {
+	_endDate = endDate;
+}
+
+string Task::getEndDate() {
+	return _endDate;
 }
 
 void Task::setEndTime(string endTime) {
@@ -45,18 +65,18 @@ string Task::getEndTime() {
 	return _endTime;
 }
 
-void Task::setPriority(string priority) {
-	_priority = priority;
+void Task::setType(string type) {
+	_type = type;
 }
 
-string Task::getPriority() {
-	return _priority;
+string Task::getType() {
+	return _type;
 }
 
-void Task::setCompletionStatus(bool isComplete) {
-	_isComplete = isComplete;
-}
+//void Task::setCompletionStatus(bool isComplete) {
+	//_isComplete = isComplete;
+//}
 
-bool Task::getCompletionStatus() {
-	return _isComplete;
-}
+//bool Task::getCompletionStatus() {
+	//return _isComplete;
+//}
