@@ -23,7 +23,7 @@
 using namespace std;
 
 class Parser {
-private:
+public:
 	string _taskName;
 	string _startDate;
 	string _startTime;
@@ -36,7 +36,7 @@ private:
 //	string strindex;
 	int _index;
 
-public:
+
 	enum COMMAND_TYPE {
 		ADD, DISPLAY, DELETE, INVALID, EDIT, SEARCH, EXIT
 	};	
