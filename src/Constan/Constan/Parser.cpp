@@ -14,12 +14,12 @@ void Parser::translateInput(vector<string>& inputVector) {
 			getStartTime(inputVector);
 			getEndTime(inputVector);
 			getType();
-			CommandAdd addTask(taskName,startDate,startTime,endDate,endTime,type);
+			CommandAdd addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type);
 			return addTask;
 			break;
 		case DELETE:
 			getIndex(inputVector);
-			CommandDelete deleteTask(index);
+			CommandDelete deleteTask(_index);
 			return deleteTask;
 			break;
 		case DISPLAY:
@@ -38,7 +38,7 @@ void Parser::translateInput(vector<string>& inputVector) {
 			getStartTime(inputVector);
 			getEndTime(inputVector);
 			getType();
-			CommandEdit editTask(taskName,startDate,startTime,endDate,endTime,type);
+			CommandEdit editTask(_index, _taskName, _startDate, _startTime, _endDate, _endTime, _type);
 			return editTask;
 			break;
 		case EXIT:
@@ -51,7 +51,7 @@ void Parser::getKeyword(vector<string> &inputVector) {
 }
 
 void Parser::getIndex(vector<string> &inputVector) {
-	_index = inputVector[1];	
+	_index = std::stoi(inputVector[1]);	
 }
 
 void Parser::displayType(vector<string> &inputVector) {
@@ -60,15 +60,15 @@ void Parser::displayType(vector<string> &inputVector) {
 
 void Parser::getType() {
 	if (_startTime != "NULL" && _endTime != "NULL") {
-		_taskType = "timed";
+		_type = "timed";
 	} else if (_startTime == "NULL" && _endTime != "NULL") {
-		_taskType = "deadline";
+		_type = "deadline";
 	} else {
-		_taskType = "floating";
+		_type = "floating";
 	}
 }
 
-bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, &index) {
+bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, int &index) {
 	for (int i = 0; i<inputVector.size(), i++){
 		if (inputVector[i] == "-s"){
 			index = i;
@@ -78,7 +78,7 @@ bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, &index) {
 	return false;
 }
 
-bool Parser::isEndTimeDelimiterFound(vector<string> &inputVector, &index) {
+bool Parser::isEndTimeDelimiterFound(vector<string> &inputVector, int &index) {
 	for (int i = 0; i<inputVector.size(), i++){
 		if (inputVector[i] == "-e"){
 			index = i;
@@ -88,7 +88,7 @@ bool Parser::isEndTimeDelimiterFound(vector<string> &inputVector, &index) {
 	return false;
 }
 
-bool Parser::isTaskNameDelimiterFound(vector<string> &inputVector, &index) {
+bool Parser::isTaskNameDelimiterFound(vector<string> &inputVector, int &index) {
 	for (int i = 0; i<inputVector.size(), i++){
 		if (inputVector[i] == "-t"){
 			index = i;
@@ -190,7 +190,7 @@ void Parser::splitInput(vector<string>* inputVector, string input) {
 	istringstream read(string);
 	string temporaryString;
 	
-	while(in >> temporaryString) {
+	while(read >> temporaryString) {
 		*inputVectorIter = temporaryString;
 		inputVectorIter++;
 	}

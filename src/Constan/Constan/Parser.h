@@ -29,11 +29,11 @@ private:
 	string _startTime;
 	string _endDate;
 	string _endTime;
-	string _taskType;
+	string _type;
 	string _displayType;
 	string _keyword;
 
-	string strindex;
+//	string strindex;
 	int _index;
 
 public:
