@@ -16,8 +16,9 @@ private:
 	string _startTime;
 	string _endDate;
 	string _endTime;
-//	bool _isComplete;
 	string _type;
+//	bool _isComplete;
+
 
 public:
 	Task();

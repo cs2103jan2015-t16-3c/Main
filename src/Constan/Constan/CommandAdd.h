@@ -10,18 +10,20 @@ class CommandAdd :
 	public Command {
 private:
 	string _taskName;
+	string _startDate;
 	string _startTime;
+	string _endDate;
 	string _endTime;
-	string _priority;
-	string _feedback;
+	string _type;
 	Task* _newTask;
 
 public:
-	CommandAdd(string taskName, string startTime, string endTime, string priority);
+	CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, string type);
 	//~CommandAdd(void);
 	void execute();
 	//Command getInverseCommand();
-	vector<Task> getTaskToDisplay();
+	void setDisplay(vector<Task>* currentDisplay);
+//	vector<Task> getTaskToDisplay();
 
 };
 

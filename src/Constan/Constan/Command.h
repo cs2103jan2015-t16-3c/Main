@@ -7,11 +7,17 @@
 #include "TaskManager.h"
 
 class Command {
+protected:
+	vector<Task>* _timedTaskVector;
+	vector<Task>* _floatingTaskVector;
+	vector<Task>* _deadlineVector;
+	vector<Task>* _currentDisplay;
 public:
 	Command(void);
 	~Command(void);
 	void execute();
 	Command getInverseCommand();
+	void setDisplay(vector<Task>* displayVector);
 };
 
 #endif
