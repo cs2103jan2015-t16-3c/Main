@@ -41,6 +41,7 @@ public:
 		ADD, DISPLAY, DELETE, INVALID, EDIT, SEARCH, EXIT
 	};	
 	
+	Parser();
 	Command parse(string input);
 	void translateInput(vector<string>& inputVector);
 	void getKeyword(vector<string> &inputVector);

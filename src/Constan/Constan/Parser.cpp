@@ -1,6 +1,9 @@
 #include "Parser.h"
 #include <vector>
 
+Parser::Parser(){
+}
+
 Command Parser::parse(string input) {
 	vector<string>* inputVector = new vector<string>;
 	splitInput(inputVector, input);
