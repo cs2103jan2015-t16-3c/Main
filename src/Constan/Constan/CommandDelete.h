@@ -4,15 +4,17 @@
 
 #include "Command.h"
 
+using namespace std;
+
 class CommandDelete :
 	public Command {
 private:
 	int _index;
 public:
 	CommandDelete(int index);
-	~CommandDelete(void);
+//	~CommandDelete(void);
 	void execute();
-	Command getInverseCommand();
+//	Command getInverseCommand();
 };
 
 #endif

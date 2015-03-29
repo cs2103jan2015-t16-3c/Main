@@ -3,6 +3,8 @@
 #define COMMANDADD_H_
 
 #include "Command.h"
+#include "TaskManager.h"
+#include "Task.h"
 
 using namespace std;
 
@@ -22,7 +24,8 @@ public:
 	//~CommandAdd(void);
 	void execute();
 	//Command getInverseCommand();
-	void setDisplay(vector<Task>* currentDisplay);
+	void updateDisplay(vector<Task>* currentDisplay);
+	string updateFeedback();
 //	vector<Task> getTaskToDisplay();
 
 };

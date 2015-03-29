@@ -8,7 +8,7 @@ CommandAdd::CommandAdd(string taskName, string startDate, string startTime, stri
 	_endDate = endDate;
 	_endTime = endTime;
 	_type = type;
-	_newTask = new Task (_taskName, _startDate, _startTime, _endDate, _endTime, _type);
+	_newTask = new Task(_taskName, _startDate, _startTime, _endDate, _endTime, _type);
 }
 
 
@@ -25,11 +25,22 @@ void CommandAdd::execute() {
 //	return *newTaskVector;
 //}
 
-void setDisplay(vector<Task>* currentDisplay) {
-	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask("26 March 2015");
-	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline("26 March 2015");
+void CommandAdd::setDisplay(vector<Task>* currentDisplay) {
+	
 	_displayVector = new vector<Task>;
 	merge ((_timedTaskVector->begin()).getStartTime()
+}
+
+void CommandAdd::updateDisplay(vector<Task>* currentDisplay) {
+	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask("29 March 2015");
+	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline("29 March 2015");
+	_mergedDisplay = new vector<Task>;
+	merge (_timedTaskVector.begin(), _timedTaskVector.end(), _deadlineVector.begin(), _deadlineVector.end(), _mergedDisplay.begin(), Compare_Task());
+	currentDisplay = _mergedDisplay;
+}
+
+string CommandAdd::updateFeedback() {
+	return _taskName + " is added.";
 }
 
 //Command CommandAdd::getInverseCommand() {

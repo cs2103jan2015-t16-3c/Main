@@ -11,8 +11,8 @@ CommandDelete::~CommandDelete(void)
 void CommandDelete::execute() {
 }
 
-Command CommandDelete::getInverseCommand() {
+/*Command CommandDelete::getInverseCommand() {
 	//get info;
 	CommandAdd invDelete(std::string taskName, std::string startTime, std::string endTime, bool isCompleted);
 	return invDelete;
-}
+}*/
