@@ -1,16 +1,16 @@
 #include "TextUI.h"
 
-const string TextUI::MESSAGE_WELCOME = "Hello. Welcome to CONSTAN!";
-const string TextUI::MESSAGE_ADDED = "Task added: ";
-const string TextUI::MESSAGE_DELETED = "Task deleted: ";
-const string TextUI::MESSAGE_EDITED = "Task edited: ";
+string TextUI::MESSAGE_WELCOME = "Hello. Welcome to CONSTAN!";
+string TextUI::MESSAGE_ADDED = "Task added: ";
+string TextUI::MESSAGE_DELETED = "Task deleted: ";
+string TextUI::MESSAGE_EDITED = "Task edited: ";
 
-const string TextUI::ERROR_UNRECOGNISED_COMMAND_TYPE = "ERROR: Unrecognised command type.\nEnter \"help\" for list of valid command type in CONSTAN!";
-const string TextUI::ERROR_INVALID_FORMAT = "ERROR: Invalid format.\nEnter \"help\" for list of valid formatting in CONSTAN!";
-const string TextUI::ERROR_INVALID_DATE_TIME = "ERROR: Invalid date or time.";
-const string TextUI::ERROR_OTHERS = "ERROR.";
+string TextUI::ERROR_UNRECOGNISED_COMMAND_TYPE = "ERROR: Unrecognised command type.\nEnter \"help\" for list of valid command type in CONSTAN!";
+string TextUI::ERROR_INVALID_FORMAT = "ERROR: Invalid format.\nEnter \"help\" for list of valid formatting in CONSTAN!";
+string TextUI::ERROR_INVALID_DATE_TIME = "ERROR: Invalid date or time.";
+string TextUI::ERROR_OTHERS = "ERROR.";
 
-const string TextUI::HELP_USER_GUIDE = "General Command: \n1. Undo : \"undo\" \n2. Redo : \"redo\" \n3. Search : \"search [keyword(s)]\" \n\nTask Manipulation Commands: \n1. Creating/Adding task : \"add [task name] -s [start time] -e [end time]\" \n2. Displaying task : \"display\" \n3. Deleting task : \"delete [task index]\" \n4. Editing task : \"edit [task number] [task name] -s [start time] -e [end time]\" \n5. Mark task as done : \"mark [task index]\" \n6. Unmark \'done\' task : \"unmark [task index]\" ";
+string TextUI::HELP_USER_GUIDE = "General Command: \n1. Undo : \"undo\" \n2. Redo : \"redo\" \n3. Search : \"search [keyword(s)]\" \n\nTask Manipulation Commands: \n1. Creating/Adding task : \"add [task name] -s [start time] -e [end time]\" \n2. Displaying task : \"display\" \n3. Deleting task : \"delete [task index]\" \n4. Editing task : \"edit [task number] [task name] -s [start time] -e [end time]\" \n5. Mark task as done : \"mark [task index]\" \n6. Unmark \'done\' task : \"unmark [task index]\" ";
 
 void TextUI::main() {
 	showToUser(MESSAGE_WELCOME);
@@ -109,7 +109,7 @@ void TextUI::printCommand(string userCommand) {
 
 void TextUI::displayResult() {
 
-	output = toLogic.getMainDisplay();
+	output = toLogic.getDisplay();
 
 	for (unsigned i=0; i<output.size(); i++)
 	{

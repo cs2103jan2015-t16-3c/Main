@@ -1,4 +1,8 @@
 #pragma once
+#ifndef LOGIC_H_
+#define LOGIC_H_
+
+
 #include <string>
 #include <vector>
 #include "Task.h"
@@ -11,6 +15,7 @@ class Logic {
 private:
 	vector<Task>* _currentDisplay;
 	string _feedback;
+	Parser parser;
 public:
 	Logic();
 	~Logic(void);
@@ -19,33 +24,5 @@ public:
 //	string getFeedback();
 };
 
-Logic::Logic() {
-	Parser parser;
-}
+#endif
 
-void Logic::processCommand(string input) {
-	Command cmd = parser.parseCommand(input);
-	cmd.execute();
-	cmd.updateDisplay(_currentDisplay);
-	_feedback = cmd.updateFeedback();
-}
-
-void Logic::getDisplay(vector<Task>* currentDisplay) {
-	currentDisplay = _currentDisplay;
-}
-
-string Logic::getFeedback() {
-	return _feedback;
-}
-
-
-
-/*
-string Logic::getTimedTask(vector<Task>* timedTask, string timeIndicator) {
-	timedTask = TaskManager::getInstance()->retrieveTimedTask(timeIndicator);
-}
-
-	void getTimedTask(vector<Task>* timedTask, string timeIndicator);
-	void getDeadlineTask(vector<Task>* timedTask, string timeIndicator);
-	void getFloatingTask(vector<Task>* timedTask, string timeIndicator);
-	*/

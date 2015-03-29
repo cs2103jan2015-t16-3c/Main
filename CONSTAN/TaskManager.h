@@ -1,10 +1,13 @@
+#ifndef TASKMANAGER_H_
+#define TASKMANAGER_H_
+
 #include "Task.h"
-//#include "TextUI.h"
 #include <vector>
 #include <fstream>
 #include <sstream>
 #include <algorithm>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -36,3 +39,5 @@ public:
 	//void sortTasksByAscendingAlphabet(vector<Task> _tasks);
 	void sortTasksByNearestDeadline(vector<Task> _tasks);
 };
+
+#endif

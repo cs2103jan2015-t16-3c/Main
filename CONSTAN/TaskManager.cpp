@@ -15,6 +15,7 @@ TaskManager* TaskManager::getInstance() {
 }
 
 //Read and Write might need to be moved to a separate class
+/*
 void readFromFile(vector<Task>& _tasks, char *argv[]) {
 	Task data; 
 	ifstream ifs(argv[1]);
@@ -24,6 +25,7 @@ void readFromFile(vector<Task>& _tasks, char *argv[]) {
 	ifs.close();
 }
 
+
 void writeToFile(vector<Task>& _tasks, char *argv[]) {
 	ofstream ofs; 
 	ofs.open(argv[1], ofstream::out | ofstream::trunc); 
@@ -32,6 +34,7 @@ void writeToFile(vector<Task>& _tasks, char *argv[]) {
 	} 
 	ofs.close();
 }
+*/
 
 void TaskManager::addTask(Task task) {
 	_tasks.push_back(task);
@@ -130,6 +133,7 @@ void TaskManager::clearAllTasks() {
 	_tasks.clear();
 }
 
+/*
 void TaskManager::searchForString(string searchTerm) {
 	int matchIndex;
 	TextUI::printMessage(MATCH_FOUND);
@@ -141,6 +145,7 @@ void TaskManager::searchForString(string searchTerm) {
 		}
 	}
 }
+*/
 
 //void TaskManager::sortTasksByAscendingAlphabet(vector<Task> _tasks) {
 	//Task temp;

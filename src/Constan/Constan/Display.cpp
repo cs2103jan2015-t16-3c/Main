@@ -1,5 +1,5 @@
 #include "Display.h"
-#include <iostream>
+
 
 const string Display::TITLE_DEADLINE = "Deadlines:\n";
 const string Display::TITLE_TIMED = "Scheduled Tasks:\n";

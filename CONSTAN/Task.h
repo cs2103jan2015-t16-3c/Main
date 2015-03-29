@@ -1,4 +1,6 @@
-#include "time.h"
+#ifndef TASK_H_
+#define TASK_H_
+
 #include <string>
 
 using namespace std;
@@ -39,3 +41,5 @@ public:
 //	void setCompletionStatus(bool isComplete);
 //	bool getCompletionStatus();
 };
+
+#endif

@@ -1,5 +1,5 @@
 #include "Parser.h"
-#include <vector>
+
 
 Parser::Parser(){
 }
@@ -10,7 +10,7 @@ Command Parser::parse(string input) {
 	return translateInput(*inputVector);
 }
 
-void Parser::translateInput(vector<string>& inputVector) {
+Command Parser::translateInput(vector<string>& inputVector) {
 	switch (getCommandType(inputVector[0])) {
 		case ADD:
 			getTaskName(inputVector);
@@ -20,7 +20,7 @@ void Parser::translateInput(vector<string>& inputVector) {
 			CommandAdd addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type);
 			return addTask;
 			break;
-		case DELETE:
+/*		case DELETE:
 			getIndex(inputVector);
 			CommandDelete deleteTask(_index);
 			return deleteTask;
@@ -43,7 +43,7 @@ void Parser::translateInput(vector<string>& inputVector) {
 			getType();
 			CommandEdit editTask(_index, _taskName, _startDate, _startTime, _endDate, _endTime, _type);
 			return editTask;
-			break;
+			break; */
 		case EXIT:
 			break;
 	}
@@ -72,7 +72,7 @@ void Parser::getType() {
 }
 
 bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, int &index) {
-	for (int i = 0; i<inputVector.size(), i++){
+	for (int i = 0; i<inputVector.size(); i++){
 		if (inputVector[i] == "-s"){
 			index = i;
 			return true;
@@ -82,7 +82,7 @@ bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, int &index) 
 }
 
 bool Parser::isEndTimeDelimiterFound(vector<string> &inputVector, int &index) {
-	for (int i = 0; i<inputVector.size(), i++){
+	for (int i = 0; i<inputVector.size(); i++){
 		if (inputVector[i] == "-e"){
 			index = i;
 			return true;
@@ -92,7 +92,7 @@ bool Parser::isEndTimeDelimiterFound(vector<string> &inputVector, int &index) {
 }
 
 bool Parser::isTaskNameDelimiterFound(vector<string> &inputVector, int &index) {
-	for (int i = 0; i<inputVector.size(), i++){
+	for (int i = 0; i<inputVector.size(); i++){
 		if (inputVector[i] == "-t"){
 			index = i;
 			return true;
@@ -163,6 +163,13 @@ void Parser::getTaskName(vector<string> &inputVector) {
 		_taskName = "NULL";
 	}
 }
+
+void Parser::toStringLower(string& input) {
+	for (unsigned int i = 0; i < input.size(); i++) {
+		input[i] = tolower(input[i]);
+	}
+}
+
 
 COMMAND_TYPE Parser::getCommandType(string command) {
 	toStringLower(command);

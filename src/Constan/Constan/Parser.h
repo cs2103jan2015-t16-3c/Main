@@ -11,17 +11,24 @@
 #include <iterator>
 #include <vector>
 #include <list>
+#include "stdio.h"
 #include <sstream>
-#include <Command.h>
-#include <CommandAdd.h>
-#include <CommandDelete.h>
-#include <CommandEdit.h>
-#include <CommandDisplay.h>
-#include <CommandSearch.h>
-#include <CommandClear.h>
+#include "Command.h"
+#include "CommandAdd.h"
+#include "CommandDelete.h"
+/*
+#include "CommandEdit.h"
+#include "CommandDisplay.h"
+#include "CommandSearch.h"
+#include "CommandClear.h"
+*/
 
 using namespace std;
 
+enum COMMAND_TYPE {
+	ADD, DISPLAY, DELETE, INVALID, CLEAR, EDIT, SEARCH, EXIT
+};
+	
 class Parser {
 public:
 	string _taskName;
@@ -36,28 +43,25 @@ public:
 //	string strindex;
 	int _index;
 
-
-	enum COMMAND_TYPE {
-		ADD, DISPLAY, DELETE, INVALID, EDIT, SEARCH, EXIT
-	};	
-	
 	Parser();
 	Command parse(string input);
-	void translateInput(vector<string>& inputVector);
+	Command translateInput(vector<string>& inputVector);
 	void getKeyword(vector<string> &inputVector);
 	void getIndex(vector<string> &inputVector);
 	void displayType(vector<string> &inputVector);
 	void getType();
-	bool isStartTimeDelimiterFound(vector<string> &inputVector, &index);
-	bool isEndTimeDelimiterFound(vector<string> &inputVector, &index);
-	bool isTaskNameDelimiterFound(vector<string> &inputVector, &index);
+	bool isStartTimeDelimiterFound(vector<string> &inputVector, int &index);
+	bool isEndTimeDelimiterFound(vector<string> &inputVector, int &index);
+	bool isTaskNameDelimiterFound(vector<string> &inputVector, int &index);
 	bool isDelimiter (string input);
 	void getEndTime(vector<string> &inputVector);
 	void getStartTime(vector<string> &inputVector);
 	void getTaskName(vector<string> &inputVector);
 	COMMAND_TYPE getCommandType(string command);
 	void splitInput(vector<string>* inputVector, string input);
+	void toStringLower(string& input);
 	
 	
+}
 
 #endif
