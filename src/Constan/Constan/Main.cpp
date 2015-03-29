@@ -4,8 +4,8 @@
 
 using namespace std;
 
-int main (int argc, char *argv[]) {
-	TextUI startUI();
+int main () {
+	TextUI startUI;
 	startUI.main();
 	return 0;
 }
