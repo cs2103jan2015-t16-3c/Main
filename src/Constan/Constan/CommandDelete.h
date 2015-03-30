@@ -3,6 +3,8 @@
 #define COMMANDDELETE_H_
 
 #include "Command.h"
+#include "Task.h"
+#include "TaskManager.h"
 
 using namespace std;
 
@@ -13,7 +15,12 @@ private:
 public:
 	CommandDelete(int index);
 //	~CommandDelete(void);
+	
 	void execute();
+	void updateDisplay(vector<Task>* currentDisplay);
+	void updateFeedback(vector<string>* feedbackVector);
+
+
 //	Command getInverseCommand();
 };
 
