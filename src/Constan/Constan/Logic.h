@@ -14,13 +14,15 @@ using namespace std;
 class Logic {
 private:
 	vector<Task>* _currentDisplay;
-	string _feedback;
+	vector<string>* _feedback;
 	Parser parser;
 public:
 	Logic();
 	~Logic(void);
 	void processCommand(string input);
 	void getDisplay(vector<Task>* currentDisplay);
+	void getFeedback(vector<string>* _feedback);
+
 //	string getFeedback();
 };
 

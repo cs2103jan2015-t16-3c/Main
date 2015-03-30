@@ -44,6 +44,7 @@ public:
     void printCommand(string userCommand);
     void showToUser(string text);
 	Logic toLogic;
+	vector<string>* feedback;
 
 public:
     TextUI(void);

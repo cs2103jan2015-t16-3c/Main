@@ -68,11 +68,11 @@ TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeStr
 }
 
 void TextUI::printCommand(string userCommand) {
-	if(userCommand == "") {                                      
-		showToUser(ERROR_UNRECOGNISED_COMMAND_TYPE);
-	}
-
-	string commandTypeString = getFirstWord(userCommand);
+//	if(userCommand == "") {                                      
+//		showToUser(ERROR_UNRECOGNISED_COMMAND_TYPE);
+//	}
+	toLogic.getFeedback(feedback);
+	string commandTypeString = feedback->front();
 		
 	COMMAND_TYPE_FEEDBACK commandType = determineCommandType(commandTypeString);
 
@@ -109,12 +109,13 @@ void TextUI::printCommand(string userCommand) {
 
 void TextUI::displayResult() {
 
-	output = toLogic.getDisplay();
+	cout << feedback->back();
+	//output = toLogic.getDisplay();
 
-	for (unsigned i=0; i<output.size(); i++)
-	{
-		cout << output[i] << endl;
-	}
+	//for (unsigned i=0; i<output.size(); i++)
+	//{
+	//	cout << output[i] << endl;
+	//}
 }
 
 void TextUI::displayTaskList() {

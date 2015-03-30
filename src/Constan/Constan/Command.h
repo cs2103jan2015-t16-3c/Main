@@ -12,6 +12,7 @@ protected:
 	vector<Task>* _timedTaskVector;
 	vector<Task>* _floatingTaskVector;
 	vector<Task>* _deadlineVector;
+	vector<string>* _feedback;
 
 public:
 	Command(void);
@@ -19,7 +20,7 @@ public:
 	void execute();
 	Command getInverseCommand();
 	void updateDisplay(vector<Task>* displayVector);
-	string updateFeedback();
+	void updateFeedback(vector<string>* feedbackVector);
 
 	struct Compare_Task {
 		bool operator() (Task& t1, Task& t2) {

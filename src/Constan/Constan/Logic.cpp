@@ -19,11 +19,11 @@ void Logic::getDisplay(vector<Task>* currentDisplay) {
 	currentDisplay = _currentDisplay;
 }
 
-/*
-string Logic::getFeedback() {
-	return _feedback;
+
+void Logic::getFeedback(vector<string>* currentFeedback) {
+	currentFeedback = _feedback;
 }
-*/
+
 
 
 /*

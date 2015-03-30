@@ -21,13 +21,14 @@ private:
 
 public:
 	CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, string type);
-	//~CommandAdd(void);
-	void execute();
-	//Command getInverseCommand();
-	void updateDisplay(vector<Task>* currentDisplay);
-	string updateFeedback();
-//	vector<Task> getTaskToDisplay();
 
+	void execute();
+	void updateDisplay(vector<Task>* currentDisplay);
+	void updateFeedback(vector<string>* feedbackVector);
+
+	//Command getInverseCommand();
+//	vector<Task> getTaskToDisplay();
+	//~CommandAdd(void);
 };
 
 #endif
