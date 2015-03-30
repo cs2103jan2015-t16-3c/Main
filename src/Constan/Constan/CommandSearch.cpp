@@ -1,8 +1,8 @@
 #include "CommandSearch.h"
 
 
-CommandSearch::CommandSearch(string keyWord){
-	_keyword = keyWord;
+CommandSearch::CommandSearch(string keyword){
+	_keyword = keyword;
 }
 
 
@@ -18,8 +18,4 @@ void CommandSearch::updateDisplay(vector<Task>* currentDisplay) {
 }
 
 void CommandSearch::updateFeedback(vector<string>* feedbackVector) {
-	_feedback = new vector<string>;
-	//_feedback->push_back (string);
-	_feedback->push_back ("");
-	feedbackVector = _feedback;
 }

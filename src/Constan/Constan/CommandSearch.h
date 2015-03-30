@@ -12,7 +12,7 @@ using namespace std;
 class CommandSearch
 {
 public:
-	CommandSearch(string keyWord);
+	CommandSearch(string keyword);
 	~CommandSearch(void);
 
 	void execute();
