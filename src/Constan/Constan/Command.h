@@ -13,6 +13,7 @@ protected:
 	vector<Task>* _floatingTaskVector;
 	vector<Task>* _deadlineVector;
 	vector<string>* _feedback;
+	vector<Task>* _currentDisplay;
 
 public:
 	Command(void);
