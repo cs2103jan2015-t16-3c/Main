@@ -11,6 +11,9 @@ using namespace std;
 
 class CommandSearch
 {
+private:
+	bool _isFound;
+
 public:
 	CommandSearch(string keyword);
 	~CommandSearch(void);
