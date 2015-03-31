@@ -15,7 +15,7 @@ class Logic {
 private:
 	vector<Task>* _currentDisplay;
 	vector<string>* _feedback;
-	Parser parser;
+
 public:
 	Logic();
 	~Logic(void);
