@@ -12,6 +12,8 @@ class CommandDelete :
 	public Command {
 private:
 	int _index;
+	int _taskId;
+	string _taskName;
 public:
 	CommandDelete(int index);
 //	~CommandDelete(void);
