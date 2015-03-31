@@ -1,7 +1,8 @@
 #include "Parser.h"
 
 
-Parser::Parser(){
+Parser::Parser(vector<Task>* currentDisplay){
+	_currentDisplay = currentDisplay;
 }
 
 Command Parser::parse(string input) {
@@ -22,7 +23,7 @@ Command Parser::translateInput(vector<string>& inputVector) {
 			break;
 /*		case DELETE:
 			getIndex(inputVector);
-			CommandDelete deleteTask(_index);
+			CommandDelete deleteTask(_index, _currentDisplay);
 			return deleteTask;
 			break;
 		case DISPLAY:

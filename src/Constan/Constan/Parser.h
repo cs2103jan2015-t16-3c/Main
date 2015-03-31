@@ -39,6 +39,7 @@ public:
 	string _type;
 	string _displayType;
 	string _keyword;
+	vector<Task>* _currentDisplay;
 
 //	string strindex;
 	int _index;
