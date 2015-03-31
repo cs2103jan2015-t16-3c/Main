@@ -25,8 +25,8 @@ void CommandAdd::updateDisplay(vector<Task>* currentDisplay) {
 
 void CommandAdd::updateFeedback(vector<string>* feedbackVector) {
 	_feedback = new vector<string>;
-	_feedback->push_back (_taskName);
 	_feedback->push_back ("add");
+	_feedback->push_back (_taskName);
 	feedbackVector = _feedback;
 	
 }

@@ -26,8 +26,8 @@ void CommandDelete::updateDisplay(vector<Task>* currentDisplay) {
 
 void CommandDelete::updateFeedback(vector<string>* feedbackVector) {
 	_feedback = new vector<string>; 
-	_feedback->push_back (_taskName);
 	_feedback->push_back ("delete");
+	_feedback->push_back (_taskName);
 	feedbackVector = _feedback;
 	
 }
