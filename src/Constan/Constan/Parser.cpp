@@ -12,25 +12,23 @@ Command Parser::parse(string input) {
 }
 
 Command Parser::translateInput(vector<string>& inputVector) {
-	if (getCommandType(inputVector[0]) == ADD) {
+	COMMAND_TYPE commandType = getCommandType(inputVector[0]);
+	if (commandType == ADD) {
 			getTaskName(inputVector);
 			getStartTime(inputVector);
 			getEndTime(inputVector);
 			getType();
 			CommandAdd addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type);
 			return addTask;
-//			break;
-	} else if (getCommandType(inputVector[0]) == DELETE) {
-//		case DELETE:
+	} else if (commandType == DELETE) {
 			getIndex(inputVector);
 			CommandDelete deleteTask(_index, _currentDisplay);
-			return deleteTask;}
-//			break;
-/*		case DISPLAY:
+			return deleteTask;
+	} else if (commandType == DISPLAY) {
 			getDisplayType(inputVector);
 			CommandDisplay displayTask(_displayType);
 			return displayTask;
-			break;
+	} else if 
 		case SEARCH:
 			getKeyword(inputVector);
 			CommandSearch searchTask(_keyword);
