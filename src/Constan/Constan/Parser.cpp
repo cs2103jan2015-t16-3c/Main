@@ -3,12 +3,19 @@
 
 Parser::Parser(vector<Task>* currentDisplay){
 	_currentDisplay = currentDisplay;
+	_count = 0;
 }
 
 Command Parser::parse(string input) {
 	vector<string>* inputVector = new vector<string>;
 	splitInput(inputVector, input);
 	return translateInput(*inputVector);
+}
+
+void Parser::generateTaskID(){
+	_count++;
+	_taskID = _count;
+
 }
 
 Command Parser::translateInput(vector<string>& inputVector) {
@@ -18,7 +25,8 @@ Command Parser::translateInput(vector<string>& inputVector) {
 			getStartTime(inputVector);
 			getEndTime(inputVector);
 			getType();
-			CommandAdd addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type);
+			generateTaskID;
+			CommandAdd addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type, _taskID);
 			return addTask;
 	} else if (commandType == DELETE) {
 			getIndex(inputVector);
@@ -38,7 +46,7 @@ Command Parser::translateInput(vector<string>& inputVector) {
 			getStartTime(inputVector);
 			getEndTime(inputVector);
 			getType();
-			CommandEdit editTask(_index, _taskName, _startDate, _startTime, _endDate, _endTime, _type);
+			CommandEdit editTask(_index, _taskName, _startDate, _startTime, _endDate, _endTime);
 			return editTask;
 	} else if (commandType == UNDO) {
 			CommandUndo undoTask(); 
@@ -57,7 +65,7 @@ void Parser::getIndex(vector<string> &inputVector) {
 	_index = std::stoi(inputVector[1]);	
 }
 
-void Parser::displayType(vector<string> &inputVector) {
+void Parser::getDisplayType(vector<string> &inputVector) {
 	_displayType = inputVector[1];	
 }
 
@@ -197,7 +205,7 @@ void Parser::splitInput(vector<string>* inputVector, string input) {
 	vector<string>::iterator inputVectorIter;
 	inputVectorIter = inputVector->begin();
 	
-	istringstream read(string);
+	istringstream read(input);
 	string temporaryString;
 	
 	while(read >> temporaryString) {
