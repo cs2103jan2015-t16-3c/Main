@@ -45,3 +45,11 @@ void CommandUndo::updateFeedback(vector<string>* feedbackVector) {
 
 //CommandAdd::~CommandAdd(void) {
 //}
+
+//Command CommandDelete::getInverseCommand() {
+//}
+
+//Command CommandEdit::getInverseCommand() {
+//}
+
+//Command Command
