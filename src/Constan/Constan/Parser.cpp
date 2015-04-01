@@ -44,9 +44,7 @@ Command Parser::translateInput(vector<string>& inputVector) {
 			CommandUndo undoTask(); 
 			return ;
 	}
-//		case EXIT:
-	//		break;
-	//}
+
 }
 
 void Parser::getKeyword(vector<string> &inputVector) {
