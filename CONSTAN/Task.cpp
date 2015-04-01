@@ -10,7 +10,7 @@ Task::Task() {
 	//setCompletionStatus(false);
 }
 
-Task::Task(string taskName, string startDate, string startTime, string endDate, string endTime, string type) {
+Task::Task(string taskName, string startDate, string startTime, string endDate, string endTime, string type, int taskID) {
 	//constructor
 	setTaskName(taskName);
 	setStartDate(startDate);
@@ -18,6 +18,7 @@ Task::Task(string taskName, string startDate, string startTime, string endDate, 
 	setEndDate(endDate);
 	setEndTime(endTime);
 	setType(type);
+	setTaskID(taskID);
 	//setCompletionStatus(false);
 }
 

@@ -24,6 +24,6 @@ public:
 	void execute();
 	void updateDisplay(vector<Task>* currentDisplay);
 	void updateFeedback(vector<string>* feedbackVector);
-	Command getInverseCommand();
+//	Command getInverseCommand();
 };
 #endif

@@ -11,7 +11,8 @@
 #include <iterator>
 #include <vector>
 #include <list>
-#include "stdio.h"
+#include <stdio.h>
+#include <time.h>
 #include <sstream>
 #include "Command.h"
 #include "CommandAdd.h"

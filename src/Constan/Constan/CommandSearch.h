@@ -12,7 +12,7 @@ class CommandSearch:
 	public Command {
 
 private:
-	bool _isFound;
+	string _isFound;
 	string _keyword;
 
 public:

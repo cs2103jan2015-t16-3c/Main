@@ -25,7 +25,7 @@ private:
 
 public:
 	Task();
-	Task(string taskName, string startDate, string startTime, string endDate, string endTime, string type);
+	Task(string taskName, string startDate, string startTime, string endDate, string endTime, string type, int taskID);
 	~Task();
 	void setTaskName(string taskName);
 	string getTaskName();

@@ -26,7 +26,7 @@ Command Parser::translateInput(vector<string>& inputVector) {
 			getEndTime(inputVector);
 			getType();
 			generateTaskID();
-			CommandAdd addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type, _taskID);
+			CommandAdd addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type, _taskID, _currentDisplay);
 			return addTask;
 	} else if (commandType == DELETE) {
 			getIndex(inputVector);

@@ -3,6 +3,7 @@
 #define COMMANDADD_H_
 
 #include "Command.h"
+#include "CommandDelete.h"
 #include "TaskManager.h"
 #include "Task.h"
 
@@ -21,7 +22,7 @@ private:
 //	Task* _newTask;
 
 public:
-	CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, string type, int taskID);
+	CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, string type, int taskID, vector<Task>* currentDisplay);
 
 	void execute();
 	void updateDisplay(vector<Task>* currentDisplay);

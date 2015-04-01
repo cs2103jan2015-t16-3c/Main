@@ -23,11 +23,11 @@ private:
 	string _type;
 
 public:
-	TaskManager* getInstance();
+	static TaskManager* getInstance();
 	~TaskManager();
 	void readFromFile(vector<Task>& _tasks, char *argv[]);
 	void writeToFile(vector<Task>& _tasks, char *argv[]);
-	void addTask(string taskName, string startDate, string startTime, string endDate, string endTime, string type);
+	void addTask(string taskName, string startDate, string startTime, string endDate, string endTime, string type, int taskID);
 	void deleteTask(int taskID);
 	vector<Task>* retrieveTimedTask(string timeIndicator);
 	void getTimedTaskVector(vector<Task>& timedTaskVector);

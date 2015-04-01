@@ -1,7 +1,7 @@
 #include "CommandAdd.h"
 #include <algorithm>
 
-CommandAdd::CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, string type, int taskID) {
+CommandAdd::CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, string type, int taskID, vector<Task>* currentDisplay) {
 	_taskName = taskName;
 	_startDate = startDate;
 	_startTime = startTime;
@@ -9,16 +9,17 @@ CommandAdd::CommandAdd(string taskName, string startDate, string startTime, stri
 	_endTime = endTime;
 	_type = type;
 	_taskID = taskID;
+	_currentDisplay = currentDisplay;
 //	_newTask = new Task(_taskName, _startDate, _startTime, _endDate, _endTime, _type);
 }
 
 void CommandAdd::execute() {
-	TaskManager::getInstance()->addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type);
+	TaskManager::getInstance()->addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type, int taskID);
 }
 
 void CommandAdd::updateDisplay(vector<Task>* currentDisplay) {
-	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask("29 March 2015");
-	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline("29 March 2015");
+	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask("02042015");
+	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline("02042015");
 	_mergedDisplay = _deadlineVector;
 	_mergedDisplay->insert (_mergedDisplay->end(), _timedTaskVector->begin(), _timedTaskVector->end());
 	//merge (_timedTaskVector.begin(), _timedTaskVector.end(), _deadlineVector.begin(), _deadlineVector.end(), _mergedDisplay.begin(), Compare_Task());
@@ -33,9 +34,7 @@ void CommandAdd::updateFeedback(vector<string>* feedbackVector) {
 }
 
 Command CommandAdd::getInverseCommand() {
-	//find location;
-	int index = location;
-	CommandDelete invAdd(_index);
+	CommandDelete invAdd(_taskID, _currentDisplay);
 	return invAdd;
 }
 
