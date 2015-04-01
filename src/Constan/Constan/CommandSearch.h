@@ -8,8 +8,9 @@
 
 using namespace std;
 
-class CommandSearch
-{
+class CommandSearch:
+	public Command {
+
 private:
 	bool _isFound;
 	string _keyword;
