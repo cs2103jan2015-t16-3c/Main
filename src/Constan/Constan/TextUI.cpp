@@ -4,6 +4,8 @@ string TextUI::MESSAGE_WELCOME = "Hello. Welcome to CONSTAN!";
 string TextUI::MESSAGE_ADDED = "Task added: ";
 string TextUI::MESSAGE_DELETED = "Task deleted: ";
 string TextUI::MESSAGE_EDITED = "Task edited: ";
+string TextUI::MESSAGE_SEARCH_FOUND = "Task found: ";
+string TextUI::MESSAGE_SEARCH_NOT_FOUND = "Task not found: ";
 
 string TextUI::ERROR_UNRECOGNISED_COMMAND_TYPE = "ERROR: Unrecognised command type.\nEnter \"help\" for list of valid command type in CONSTAN!";
 string TextUI::ERROR_INVALID_FORMAT = "ERROR: Invalid format.\nEnter \"help\" for list of valid formatting in CONSTAN!";
@@ -26,7 +28,8 @@ void TextUI::main() {
 		else 
 			showToUser(ERROR_INVALID_FORMAT);	
 		*/
-		printCommand(userCommand);
+		printFeedback();
+//		printDisplay();
 
 		cout << "Enter command:";
 		getline (cin, userCommand);
@@ -58,6 +61,9 @@ TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeStr
 
 	if (commandTypeString == "display")
 		return COMMAND_TYPE_FEEDBACK::DISPLAY;
+	
+	if (commandTypeString == "search")
+		return COMMAND_TYPE_FEEDBACK::SEARCH_TASK;	 
 
 	if (commandTypeString == "mark" || "unmark" || "search" || "undo" || "redo" )
 		return COMMAND_TYPE_FEEDBACK::OTHERS;
@@ -67,23 +73,23 @@ TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeStr
 	}
 }
 
-void TextUI::printCommand(string userCommand) {
+void TextUI::printFeedback() {
 //	if(userCommand == "") {                                      
 //		showToUser(ERROR_UNRECOGNISED_COMMAND_TYPE);
 //	}
-	toLogic.getFeedback(feedback);
-	string commandTypeString = feedback->front();
+	toLogic.getFeedback(_feedback);
+	string commandTypeString = _feedback->front();
 		
 	COMMAND_TYPE_FEEDBACK commandType = determineCommandType(commandTypeString);
 
 	switch (commandType) {
 	case ADD_TASK: 
 		showToUser(MESSAGE_ADDED);
-		displayResult();
+		cout << _feedback->back();
 		return;
 	case DELETE_TASK:
 		showToUser(MESSAGE_DELETED);
-		displayResult();
+		cout << _feedback->back();
 		return;
 	case EDIT_TASK:
 		showToUser(MESSAGE_EDITED);
@@ -95,6 +101,14 @@ void TextUI::printCommand(string userCommand) {
 	case DISPLAY:
 		displayTaskList();
 		return;
+	case SEARCH_TASK:
+		if (_feedback->at(2) == true) {
+			showToUser(MESSAGE_SEARCH_FOUND);
+			cout << _feedback->at(1);
+		} else {
+			showToUser(MESSAGE_SEARCH_NOT_FOUND);
+			cout << _feedback->at(1);
+		}
 	case OTHERS:
 		displayResult();
 		return;
@@ -109,7 +123,7 @@ void TextUI::printCommand(string userCommand) {
 
 void TextUI::displayResult() {
 
-	cout << feedback->back();
+	cout << _feedback->back();
 	//output = toLogic.getDisplay();
 
 	//for (unsigned i=0; i<output.size(); i++)

@@ -17,7 +17,7 @@ class TextUI
 public:
     enum COMMAND_TYPE_FEEDBACK {
         ADD_TASK, DELETE_TASK, EDIT_TASK, DISPLAY, 
-        INVALID, HELP, OTHERS
+        INVALID, HELP, OTHERS, SEARCH_TASK
     };
 
     private:
@@ -26,6 +26,8 @@ public:
     static string MESSAGE_ADDED;
     static string MESSAGE_DELETED;
     static string MESSAGE_EDITED;
+	static string MESSAGE_SEARCH_FOUND;
+	static string MESSAGE_SEARCH_NOT_FOUND;
 
     static string ERROR_UNRECOGNISED_COMMAND_TYPE;
     static string ERROR_INVALID_FORMAT;
@@ -41,10 +43,10 @@ public:
     COMMAND_TYPE_FEEDBACK determineCommandType(string commandTypeString);
     void displayResult();
     void displayTaskList();
-    void printCommand(string userCommand);
+    void printFeedback();
     void showToUser(string text);
 	Logic toLogic;
-	vector<string>* feedback;
+	vector<string>* _feedback;
 
 public:
     TextUI(void);
