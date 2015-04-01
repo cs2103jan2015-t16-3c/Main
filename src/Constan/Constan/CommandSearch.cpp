@@ -1,6 +1,5 @@
 #include "CommandSearch.h"
 
-
 CommandSearch::CommandSearch(string keyword) {
 	_keyword = keyword;
 }
