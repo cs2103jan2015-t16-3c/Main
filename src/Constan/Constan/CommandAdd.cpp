@@ -1,13 +1,14 @@
 #include "CommandAdd.h"
 #include <algorithm>
 
-CommandAdd::CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, string type) {
+CommandAdd::CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, string type, int taskID) {
 	_taskName = taskName;
 	_startDate = startDate;
 	_startTime = startTime;
 	_endDate = endDate;
 	_endTime = endTime;
 	_type = type;
+	_taskID = taskID;
 //	_newTask = new Task(_taskName, _startDate, _startTime, _endDate, _endTime, _type);
 }
 
@@ -31,7 +32,11 @@ void CommandAdd::updateFeedback(vector<string>* feedbackVector) {
 	feedbackVector = _feedback;
 }
 
-
+Command CommandAdd::getInverseCommand() {
+	//find location;
+	int index = location;
+	CommandDelete invAdd(_index);
+	return invAdd;
 
 
 

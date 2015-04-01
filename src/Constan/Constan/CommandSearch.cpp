@@ -14,7 +14,7 @@ void CommandSearch::execute() {
 }
 
 void CommandSearch::updateDisplay(vector<Task>* currentDisplay) {
-	_mergedDisplay = TaskManager::getInstance() -> searchForString(_keyword);
+	_mergedDisplay = TaskManager::getInstance()->searchForString(_keyword);
 	if (_mergedDisplay -> size() == 0) {
 		_isFound = false;
 	} else {

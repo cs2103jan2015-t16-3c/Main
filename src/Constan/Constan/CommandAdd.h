@@ -17,16 +17,16 @@ private:
 	string _endDate;
 	string _endTime;
 	string _type;
+	int _taskID;
 //	Task* _newTask;
 
 public:
-	CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, string type);
+	CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, string type, int taskID);
 
 	void execute();
 	void updateDisplay(vector<Task>* currentDisplay);
 	void updateFeedback(vector<string>* feedbackVector);
-
-	//Command getInverseCommand();
+	Command getInverseCommand();
 //	vector<Task> getTaskToDisplay();
 	//~CommandAdd(void);
 };
