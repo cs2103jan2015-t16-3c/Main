@@ -12,10 +12,10 @@ class CommandDelete :
 	public Command {
 private:
 	int _index;
-	int _taskId;
+	int _taskID;
 	string _taskName;
 public:
-	CommandDelete(int index);
+	CommandDelete(int index, vector<Task>* currentDisplay);
 //	~CommandDelete(void);
 	
 	void execute();

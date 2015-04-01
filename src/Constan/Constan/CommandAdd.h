@@ -17,7 +17,7 @@ private:
 	string _endDate;
 	string _endTime;
 	string _type;
-	Task* _newTask;
+//	Task* _newTask;
 
 public:
 	CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, string type);

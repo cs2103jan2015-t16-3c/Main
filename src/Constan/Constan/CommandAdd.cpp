@@ -8,18 +8,19 @@ CommandAdd::CommandAdd(string taskName, string startDate, string startTime, stri
 	_endDate = endDate;
 	_endTime = endTime;
 	_type = type;
-	_newTask = new Task(_taskName, _startDate, _startTime, _endDate, _endTime, _type);
+//	_newTask = new Task(_taskName, _startDate, _startTime, _endDate, _endTime, _type);
 }
 
 void CommandAdd::execute() {
-	TaskManager::getInstance()->addTask(*_newTask);
+	TaskManager::getInstance()->addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type);
 }
 
 void CommandAdd::updateDisplay(vector<Task>* currentDisplay) {
 	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask("29 March 2015");
 	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline("29 March 2015");
-	_mergedDisplay = new vector<Task>;
-	merge (_timedTaskVector.begin(), _timedTaskVector.end(), _deadlineVector.begin(), _deadlineVector.end(), _mergedDisplay.begin(), Compare_Task());
+	_mergedDisplay = _deadlineVector;
+	_mergedDisplay->insert (_mergedDisplay->end(), _timedTaskVector->begin(), _timedTaskVector->end());
+	//merge (_timedTaskVector.begin(), _timedTaskVector.end(), _deadlineVector.begin(), _deadlineVector.end(), _mergedDisplay.begin(), Compare_Task());
 	currentDisplay = _mergedDisplay;
 }
 
@@ -28,7 +29,6 @@ void CommandAdd::updateFeedback(vector<string>* feedbackVector) {
 	_feedback->push_back ("add");
 	_feedback->push_back (_taskName);
 	feedbackVector = _feedback;
-	
 }
 
 
