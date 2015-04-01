@@ -12,7 +12,7 @@ class CommandDisplay :
 private:
 	string _displayType;
 public:
-	CommandDisplay(void);
+	CommandDisplay(string displayType);
 	~CommandDisplay(void);
 
 	void execute();

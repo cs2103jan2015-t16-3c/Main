@@ -37,7 +37,7 @@ Command CommandAdd::getInverseCommand() {
 	int index = location;
 	CommandDelete invAdd(_index);
 	return invAdd;
-
+}
 
 
 //vector<Task> CommandAdd::getTaskToDisplay() {

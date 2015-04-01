@@ -25,7 +25,7 @@ Command Parser::translateInput(vector<string>& inputVector) {
 			getStartTime(inputVector);
 			getEndTime(inputVector);
 			getType();
-			generateTaskID;
+			generateTaskID();
 			CommandAdd addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type, _taskID);
 			return addTask;
 	} else if (commandType == DELETE) {
@@ -50,7 +50,7 @@ Command Parser::translateInput(vector<string>& inputVector) {
 			return editTask;
 	} else if (commandType == UNDO) {
 			CommandUndo undoTask(); 
-			return ;
+			return undoTask();
 	}
 //		case EXIT:
 	//		break;

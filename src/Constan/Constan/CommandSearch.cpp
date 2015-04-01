@@ -20,6 +20,7 @@ void CommandSearch::updateDisplay(vector<Task>* currentDisplay) {
 	} else {
 		_isFound = true;
 	}
+	currentDisplay = _mergedDisplay;
 }
 
 void CommandSearch::updateFeedback(vector<string>* feedbackVector) {
