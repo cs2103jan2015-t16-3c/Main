@@ -16,6 +16,7 @@ public:
 	~CommandDisplay(void);
 
 	void execute();
-	void updateDisplay();
+	void updateDisplay(vector<Task>* currentDisplay);
+	void updateFeedback(vector<string>* feedbackVector);
 };
 #endif

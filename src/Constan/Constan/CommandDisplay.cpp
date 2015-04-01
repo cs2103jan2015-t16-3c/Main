@@ -9,10 +9,12 @@ CommandDisplay::CommandDisplay(void) {
 CommandDisplay::~CommandDisplay(void) {
 }
 
-CommandDisplay::execute() {
+void CommandDisplay::execute() {
 
 }
 
-CommandDisplay::updateDisplay() {
+void CommandDisplay::updateDisplay(vector<Task>* currentDisplay) {
+} 
 
+void CommandDisplay::updateFeedback(vector<string>* feedbackVector) {
 }
