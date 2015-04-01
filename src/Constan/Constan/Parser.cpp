@@ -12,21 +12,21 @@ Command Parser::parse(string input) {
 }
 
 Command Parser::translateInput(vector<string>& inputVector) {
-	switch (getCommandType(inputVector[0])) {
-		case ADD:
+	if (getCommandType(inputVector[0]) == ADD) {
 			getTaskName(inputVector);
 			getStartTime(inputVector);
 			getEndTime(inputVector);
 			getType();
 			CommandAdd addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type);
 			return addTask;
-			break;
-/*		case DELETE:
+//			break;
+	} else if (getCommandType(inputVector[0]) == DELETE) {
+//		case DELETE:
 			getIndex(inputVector);
 			CommandDelete deleteTask(_index, _currentDisplay);
-			return deleteTask;
-			break;
-		case DISPLAY:
+			return deleteTask;}
+//			break;
+/*		case DISPLAY:
 			getDisplayType(inputVector);
 			CommandDisplay displayTask(_displayType);
 			return displayTask;
@@ -45,9 +45,9 @@ Command Parser::translateInput(vector<string>& inputVector) {
 			CommandEdit editTask(_index, _taskName, _startDate, _startTime, _endDate, _endTime, _type);
 			return editTask;
 			break; */
-		case EXIT:
-			break;
-	}
+//		case EXIT:
+	//		break;
+	//}
 }
 
 void Parser::getKeyword(vector<string> &inputVector) {
@@ -204,5 +204,133 @@ void Parser::splitInput(vector<string>* inputVector, string input) {
 	while(read >> temporaryString) {
 		*inputVectorIter = temporaryString;
 		inputVectorIter++;
+	}
+}
+
+string Parser::processToday(){
+	time_t t = time(0); 
+	char tmp[64]; 
+	strftime( tmp, sizeof(tmp), "%d%m%Y",localtime(&t) );  
+	string today(tmp);
+
+	return today;
+}
+
+MONTH_NAME Parser::determineMonthName(string month) {
+
+	if(month == "jan")
+		return MONTH_NAME::JAN;
+
+	if (month == "feb")
+		return MONTH_NAME::FEB;
+
+	if (month == "mar")
+		return MONTH_NAME::MAR;
+
+	if (month == "apr")
+		return MONTH_NAME::APR;
+
+	if (month == "may")
+		return MONTH_NAME::MAY;
+	
+	if (month == "jun")
+		return MONTH_NAME::JUN;	 
+
+	if (month == "jul")
+		return MONTH_NAME::JUL;
+
+	if(month == "aug")
+		return MONTH_NAME::AUG;
+
+	if (month == "sep")
+		return MONTH_NAME::SEP;
+
+	if (month == "oct")
+		return MONTH_NAME::OCT;
+
+	if (month == "nov")
+		return MONTH_NAME::NOV;
+
+	if (month == "dec")
+		return MONTH_NAME::DEC;
+}
+
+string Parser::processDate(string input) {
+	if (input.size() != 8){
+		istringstream in(input);
+		vector<string> temp;
+		in>>temp[0];
+		in>>temp[1];
+		in>>temp[2];
+		toStringLower(temp[1]);
+
+		switch(determineMonthName(temp[1])){
+			case JAN:
+				return temp[0] + "01" + temp[2];
+				break;
+			case FEB:
+				return temp[0] + "02" + temp[2];
+				break;
+		    case MAR:
+		    	return temp[0]+ "03" + temp[2];
+				break;
+		    case APR:
+		    	return temp[0]+ "04" + temp[2];
+				break;
+			case MAY:
+				return temp[0]+ "05" + temp[2];
+				break;
+			case JUN:
+				return temp[0]+ "06" + temp[2];
+				break;
+			case JUL:
+				return temp[0]+ "07" + temp[2];
+				break;
+			case AUG:
+				return temp[0]+ "08" + temp[2];
+				break;
+			case SEP:
+				return temp[0]+ "09" + temp[2];
+				break;
+			case OCT:
+				return temp[0]+ "10" + temp[2];
+				break;
+			case NOV:
+				return temp[0]+ "11" + temp[2];
+				break;
+			case DEC:
+				return temp[0]+ "12" + temp[2];
+				break;
+		}
+	}
+	else {
+		return input;
+	}
+}
+
+vector<string>* Parser::unparse(vector<Task>* vectorTask) {
+	_vectorString = new vector<string>;
+	vector<Task>::iterator taskIter;
+	string output;
+	for (taskIter= vectorTask->begin() ; taskIter != vectorTask->end() ; taskIter++) {
+		output = convertTaskToString(*taskIter);
+		_vectorString->push_back(output);
+	}
+	return _vectorString;
+}
+
+string Parser::convertTaskToString(Task& task) {
+	string taskName = taskName;
+	string startDate = startDate;
+	string startTime = startTime;
+	string endDate = endDate;
+	string endTime = endTime;
+	string type = type;
+	if (type == "timed") {
+		return taskName + "\tStart: " + startDate + "\t(" + startTime + ")\tEnd: " + endDate + "\t(" + endTime + ")";
+	} else if (type == "deadline") {
+		return taskName + "\tDeadline: " + endDate + "\t(" + endTime + ")!!!!";
+	} else if (type == "floating") {
+		return taskName;
 	}
 }

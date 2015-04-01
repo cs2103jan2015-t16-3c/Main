@@ -28,9 +28,13 @@ using namespace std;
 enum COMMAND_TYPE {
 	ADD, DISPLAY, DELETE, INVALID, CLEAR, EDIT, SEARCH, EXIT
 };
+
+enum MONTH_NAME {
+	JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC
+};
 	
 class Parser {
-public:
+private:
 	string _taskName;
 	string _startDate;
 	string _startTime;
@@ -40,11 +44,13 @@ public:
 	string _displayType;
 	string _keyword;
 	vector<Task>* _currentDisplay;
+	vector<string>* _vectorString;
 
 //	string strindex;
 	int _index;
+public:
+	Parser(vector<Task>* currentDisplay);
 
-	Parser();
 	Command parse(string input);
 	Command translateInput(vector<string>& inputVector);
 	void getKeyword(vector<string> &inputVector);
@@ -61,8 +67,11 @@ public:
 	COMMAND_TYPE getCommandType(string command);
 	void splitInput(vector<string>* inputVector, string input);
 	void toStringLower(string& input);
-	
-	
-}
+	string processToday();
+	string processDate(string input);
+	MONTH_NAME determineMonthName(string month);
+	vector<string>* unparse(vector<Task>* vectorTask);
+	string convertTaskToString(Task& task);
+};
 
 #endif
