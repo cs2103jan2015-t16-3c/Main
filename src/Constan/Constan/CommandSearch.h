@@ -13,6 +13,7 @@ class CommandSearch
 {
 private:
 	bool _isFound;
+	string _keyword;
 
 public:
 	CommandSearch(string keyword);

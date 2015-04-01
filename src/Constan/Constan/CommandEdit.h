@@ -9,7 +9,13 @@
 class CommandEdit
 {
 private:
-
+	int _index;
+	int _taskID;
+	string _taskName;
+	string _startDate;
+	string _startTime;
+	string _endDate;
+	string _endTime;
 public:
 	CommandEdit(void);
 	~CommandEdit(void);
