@@ -26,6 +26,7 @@ public:
     static string MESSAGE_ADDED;
     static string MESSAGE_DELETED;
     static string MESSAGE_EDITED;
+	static string MESSAGE_DISPLAYED;
 	static string MESSAGE_SEARCH_FOUND;
 	static string MESSAGE_SEARCH_NOT_FOUND;
 
@@ -35,13 +36,15 @@ public:
     static string ERROR_OTHERS;
     static string HELP_USER_GUIDE;
 
-    vector<string> output;
+    vector<string>* _output;
+
     Display displayTask;
-	string userCommandTemp;
+//	string userCommandTemp;
+	string userCommand;
 
     string getFirstWord(string userCommand);
     COMMAND_TYPE_FEEDBACK determineCommandType(string commandTypeString);
-    void displayResult();
+	void printDisplay();
     void displayTaskList();
     void printFeedback();
     void showToUser(string text);
