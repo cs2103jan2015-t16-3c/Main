@@ -32,8 +32,8 @@ void CommandDelete::updateFeedback(vector<string>* feedbackVector) {
 	feedbackVector = _feedback;
 }
 
-/*Command CommandDelete::getInverseCommand() {
+Command CommandDelete::getInverseCommand() {
 	//get info;
 	CommandAdd invDelete(std::string taskName, std::string startTime, std::string endTime, bool isCompleted);
 	return invDelete;
-}*/
+}
