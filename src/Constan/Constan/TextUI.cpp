@@ -4,6 +4,7 @@ string TextUI::MESSAGE_WELCOME = "Hello. Welcome to CONSTAN!";
 string TextUI::MESSAGE_ADDED = "Task added: ";
 string TextUI::MESSAGE_DELETED = "Task deleted: ";
 string TextUI::MESSAGE_EDITED = "Task edited: ";
+string TextUI::MESSAGE_DISPLAYED = "Displaying: ";
 string TextUI::MESSAGE_SEARCH_FOUND = "Task found: ";
 string TextUI::MESSAGE_SEARCH_NOT_FOUND = "Task not found: ";
 
@@ -17,7 +18,6 @@ string TextUI::HELP_USER_GUIDE = "General Command: \n1. Undo : \"undo\" \n2. Red
 void TextUI::main() {
 	showToUser(MESSAGE_WELCOME);
 	cout << "Enter command:";
-	string userCommand;
 	getline (cin, userCommand);
 		
 	while (userCommand != "exit") {
@@ -28,8 +28,9 @@ void TextUI::main() {
 		else 
 			showToUser(ERROR_INVALID_FORMAT);	
 		*/
+
 		printFeedback();
-//		printDisplay();
+		printDisplay();
 
 		cout << "Enter command:";
 		getline (cin, userCommand);
@@ -37,12 +38,13 @@ void TextUI::main() {
 	}
 }
 
-
+/*
 string TextUI::getFirstWord(string userCommand){
 	userCommandTemp = userCommand;
 	string commandTypeString = userCommandTemp.substr(0, userCommand.find(' '));
 	return commandTypeString;
 }
+*/
 
 
 TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeString) {
@@ -65,7 +67,7 @@ TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeStr
 	if (commandTypeString == "search")
 		return COMMAND_TYPE_FEEDBACK::SEARCH_TASK;	 
 
-	if (commandTypeString == "mark" || "unmark" || "search" || "undo" || "redo" )
+	if (commandTypeString == "mark" || "unmark" || "undo" || "redo" )
 		return COMMAND_TYPE_FEEDBACK::OTHERS;
 
 	else {
@@ -74,9 +76,10 @@ TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeStr
 }
 
 void TextUI::printFeedback() {
-//	if(userCommand == "") {                                      
-//		showToUser(ERROR_UNRECOGNISED_COMMAND_TYPE);
-//	}
+	//if(userCommand == "") {                                      
+	//	showToUser(ERROR_UNRECOGNISED_COMMAND_TYPE);
+	//}
+
 	toLogic.getFeedback(_feedback);
 	string commandTypeString = _feedback->front();
 		
@@ -85,24 +88,25 @@ void TextUI::printFeedback() {
 	switch (commandType) {
 	case ADD_TASK: 
 		showToUser(MESSAGE_ADDED);
-		cout << _feedback->back();
+		showToUser(_feedback->at(1));
 		return;
 	case DELETE_TASK:
 		showToUser(MESSAGE_DELETED);
-		cout << _feedback->back();
+		showToUser(_feedback->at(1));
 		return;
 	case EDIT_TASK:
 		showToUser(MESSAGE_EDITED);
-		displayResult();
+		showToUser(_feedback->at(1));
 		return;
 	case HELP:
 		showToUser(HELP_USER_GUIDE);
 		return;
 	case DISPLAY:
-		displayTaskList();
+		showToUser(MESSAGE_DISPLAYED);
+		showToUser(_feedback->at(1));
 		return;
 	case SEARCH_TASK:
-		if (_feedback->at(2) == true) {
+		if (_feedback->at(2) == "true") {
 			showToUser(MESSAGE_SEARCH_FOUND);
 			cout << _feedback->at(1);
 		} else {
@@ -110,7 +114,6 @@ void TextUI::printFeedback() {
 			cout << _feedback->at(1);
 		}
 	case OTHERS:
-		displayResult();
 		return;
 	case INVALID:             
 		showToUser(ERROR_UNRECOGNISED_COMMAND_TYPE);
@@ -121,21 +124,24 @@ void TextUI::printFeedback() {
 
 }
 
-void TextUI::displayResult() {
+void TextUI::printDisplay() {
 
-	cout << _feedback->back();
-	//output = toLogic.getDisplay();
+	toLogic.getDisplay(_output);
+	string displayComponent;
 
-	//for (unsigned i=0; i<output.size(); i++)
-	//{
-	//	cout << output[i] << endl;
-	//}
+	for (unsigned i=0; i< _output->size(); i++)
+	{
+		displayComponent = _output->at(i);
+		showToUser(displayComponent);
+	}
 }
 
+/*
 void TextUI::displayTaskList() {
 	string DisplayType = userCommandTemp.substr(0, userCommandTemp.find(' '));
 	displayTask.print(DisplayType);
 }
+*/
 
 void TextUI::showToUser(string text) {
 	cout << text << endl;
