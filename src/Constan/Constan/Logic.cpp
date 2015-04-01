@@ -1,22 +1,21 @@
 #include "Logic.h"
 
 Logic::~Logic(void){
-	Parser parser (_currentDisplay);
+
 }
 
-Logic::Logic() {
-
+Logic::Logic(): parser (_currentDisplay) {
 }
 
 void Logic::processCommand(string input) {
 	Command cmd = parser.parse(input);
 	cmd.execute();
 	cmd.updateDisplay(_currentDisplay);
-	_feedback = cmd.updateFeedback();
+	cmd.updateFeedback(_feedback);
 }
 
-void Logic::getDisplay(vector<Task>* currentDisplay) {
-	currentDisplay = _currentDisplay;
+void Logic::getDisplay(vector<string>* currentDisplay) {
+	currentDisplay = parser.unparse(_currentDisplay);
 }
 
 

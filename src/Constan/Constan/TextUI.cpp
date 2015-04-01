@@ -141,7 +141,7 @@ void TextUI::showToUser(string text) {
 	cout << text << endl;
 }
 
-TextUI::TextUI(void)
+TextUI::TextUI(void) : toLogic()
 {
 }
 

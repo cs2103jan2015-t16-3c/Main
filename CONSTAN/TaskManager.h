@@ -16,15 +16,17 @@ static const string MATCH_FOUND = "The following entries match your query: ";
 class TaskManager {
 private:
 	vector<Task> _tasks;
-	static TaskManager* _instance;
+	TaskManager* _instance;
 	TaskManager();
+	Task* _newTask;
+	int _taskID;
 
 public:
-	static TaskManager* getInstance();
+	TaskManager* getInstance();
 	~TaskManager();
 	void readFromFile(vector<Task>& _tasks, char *argv[]);
 	void writeToFile(vector<Task>& _tasks, char *argv[]);
-	void addTask(Task task);
+	void addTask(string taskName, string startDate, string startTime, string endDate, string endTime, string type);
 	void deleteTask(int index);
 	vector<Task>* retrieveTimedTask(string timeIndicator);
 	void getTimedTaskVector(vector<Task>& timedTaskVector);
@@ -38,6 +40,7 @@ public:
 	void searchForString(string searchTerm);
 	//void sortTasksByAscendingAlphabet(vector<Task> _tasks);
 	void sortTasksByNearestDeadline(vector<Task> _tasks);
+	void incrementTaskID() {
 };
 
 #endif

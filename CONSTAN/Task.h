@@ -19,6 +19,7 @@ private:
 	string _endDate;
 	string _endTime;
 	string _type;
+	int _taskID;
 //	bool _isComplete;
 
 
@@ -38,6 +39,8 @@ public:
 	string getEndTime();
 	void setType(string type);
 	string getType();
+	void setTaskID (int taskID);
+	int getTaskID();
 //	void setCompletionStatus(bool isComplete);
 //	bool getCompletionStatus();
 };

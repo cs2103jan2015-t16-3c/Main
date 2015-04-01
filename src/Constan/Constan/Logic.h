@@ -15,13 +15,14 @@ class Logic {
 private:
 	vector<Task>* _currentDisplay;
 	vector<string>* _feedback;
+	Parser parser;
 
 public:
 	Logic();
 	~Logic(void);
 	void processCommand(string input);
-	void getDisplay(vector<Task>* currentDisplay);
-	void getFeedback(vector<string>* _feedback);
+	void getDisplay(vector<string>* currentDisplay);
+	void getFeedback(vector<string>* feedback);
 
 //	string getFeedback();
 };

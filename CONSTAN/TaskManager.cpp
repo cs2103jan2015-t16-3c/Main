@@ -1,11 +1,11 @@
 #include "TaskManager.h"
 
-TaskManager::TaskManager() {
-}
+//TaskManager::TaskManager() {
+//}
 
-TaskManager::~TaskManager() {
-	//destructor
-}
+//TaskManager::~TaskManager() {
+//	//destructor
+//}
 
 TaskManager* TaskManager::getInstance() {
 	if (_instance == NULL) {
@@ -36,8 +36,15 @@ void writeToFile(vector<Task>& _tasks, char *argv[]) {
 }
 */
 
-void TaskManager::addTask(Task task) {
-	_tasks.push_back(task);
+void TaskManager::addTask(string taskName, string startDate, string startTime, string endDate, string endTime, string type) {
+	_newTask = new Task(taskName, startDate, startTime, endDate, endTime, type);
+	incrementTaskID();
+	_newTask->setTaskID (_taskID);
+	_tasks.push_back(*_newTask);
+}
+
+void TaskManager::incrementTaskID() {
+	_taskID++;
 }
 
 void TaskManager::deleteTask(int deleteIndex) {
@@ -134,9 +141,9 @@ void TaskManager::clearAllTasks() {
 }
 
 /*
-void TaskManager::searchForString(string searchTerm) {
+ TaskManager::searchForString(string searchTerm) {
 	int matchIndex;
-	TextUI::printMessage(MATCH_FOUND);
+//	TextUI::printMessage(MATCH_FOUND);
 	for (int i = 0; i < _tasks.size(); i++) {
 		if (_tasks[i].getTaskName().find(searchTerm) != string::npos) {
 			matchIndex = i + 1;

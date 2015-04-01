@@ -73,6 +73,14 @@ string Task::getType() {
 	return _type;
 }
 
+void Task::setTaskID (int taskID) {
+	_taskID = taskID;
+}
+
+int Task::getTaskID() {
+	return _taskID;
+}
+
 //void Task::setCompletionStatus(bool isComplete) {
 	//_isComplete = isComplete;
 //}

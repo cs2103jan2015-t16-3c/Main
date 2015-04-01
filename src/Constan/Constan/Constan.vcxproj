@@ -38,11 +38,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\boost157;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -69,6 +70,7 @@
     <ClCompile Include="CommandDelete.cpp" />
     <ClCompile Include="CommandEdit.cpp" />
     <ClCompile Include="CommandSearch.cpp" />
+    <ClCompile Include="CommandUndo.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -83,6 +85,7 @@
     <ClInclude Include="CommandDelete.h" />
     <ClInclude Include="CommandEdit.h" />
     <ClInclude Include="CommandSearch.h" />
+    <ClInclude Include="CommandUndo.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="Parser.h" />
