@@ -20,6 +20,7 @@ private:
 	TaskManager();
 	Task* _newTask;
 	int _taskID;
+	string _type;
 
 public:
 	TaskManager* getInstance();
@@ -27,7 +28,7 @@ public:
 	void readFromFile(vector<Task>& _tasks, char *argv[]);
 	void writeToFile(vector<Task>& _tasks, char *argv[]);
 	void addTask(string taskName, string startDate, string startTime, string endDate, string endTime, string type);
-	void deleteTask(int index);
+	void deleteTask(int taskID);
 	vector<Task>* retrieveTimedTask(string timeIndicator);
 	void getTimedTaskVector(vector<Task>& timedTaskVector);
 	vector<Task>* retrieveFloatingTask(string timeIndicator);
@@ -37,10 +38,14 @@ public:
 	//void setCompletionStatus(int index, bool isComplete);
 	void editTask(int editIndex, string taskName, string startTime, string endTime);
 	void clearAllTasks();
-	void searchForString(string searchTerm);
+	vector<Task>* searchForString(string keyword);
 	//void sortTasksByAscendingAlphabet(vector<Task> _tasks);
 	void sortTasksByNearestDeadline(vector<Task> _tasks);
-	void incrementTaskID() {
+	void incrementTaskID();
+	string getTaskName(int taskID);
+	void editTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime);
+	Task* findTask(int taskID);
+	string getType (string taskName, string startDate, string startTime, string endDate, string endTime);
 };
 
 #endif
