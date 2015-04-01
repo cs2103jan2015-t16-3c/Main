@@ -6,8 +6,8 @@
 #include "Task.h"
 #include "TaskManager.h"
 
-class CommandEdit
-{
+class CommandEdit : 
+	public Command {
 private:
 	int _index;
 	int _taskID;
@@ -17,7 +17,7 @@ private:
 	string _endDate;
 	string _endTime;
 public:
-	CommandEdit(void);
+	CommandEdit(int index, string taskName, string startDate, string startTime, string endDate, string endTime);
 	~CommandEdit(void);
 
 	void execute();
@@ -25,4 +25,3 @@ public:
 	void updateFeedback(vector<string>* feedbackVector);
 };
 #endif
-
