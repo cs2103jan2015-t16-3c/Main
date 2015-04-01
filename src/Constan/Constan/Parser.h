@@ -16,6 +16,7 @@
 #include "Command.h"
 #include "CommandAdd.h"
 #include "CommandDelete.h"
+#include "CommandUndo.h"
 /*
 #include "CommandEdit.h"
 #include "CommandDisplay.h"

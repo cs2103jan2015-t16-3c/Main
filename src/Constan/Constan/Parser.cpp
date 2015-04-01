@@ -28,13 +28,11 @@ Command Parser::translateInput(vector<string>& inputVector) {
 			getDisplayType(inputVector);
 			CommandDisplay displayTask(_displayType);
 			return displayTask;
-	} else if 
-		case SEARCH:
+	} else if (commandType == SEARCH) {
 			getKeyword(inputVector);
 			CommandSearch searchTask(_keyword);
 			return searchTask;
-			break;
-		case EDIT:
+	} else if (commandType == EDIT) {
 			getIndex(inputVector);
 			getTaskName(inputVector);
 			getStartTime(inputVector);
@@ -42,7 +40,10 @@ Command Parser::translateInput(vector<string>& inputVector) {
 			getType();
 			CommandEdit editTask(_index, _taskName, _startDate, _startTime, _endDate, _endTime, _type);
 			return editTask;
-			break; */
+	} else if (commandType == UNDO) {
+			CommandUndo undoTask(); 
+			return ;
+	}
 //		case EXIT:
 	//		break;
 	//}
