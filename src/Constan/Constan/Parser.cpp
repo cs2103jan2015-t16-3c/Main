@@ -7,9 +7,9 @@ Parser::Parser(vector<Task>* currentDisplay){
 }
 
 Command Parser::parse(string input) {
-	vector<string>* inputVector = new vector<string>;
-	splitInput(inputVector, input);
-	return translateInput(*inputVector);
+	vector<string> inputVector;
+	splitInput(&inputVector, input);
+	return translateInput(inputVector);
 }
 
 void Parser::generateTaskID(){
@@ -48,10 +48,10 @@ Command Parser::translateInput(vector<string>& inputVector) {
 			getType();
 			CommandEdit editTask(_index, _taskName, _startDate, _startTime, _endDate, _endTime);
 			return editTask;
-	} else if (commandType == UNDO) {
-			CommandUndo undoTask(); 
-			return undoTask();
-	}
+	} //else if (commandType == UNDO) {
+	//		CommandUndo undoTask(); 
+	//		return undoTask();
+	//}
 //		case EXIT:
 	//		break;
 	//}
@@ -124,7 +124,7 @@ void Parser::getEndTime(vector<string> &inputVector) {
 	int index;
 	if(isEndTimeDelimiterFound(inputVector, index)) {
 		index++;
-		while (!isDelimiter(inputVector[index])){
+		while (index < inputVector.size() && !isDelimiter(inputVector[index])){
 			tempString = tempString + " " + inputVector[index];
 			index++;
 		}
@@ -143,7 +143,7 @@ void Parser::getStartTime(vector<string> &inputVector) {
 	int index;
 	if(isStartTimeDelimiterFound(inputVector, index)) {
 		index++;
-		while (!isDelimiter(inputVector[index])){
+		while (index < inputVector.size() && !isDelimiter(inputVector[index])){
 			tempString = tempString + " " + inputVector[index];
 			index++;
 		}
@@ -162,7 +162,7 @@ void Parser::getTaskName(vector<string> &inputVector) {
 	int index;
 	if(isTaskNameDelimiterFound(inputVector, index)) {
 		index++;
-		while (!isDelimiter(inputVector[index])){
+		while (index < inputVector.size() && !isDelimiter(inputVector[index])){
 			tempString = tempString + " " + inputVector[index];
 			index++;
 		}
@@ -202,15 +202,14 @@ COMMAND_TYPE Parser::getCommandType(string command) {
 
 
 void Parser::splitInput(vector<string>* inputVector, string input) {
-	vector<string>::iterator inputVectorIter;
-	inputVectorIter = inputVector->begin();
+	//vector<string>::iterator inputVectorIter;
+	//inputVectorIter = inputVector->begin();
 	
 	istringstream read(input);
 	string temporaryString;
 	
 	while(read >> temporaryString) {
-		*inputVectorIter = temporaryString;
-		inputVectorIter++;
+		inputVector->push_back(temporaryString);
 	}
 }
 

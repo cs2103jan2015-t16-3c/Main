@@ -80,38 +80,38 @@ void TextUI::printFeedback() {
 	//	showToUser(ERROR_UNRECOGNISED_COMMAND_TYPE);
 	//}
 
-	toLogic.getFeedback(_feedback);
-	string commandTypeString = _feedback->front();
+	_feedback = toLogic.getFeedback();
+	string commandTypeString = _feedback[0];
 		
 	COMMAND_TYPE_FEEDBACK commandType = determineCommandType(commandTypeString);
 
 	switch (commandType) {
 	case ADD_TASK: 
 		showToUser(MESSAGE_ADDED);
-		showToUser(_feedback->at(1));
+		showToUser(_feedback.at(1));
 		return;
 	case DELETE_TASK:
 		showToUser(MESSAGE_DELETED);
-		showToUser(_feedback->at(1));
+		showToUser(_feedback.at(1));
 		return;
 	case EDIT_TASK:
 		showToUser(MESSAGE_EDITED);
-		showToUser(_feedback->at(1));
+		showToUser(_feedback.at(1));
 		return;
 	case HELP:
 		showToUser(HELP_USER_GUIDE);
 		return;
 	case DISPLAY:
 		showToUser(MESSAGE_DISPLAYED);
-		showToUser(_feedback->at(1));
+		showToUser(_feedback.at(1));
 		return;
 	case SEARCH_TASK:
-		if (_feedback->at(2) == "true") {
+		if (_feedback.at(2) == "true") {
 			showToUser(MESSAGE_SEARCH_FOUND);
-			cout << _feedback->at(1);
+			cout << _feedback.at(1);
 		} else {
 			showToUser(MESSAGE_SEARCH_NOT_FOUND);
-			cout << _feedback->at(1);
+			cout << _feedback.at(1);
 		}
 	case OTHERS:
 		return;

@@ -19,8 +19,8 @@ void Logic::getDisplay(vector<string>* currentDisplay) {
 }
 
 
-void Logic::getFeedback(vector<string>* currentFeedback) {
-	currentFeedback = _feedback;
+vector<string>  Logic::getFeedback() {
+	return *_feedback;
 }
 
 

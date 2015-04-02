@@ -38,7 +38,7 @@ public:
 
     vector<string>* _output;
 
-    Display displayTask;
+ //   Display displayTask;
 //	string userCommandTemp;
 	string userCommand;
 
@@ -49,7 +49,7 @@ public:
     void printFeedback();
     void showToUser(string text);
 	Logic toLogic;
-	vector<string>* _feedback;
+	vector<string> _feedback;
 
 public:
     TextUI(void);

@@ -22,7 +22,7 @@ public:
 	~Logic(void);
 	void processCommand(string input);
 	void getDisplay(vector<string>* currentDisplay);
-	void getFeedback(vector<string>* feedback);
+	vector<string> getFeedback();
 
 //	string getFeedback();
 };

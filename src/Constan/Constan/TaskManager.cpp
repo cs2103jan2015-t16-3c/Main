@@ -67,11 +67,11 @@ void TaskManager::editTask(int taskID, string taskName, string startDate, string
 
 string TaskManager::getType(string taskName, string startDate, string startTime, string endDate, string endTime) {
 	if (startTime != "NULL" && endTime != "NULL") {
-		_type = "timed";
+		return "timed";
 	} else if (startTime == "NULL" && endTime != "NULL") {
-		_type = "deadline";
+		return "deadline";
 	} else {
-		_type = "floating";
+		return "floating";
 	}
 }
 
@@ -109,8 +109,10 @@ void TaskManager::deleteTask(int taskID) {
 vector<Task>* TaskManager::searchForString(string keyword) {
 	vector<Task>* resultVector = new vector<Task>;
 	vector<Task>::iterator taskIter;
-	for (taskIter= _tasks.begin() ; taskIter != _tasks.end() ; taskIter++) {
-		if (taskIter->getTaskName.find(keyword) != -1) {
+	string taskName;
+	for (taskIter = _tasks.begin() ; taskIter != _tasks.end() ; taskIter++) {
+		taskName = (*taskIter).getTaskName();
+		if (taskName.find(keyword) != -1) {
 			resultVector->push_back(*taskIter);
 		}
 	}
@@ -196,12 +198,12 @@ void TaskManager::getDeadlineVector(vector<Task> &deadlineVector) {
 //}
 
 //requires user to key in all 3 fields even if not editing them
-void TaskManager::editTask(int editIndex, string taskName, string startTime, string endTime) {
+/*void TaskManager::editTask(int editIndex, string taskName, string startTime, string endTime) {
 	_tasks[editIndex - 1].setTaskName = taskName;
 	_tasks[editIndex - 1].setStartTime = startTime;
 	_tasks[editIndex - 1].setEndTime = endTime;
 }
-
+*/
 void TaskManager::clearAllTasks() {
 	_tasks.clear();
 }

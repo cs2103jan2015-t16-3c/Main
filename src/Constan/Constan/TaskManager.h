@@ -17,7 +17,7 @@ class TaskManager {
 private:
 	vector<Task> _tasks;
 //	static TaskManager* _instance;
-	TaskManager() {};
+	TaskManager();
 	TaskManager(TaskManager const&);
 	void operator=(TaskManager const&);
 	Task* _newTask;
