@@ -14,7 +14,7 @@ CommandAdd::CommandAdd(string taskName, string startDate, string startTime, stri
 }
 
 void CommandAdd::execute() {
-	TaskManager::getInstance()->addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type, int taskID);
+	TaskManager::getInstance()->addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _type, _taskID);
 }
 
 void CommandAdd::updateDisplay(vector<Task>* currentDisplay) {
