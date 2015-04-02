@@ -8,6 +8,7 @@
 
 class CommandEdit : 
 	public Command {
+
 private:
 	int _index;
 	int _taskID;
@@ -23,5 +24,6 @@ public:
 	void execute();
 	void updateDisplay(vector<Task>* currentDisplay);
 	void updateFeedback(vector<string>* feedbackVector);
+//	Command getInverseCommand();
 };
 #endif

@@ -15,5 +15,6 @@ void Command::execute(){
 //Command Command::getInverseCommand();
 void Command::updateDisplay(vector<Task>* displayVector){
 }
-string Command::updateFeedback(){
+
+void Command::updateFeedback(vector<string>* feedbackVector){
 }

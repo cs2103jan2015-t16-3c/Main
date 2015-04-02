@@ -12,8 +12,8 @@ void CommandUndo::execute() {
 }
 
 void CommandUndo::updateDisplay(vector<Task>* currentDisplay) {
-	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask("29 March 2015");
-	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline("29 March 2015");
+	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask("02042015");
+	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline("02042015");
 	_mergedDisplay = _deadlineVector;
 	_mergedDisplay->insert (_mergedDisplay->end(), _timedTaskVector->begin(), _timedTaskVector->end());
 	//merge (_timedTaskVector.begin(), _timedTaskVector.end(), _deadlineVector.begin(), _deadlineVector.end(), _mergedDisplay.begin(), Compare_Task());
@@ -45,3 +45,11 @@ void CommandUndo::updateFeedback(vector<string>* feedbackVector) {
 
 //CommandAdd::~CommandAdd(void) {
 //}
+
+//Command CommandDelete::getInverseCommand() {
+//}
+
+//Command CommandEdit::getInverseCommand() {
+//}
+
+//Command Command

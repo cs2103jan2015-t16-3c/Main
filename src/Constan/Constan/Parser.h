@@ -11,23 +11,22 @@
 #include <iterator>
 #include <vector>
 #include <list>
-#include "stdio.h"
+#include <stdio.h>
+#include <time.h>
 #include <sstream>
 #include "Command.h"
 #include "CommandAdd.h"
 #include "CommandDelete.h"
 #include "CommandUndo.h"
-/*
 #include "CommandEdit.h"
 #include "CommandDisplay.h"
 #include "CommandSearch.h"
-#include "CommandClear.h"
-*/
+//#include "CommandClear.h"
 
 using namespace std;
 
 enum COMMAND_TYPE {
-	ADD, DISPLAY, DELETE, INVALID, CLEAR, EDIT, SEARCH, EXIT
+	ADD, DISPLAY, DELETE, INVALID, CLEAR, EDIT, SEARCH, EXIT, UNDO
 };
 
 enum MONTH_NAME {
@@ -44,6 +43,8 @@ private:
 	string _type;
 	string _displayType;
 	string _keyword;
+	int _taskID;
+	int _count;
 	vector<Task>* _currentDisplay;
 	vector<string>* _vectorString;
 
@@ -56,7 +57,7 @@ public:
 	Command translateInput(vector<string>& inputVector);
 	void getKeyword(vector<string> &inputVector);
 	void getIndex(vector<string> &inputVector);
-	void displayType(vector<string> &inputVector);
+	void getDisplayType(vector<string> &inputVector);
 	void getType();
 	bool isStartTimeDelimiterFound(vector<string> &inputVector, int &index);
 	bool isEndTimeDelimiterFound(vector<string> &inputVector, int &index);
@@ -73,6 +74,7 @@ public:
 	MONTH_NAME determineMonthName(string month);
 	vector<string>* unparse(vector<Task>* vectorTask);
 	string convertTaskToString(Task& task);
+	void generateTaskID();
 };
 
 #endif

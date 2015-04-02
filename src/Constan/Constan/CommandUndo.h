@@ -20,7 +20,6 @@ public:
 	void updateDisplay(vector<Task>* currentDisplay);
 	void updateFeedback(vector<string>* feedbackVector);
 
-	//Command getInverseCommand();
 //	vector<Task> getTaskToDisplay();
 	//~CommandAdd(void);
 };

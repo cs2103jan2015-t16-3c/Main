@@ -1,13 +1,11 @@
 #include "TaskManager.h"
 
-int TaskManager::_nextTaskID = 1;
+//TaskManager::TaskManager() {
+//}
 
-TaskManager::TaskManager() {
-}
-
-TaskManager::~TaskManager() {
-	//destructor
-}
+//TaskManager::~TaskManager() {
+//	//destructor
+//}
 
 TaskManager* TaskManager::getInstance() {
 	if (_instance == NULL) {
@@ -16,50 +14,127 @@ TaskManager* TaskManager::getInstance() {
 	return _instance;
 }
 
-void TaskManager::append(Task task) {
-	_tasks.push_back(task);
+//Read and Write might need to be moved to a separate class
+/*
+void readFromFile(vector<Task>& _tasks, char *argv[]) {
+	Task data; 
+	ifstream ifs(argv[1]);
+	while (getline(ifs, data) ) { 
+		_tasks.push_back(data); 
+	} 
+	ifs.close();
 }
 
-//assigns a task a unique ID and adds it to vector
-void TaskManager::addTask(Task task) {
-	task.setTaskID(_nextTaskID);
-	_nextTaskID++;
-	_tasks.push_back(task);
+
+void writeToFile(vector<Task>& _tasks, char *argv[]) {
+	ofstream ofs; 
+	ofs.open(argv[1], ofstream::out | ofstream::trunc); 
+	for (int i = 0; i < _tasks.size(); i++) { 
+		ofs << _tasks[i] << endl; 
+	} 
+	ofs.close();
+}
+*/
+
+void TaskManager::addTask(string taskName, string startDate, string startTime, string endDate, string endTime, string type) {
+	_newTask = new Task(taskName, startDate, startTime, endDate, endTime, type);
+	incrementTaskID();
+	_newTask->setTaskID (_taskID);
+	_tasks.push_back(*_newTask);
 }
 
-void TaskManager::deleteTask(vector<Task>& _tasks, int taskIDToDelete) {
-	vector<Task>::iterator it;
-	for (it = _tasks.begin(); it != _tasks.end(); ) {
-        if ((*it).getTaskID() == taskIDToDelete) {
-            // store the return value from erase
-            it = _tasks.erase(it);
-        }
-        else {
-            it++;
-        }
-    }
+void TaskManager::editTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime) {
+	Task* taskToEdit = findTask(taskID);
+	if (taskName != "NULL") {
+		taskToEdit->setTaskName(taskName);
+	}
+	if (startDate != "NULL") {
+		taskToEdit->setStartDate(startDate);
+	}
+	if (startTime != "NULL") {
+		taskToEdit->setStartTime(startTime);
+	}
+	if (endDate != "NULL") {
+		taskToEdit->setEndDate(endDate);
+	}
+	if (endTime != "NULL") {
+		taskToEdit->setEndTime(endTime);
+	}
+	_type = getType(taskToEdit->getTaskName(), taskToEdit->getStartDate(), taskToEdit->getStartTime(), taskToEdit->getEndDate(), taskToEdit->getEndTime());
+	taskToEdit->setType(_type);
+}
+
+string TaskManager::getType(string taskName, string startDate, string startTime, string endDate, string endTime) {
+	if (startTime != "NULL" && endTime != "NULL") {
+		_type = "timed";
+	} else if (startTime == "NULL" && endTime != "NULL") {
+		_type = "deadline";
+	} else {
+		_type = "floating";
+	}
+}
+
+Task* TaskManager::findTask(int taskID) {
+	vector<Task>::iterator taskIter;
+	for (taskIter= _tasks.begin() ; taskIter != _tasks.end() ; taskIter++) {
+		if (taskIter->getTaskID() == taskID) {
+			return &(*taskIter);
+		}
+	}
+}
+
+string TaskManager::getTaskName(int taskID) {
+	vector<Task>::iterator taskIter;
+	for (taskIter= _tasks.begin() ; taskIter != _tasks.end() ; taskIter++) {
+		if (taskIter->getTaskID() == taskID) {
+			return taskIter->getTaskName();
+		}
+	}
+}
+
+void TaskManager::incrementTaskID() {
+	_taskID++;
+}
+
+void TaskManager::deleteTask(int taskID) {
+	vector<Task>::iterator taskIter;
+	for (taskIter= _tasks.begin() ; taskIter != _tasks.end() ; taskIter++) {
+		if (taskIter->getTaskID() == taskID) {
+			_tasks.erase(taskIter);
+		}
+	}
+}
+
+vector<Task>* TaskManager::searchForString(string keyword) {
+	vector<Task>* resultVector = new vector<Task>;
+	vector<Task>::iterator taskIter;
+	for (taskIter= _tasks.begin() ; taskIter != _tasks.end() ; taskIter++) {
+		if (taskIter->getTaskName.find(keyword) != -1) {
+			resultVector->push_back(*taskIter);
+		}
+	}
+	return resultVector;
 }
 
 vector<Task>* TaskManager::retrieveTimedTask(string timeIndicator) {
 	vector<Task> timedTaskVector;
 	getTimedTaskVector(timedTaskVector);
-	if (timeIndicator != TASK_TYPE_ALL) {
+	if (timeIndicator != "all") {
 		vector<Task>* newVector = new vector<Task>;	
-		for (unsigned int i = 0; i < timedTaskVector.size(); i++) {
+		for (int i = 0; i < timedTaskVector.size(); i++) {
 			if (timedTaskVector[i].getStartDate() == timeIndicator) {
 				newVector->push_back(timedTaskVector[i]);
 			}
 		}
 		return newVector;
-	} 
-	else {
+	} else {
 		return &timedTaskVector;
 	}
 }
 
 void TaskManager::getTimedTaskVector(vector<Task> &timedTaskVector){
-	for (unsigned int i = 0; i < _tasks.size(); i++) {
-		if (_tasks[i].getType() == TASK_TYPE_TIMED) {
+	for (int i = 0; i < _tasks.size(); i++) {
+		if (_tasks[i].getType() == "timed") {
 			timedTaskVector.push_back(_tasks[i]);
 		}
 	}
@@ -68,24 +143,23 @@ void TaskManager::getTimedTaskVector(vector<Task> &timedTaskVector){
 vector<Task>* TaskManager::retrieveFloatingTask(string timeIndicator) {
 	vector<Task> floatingTaskVector;
 	getFloatingTaskVector(floatingTaskVector);
-	if (timeIndicator != TASK_TYPE_ALL) {
+	if (timeIndicator != "all") {
 		vector<Task>* newVector = new vector<Task>;	
-		for (unsigned int i = 0; i < floatingTaskVector.size(); i++) {
+		for (int i = 0; i < floatingTaskVector.size(); i++) {
 			if (floatingTaskVector[i].getStartDate() == timeIndicator) {
 				newVector->push_back(floatingTaskVector[i]);
 			}
 		}
 		return newVector;
-	} 
-	else {
+	} else {
 		return &floatingTaskVector;
 	}
 }
 
 void TaskManager::getFloatingTaskVector(vector<Task> &floatingTaskVector) {
 	vector<Task>* newVector = new vector<Task>;
-	for (unsigned int i = 0; i < _tasks.size(); i++) {
-		if (_tasks[i].getType() == TASK_TYPE_FLOATING) {
+	for (int i = 0; i < _tasks.size(); i++) {
+		if (_tasks[i].getType() == "floating") {
 			floatingTaskVector.push_back(_tasks[i]);
 		}
 	}
@@ -94,24 +168,23 @@ void TaskManager::getFloatingTaskVector(vector<Task> &floatingTaskVector) {
 vector<Task>* TaskManager::retrieveDeadline(string timeIndicator) {
 	vector<Task> deadlineVector;
 	getDeadlineVector(deadlineVector);
-	if (timeIndicator != "TASK_TYPE_ALL") {
+	if (timeIndicator != "all") {
 		vector<Task>* newVector = new vector<Task>;	
-		for (unsigned int i = 0; i < deadlineVector.size(); i++) {
+		for (int i = 0; i < deadlineVector.size(); i++) {
 			if (deadlineVector[i].getStartDate() == timeIndicator) {
 				newVector->push_back(deadlineVector[i]);
 			}
 		}
 		return newVector;
-	} 
-	else {
+	} else {
 		return &deadlineVector;
 	}
 }
 
 void TaskManager::getDeadlineVector(vector<Task> &deadlineVector) {
 	vector<Task>* newVector = new vector<Task>;
-	for (unsigned int i = 0; i < _tasks.size(); i++) {
-		if (_tasks[i].getType() == TASK_TYPE_DEADLINE) {
+	for (int i = 0; i < _tasks.size(); i++) {
+		if (_tasks[i].getType() == "deadline") {
 			deadlineVector.push_back(_tasks[i]);
 		}
 	}
@@ -121,64 +194,59 @@ void TaskManager::getDeadlineVector(vector<Task> &deadlineVector) {
 	//_tasks[index - 1].setCompletionStatus(isComplete);
 //}
 
-//requires user to key in all 5 fields even if not editing them
-void TaskManager::editTask(int editIndex, string taskName, string startDate, string startTime, string endDate, string endTime) {
-	_tasks[editIndex - 1].setTaskName(taskName);
-	_tasks[editIndex - 1].setStartDate(startDate);
-	_tasks[editIndex - 1].setStartTime(startTime);
-	_tasks[editIndex - 1].setEndDate(endDate);
-	_tasks[editIndex - 1].setEndTime(endTime);
+//requires user to key in all 3 fields even if not editing them
+void TaskManager::editTask(int editIndex, string taskName, string startTime, string endTime) {
+	_tasks[editIndex - 1].setTaskName = taskName;
+	_tasks[editIndex - 1].setStartTime = startTime;
+	_tasks[editIndex - 1].setEndTime = endTime;
 }
 
 void TaskManager::clearAllTasks() {
 	_tasks.clear();
 }
 
-//returns a vector of Tasks with searchTerm as a substring of taskName
-vector<Task> TaskManager::searchForString(string searchTerm) {
-	vector<Task> searchResults;
-	for (unsigned int i = 0; i < _tasks.size(); i++) {
+/*
+ TaskManager::searchForString(string searchTerm) {
+	int matchIndex;
+//	TextUI::printMessage(MATCH_FOUND);
+	for (int i = 0; i < _tasks.size(); i++) {
 		if (_tasks[i].getTaskName().find(searchTerm) != string::npos) {
-			searchResults.push_back(_tasks[i]);
+			matchIndex = i + 1;
+			TextUI::printIndex(matchIndex);
+			TextUI::printMessage("\n");
 		}
 	}
-	return searchResults;
 }
+*/
 
-//returns a vector of Tasks with endDate equal to todaysDate
-vector<Task> TaskManager::searchForTasksDueToday(string todaysDate) {
-	vector<Task> searchResults;
-	for (unsigned int i = 0; i < _tasks.size(); i++) {
-		//if (_tasks[i].getEndDate() == "x") { //call parser to get todaysDate
-			searchResults.push_back(_tasks[i]);
+//void TaskManager::sortTasksByAscendingAlphabet(vector<Task> _tasks) {
+	//Task temp;
+	//bool isSorted = false;
+	//for (int i = 0; i < _tasks.size(); i++) {
+		//isSorted = true;
+		//for (int j = 1; j < _tasks.size() - i; j++) {
+			//if (_tasks[j - 1].getTaskName() > _tasks[j].getTaskName())
+				//temp = _tasks[j - 1];
+			//_tasks[j - 1] = _tasks[j];
+			//_tasks[j] = temp;
+			//isSorted = false;
 		//}
+	//}
+	//if (isSorted) return;
+//}
+
+void TaskManager::sortTasksByNearestDeadline(vector<Task> _tasks) {
+	Task temp;
+	bool isSorted = false;
+	for (int i = 0; i < _tasks.size(); i++) {
+		isSorted = true;
+		for (int j = 1; j < _tasks.size() - i; j++) {
+			if (_tasks[j - 1].getEndTime() > _tasks[j].getEndTime())
+				temp = _tasks[j - 1];
+			_tasks[j - 1] = _tasks[j];
+			_tasks[j] = temp;
+			isSorted = false;
+		}
 	}
-	return searchResults;
+	if (isSorted) return;
 }
-
-void TaskManager::sortTasksByName() {
-	CompareTaskName compareName;
-	sort(_tasks.begin(), _tasks.end(), compareName);
-}
-
-void TaskManager::sortTasksByNearestDeadline() {
-	CompareTaskEndDate compareEndDate;
-	CompareTaskEndTime compareEndTime;
-	sort(_tasks.begin(), _tasks.end(), compareEndTime);
-	sort(_tasks.begin(), _tasks.end(), compareEndDate);
-}
-
-void TaskManager::save(const char* fileName){
-    // make an archive
-    std::ofstream ofs(fileName);
-    boost::archive::text_oarchive oa(ofs);
-    oa << _tasks;
-}
-
-void TaskManager::load(const char* fileName) {
-	 // open the archive
-    std::ifstream ifs(fileName);
-    boost::archive::text_iarchive ia(ifs);
-    ia >> _tasks;
-}
-

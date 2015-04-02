@@ -7,7 +7,7 @@
 //	//destructor
 //}
 
-TaskManager* TaskManager::getInstance() {
+static TaskManager* TaskManager::getInstance() {
 	if (_instance == NULL) {
 		_instance = new TaskManager();
 	}
@@ -36,19 +36,86 @@ void writeToFile(vector<Task>& _tasks, char *argv[]) {
 }
 */
 
-void TaskManager::addTask(string taskName, string startDate, string startTime, string endDate, string endTime, string type) {
-	_newTask = new Task(taskName, startDate, startTime, endDate, endTime, type);
+void TaskManager::addTask(string taskName, string startDate, string startTime, string endDate, string endTime, string type, int taskID) {
+	_newTask = new Task(taskName, startDate, startTime, endDate, endTime, type, taskID);
 	incrementTaskID();
 	_newTask->setTaskID (_taskID);
 	_tasks.push_back(*_newTask);
+}
+
+void TaskManager::editTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime) {
+	Task* taskToEdit = findTask(taskID);
+	if (taskName != "NULL") {
+		taskToEdit->setTaskName(taskName);
+	}
+	if (startDate != "NULL") {
+		taskToEdit->setStartDate(startDate);
+	}
+	if (startTime != "NULL") {
+		taskToEdit->setStartTime(startTime);
+	}
+	if (endDate != "NULL") {
+		taskToEdit->setEndDate(endDate);
+	}
+	if (endTime != "NULL") {
+		taskToEdit->setEndTime(endTime);
+	}
+	_type = getType(taskToEdit->getTaskName(), taskToEdit->getStartDate(), taskToEdit->getStartTime(), taskToEdit->getEndDate(), taskToEdit->getEndTime());
+	taskToEdit->setType(_type);
+}
+
+string TaskManager::getType(string taskName, string startDate, string startTime, string endDate, string endTime) {
+	if (startTime != "NULL" && endTime != "NULL") {
+		return "timed";
+	} else if (startTime == "NULL" && endTime != "NULL") {
+		return "deadline";
+	} else {
+		return "floating";
+	}
+}
+
+Task* TaskManager::findTask(int taskID) {
+	vector<Task>::iterator taskIter;
+	for (taskIter= _tasks.begin() ; taskIter != _tasks.end() ; taskIter++) {
+		if (taskIter->getTaskID() == taskID) {
+			return &(*taskIter);
+		}
+	}
+}
+
+string TaskManager::getTaskName(int taskID) {
+	vector<Task>::iterator taskIter;
+	for (taskIter= _tasks.begin() ; taskIter != _tasks.end() ; taskIter++) {
+		if (taskIter->getTaskID() == taskID) {
+			return taskIter->getTaskName();
+		}
+	}
 }
 
 void TaskManager::incrementTaskID() {
 	_taskID++;
 }
 
-void TaskManager::deleteTask(int deleteIndex) {
-	_tasks.erase(_tasks.begin() + deleteIndex - 1);
+void TaskManager::deleteTask(int taskID) {
+	vector<Task>::iterator taskIter;
+	for (taskIter= _tasks.begin() ; taskIter != _tasks.end() ; taskIter++) {
+		if (taskIter->getTaskID() == taskID) {
+			_tasks.erase(taskIter);
+		}
+	}
+}
+
+vector<Task>* TaskManager::searchForString(string keyword) {
+	vector<Task>* resultVector = new vector<Task>;
+	vector<Task>::iterator taskIter;
+	string taskName;
+	for (taskIter = _tasks.begin() ; taskIter != _tasks.end() ; taskIter++) {
+		taskName = (*taskIter).getTaskName();
+		if (taskName.find(keyword) != -1) {
+			resultVector->push_back(*taskIter);
+		}
+	}
+	return resultVector;
 }
 
 vector<Task>* TaskManager::retrieveTimedTask(string timeIndicator) {
@@ -130,12 +197,12 @@ void TaskManager::getDeadlineVector(vector<Task> &deadlineVector) {
 //}
 
 //requires user to key in all 3 fields even if not editing them
-void TaskManager::editTask(int editIndex, string taskName, string startTime, string endTime) {
+/*void TaskManager::editTask(int editIndex, string taskName, string startTime, string endTime) {
 	_tasks[editIndex - 1].setTaskName = taskName;
 	_tasks[editIndex - 1].setStartTime = startTime;
 	_tasks[editIndex - 1].setEndTime = endTime;
 }
-
+*/
 void TaskManager::clearAllTasks() {
 	_tasks.clear();
 }

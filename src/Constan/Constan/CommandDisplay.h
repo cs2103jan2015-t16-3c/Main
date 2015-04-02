@@ -1,29 +1,22 @@
 #pragma once
-#ifndef COMMANDSEARCH_H_
-#define COMMANDSEARCH_H_
+#ifndef COMMANDDISPLAY_H_
+#define COMMANDDISPLAY_H_
 
 #include "Command.h"
 #include "Task.h"
 #include "TaskManager.h"
 
-using namespace std;
-
-class CommandSearch:
+class CommandDisplay :
 	public Command {
 
 private:
-	string _isFound;
-	string _keyword;
-
+	string _displayType;
 public:
-	CommandSearch(string keyword);
-	~CommandSearch(void);
+	CommandDisplay(string displayType);
+	~CommandDisplay(void);
 
 	void execute();
 	void updateDisplay(vector<Task>* currentDisplay);
 	void updateFeedback(vector<string>* feedbackVector);
 };
-
 #endif
-
-
