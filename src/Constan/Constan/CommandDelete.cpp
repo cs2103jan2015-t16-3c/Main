@@ -5,9 +5,9 @@ CommandDelete::CommandDelete(int index, vector<Task>* currentDisplay) {
 	_currentDisplay = currentDisplay;
 }
 
-CommandDelete::~CommandDelete(void)
-{
-}
+//CommandDelete::~CommandDelete(void)
+//{
+//}
 
 void CommandDelete::execute() {
 	_taskID = _currentDisplay->at(_index-1).getTaskID();

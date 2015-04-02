@@ -1,17 +1,18 @@
 #include "TaskManager.h"
 
-//TaskManager::TaskManager() {
-//}
+TaskManager::TaskManager() {
+}
 
-//TaskManager::~TaskManager() {
-//	//destructor
-//}
+TaskManager::~TaskManager() {
+	//destructor
+}
 
 TaskManager* TaskManager::getInstance() {
-	if (_instance == NULL) {
-		_instance = new TaskManager();
-	}
-	return _instance;
+//	if (_instance == NULL) {
+//		_instance = new TaskManager();
+//	}
+	static TaskManager _instance;
+	return &_instance;
 }
 
 //Read and Write might need to be moved to a separate class

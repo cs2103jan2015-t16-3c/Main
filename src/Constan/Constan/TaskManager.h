@@ -16,14 +16,16 @@ static const string MATCH_FOUND = "The following entries match your query: ";
 class TaskManager {
 private:
 	vector<Task> _tasks;
-	TaskManager* _instance;
-	TaskManager();
+//	static TaskManager* _instance;
+	TaskManager() {};
+	TaskManager(TaskManager const&);
+	void operator=(TaskManager const&);
 	Task* _newTask;
 	int _taskID;
 	string _type;
 
 public:
-	TaskManager* getInstance();
+	static TaskManager* getInstance();
 	~TaskManager();
 	void readFromFile(vector<Task>& _tasks, char *argv[]);
 	void writeToFile(vector<Task>& _tasks, char *argv[]);
