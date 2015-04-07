@@ -31,7 +31,7 @@ Command* Parser::translateInput(vector<string>& inputVector) {
 			generateTaskID();
 			CommandAdd* addTask = new CommandAdd (_taskName, _startDate, _startTime, _endDate, _endTime, _taskID, _currentDisplay);
 			return addTask;
-	} else if (commandType == DELETE) {
+	} else if (commandType == DELETE_IT) {
 			getIndex(inputVector);
 			CommandDelete* deleteTask = new CommandDelete (_index, _currentDisplay);
 			return deleteTask;
@@ -237,7 +237,7 @@ COMMAND_TYPE Parser::determineCommandType(string command) {
 	} else if (command == "display") {
 		return DISPLAY;
 	} else if (command == "delete") {
-		return DELETE;
+		return DELETE_IT;
 	} else if (command == "clear") {
 		return CLEAR;
 	} else if (command == "exit") {

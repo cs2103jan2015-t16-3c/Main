@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include "TextUI.h"
 
 using namespace std;
@@ -8,3 +8,4 @@ int main () {
 	startUI.main();
 	return 0;
 }
+*/

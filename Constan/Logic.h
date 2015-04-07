@@ -23,9 +23,10 @@ public:
 	Logic();
 	~Logic(void);
 	void processCommand(string input);
-	vector<string>* getDisplay();
+	//vector<string>* getDisplay();
 	vector<string>* getFeedback();
 
+	vector<Task>* getDisplayVector();
 //	string getFeedback();
 };
 

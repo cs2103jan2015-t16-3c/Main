@@ -22,7 +22,6 @@
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TaskManager.h" />
-    <ClInclude Include="TextUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
@@ -37,7 +36,6 @@
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="TaskManager.cpp" />
-    <ClCompile Include="TextUI.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{001C2554-DE00-44D4-ADCD-943E965A15A8}</ProjectGuid>
@@ -45,7 +43,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>

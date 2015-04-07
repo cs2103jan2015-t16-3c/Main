@@ -7,7 +7,7 @@ Logic::Logic(): parser (&inverseCommandStack) {
 }
 
 void Logic::processCommand(string input) {
-	Command* cmd = /*new CommandAdd ("a", "a", "a", "a", "a", "floating", 1, _currentDisplay);*/ parser.parse(input);
+	Command* cmd = parser.parse(input);
 	cmd->execute();
 	Command* invCommand = cmd->getInverseCommand();
 	if (invCommand != NULL) {
@@ -18,16 +18,20 @@ void Logic::processCommand(string input) {
 	parser.updateDisplay(_currentDisplay);
 }
 
+/*
 vector<string>* Logic::getDisplay() {
 	return parser.unparse(_currentDisplay);
 }
+*/
 
 
 vector<string>* Logic::getFeedback() {
 	return _feedbackLogic;
 }
 
-
+vector<Task>* Logic::getDisplayVector() {
+	return _currentDisplay;
+}
 
 /*
 string Logic::getTimedTask(vector<Task>* timedTask, string timeIndicator) {

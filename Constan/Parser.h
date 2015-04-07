@@ -25,9 +25,7 @@
 
 using namespace std;
 
-enum COMMAND_TYPE {
-	ADD, DISPLAY, DELETE, INVALID, CLEAR, EDIT, SEARCH, EXIT, UNDO
-};
+
 
 enum MONTH_NAME {
 	JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC
@@ -37,8 +35,14 @@ enum ALPHABETICAL_DATE {
 	TODAY, TOMORROW, UNDEFINED
 };
 	
+enum COMMAND_TYPE {
+	ADD, DISPLAY, DELETE_IT, INVALID, EDIT, SEARCH, EXIT, UNDO, CLEAR
+};
+	
 class Parser {
+
 private:
+
 	string _taskName;
 	string _startDate;
 	string _startTime;
