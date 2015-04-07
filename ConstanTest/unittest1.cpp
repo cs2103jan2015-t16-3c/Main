@@ -14,7 +14,15 @@ namespace ConstanTest
 		{
 			Task task ("meeting",  "07042015",  "1100",  "07042015",  "1200",  "timed");
 //			Task task;
-			Assert::AreEqual(string("meetinga"), task.getTaskName()); 
+			Assert::AreEqual(string("meetinga"), task.getTaskName());
+			// TODO: Your test code here
+		}
+		
+		TEST_METHOD(TestMethod2)
+		{
+			Task task ("meeting",  "07042015",  "1100",  "07042015",  "1200",  "timed");
+//			Task task;
+			Assert::AreEqual(string("meeting"), task.getTaskName());
 			// TODO: Your test code here
 		}
 
