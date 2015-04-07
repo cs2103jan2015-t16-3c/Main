@@ -11,33 +11,33 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\NEW SRC\Command.h" />
-    <ClInclude Include="..\..\NEW SRC\CommandAdd.h" />
-    <ClInclude Include="..\..\NEW SRC\CommandDelete.h" />
-    <ClInclude Include="..\..\NEW SRC\CommandDisplay.h" />
-    <ClInclude Include="..\..\NEW SRC\CommandEdit.h" />
-    <ClInclude Include="..\..\NEW SRC\CommandSearch.h" />
-    <ClInclude Include="..\..\NEW SRC\CommandUndo.h" />
-    <ClInclude Include="..\..\NEW SRC\Logic.h" />
-    <ClInclude Include="..\..\NEW SRC\Parser.h" />
-    <ClInclude Include="..\..\NEW SRC\Task.h" />
-    <ClInclude Include="..\..\NEW SRC\TaskManager.h" />
-    <ClInclude Include="..\..\NEW SRC\TextUI.h" />
+    <ClInclude Include="Command.h" />
+    <ClInclude Include="CommandAdd.h" />
+    <ClInclude Include="CommandDelete.h" />
+    <ClInclude Include="CommandDisplay.h" />
+    <ClInclude Include="CommandEdit.h" />
+    <ClInclude Include="CommandSearch.h" />
+    <ClInclude Include="CommandUndo.h" />
+    <ClInclude Include="Logic.h" />
+    <ClInclude Include="Parser.h" />
+    <ClInclude Include="Task.h" />
+    <ClInclude Include="TaskManager.h" />
+    <ClInclude Include="TextUI.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\NEW SRC\Command.cpp" />
-    <ClCompile Include="..\..\NEW SRC\CommandAdd.cpp" />
-    <ClCompile Include="..\..\NEW SRC\CommandDelete.cpp" />
-    <ClCompile Include="..\..\NEW SRC\CommandDisplay.cpp" />
-    <ClCompile Include="..\..\NEW SRC\CommandEdit.cpp" />
-    <ClCompile Include="..\..\NEW SRC\CommandSearch.cpp" />
-    <ClCompile Include="..\..\NEW SRC\CommandUndo.cpp" />
-    <ClCompile Include="..\..\NEW SRC\Logic.cpp" />
-    <ClCompile Include="..\..\NEW SRC\Main.cpp" />
-    <ClCompile Include="..\..\NEW SRC\Parser.cpp" />
-    <ClCompile Include="..\..\NEW SRC\Task.cpp" />
-    <ClCompile Include="..\..\NEW SRC\TaskManager.cpp" />
-    <ClCompile Include="..\..\NEW SRC\TextUI.cpp" />
+    <ClCompile Include="Command.cpp" />
+    <ClCompile Include="CommandAdd.cpp" />
+    <ClCompile Include="CommandDelete.cpp" />
+    <ClCompile Include="CommandDisplay.cpp" />
+    <ClCompile Include="CommandEdit.cpp" />
+    <ClCompile Include="CommandSearch.cpp" />
+    <ClCompile Include="CommandUndo.cpp" />
+    <ClCompile Include="Logic.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="Task.cpp" />
+    <ClCompile Include="TaskManager.cpp" />
+    <ClCompile Include="TextUI.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{001C2554-DE00-44D4-ADCD-943E965A15A8}</ProjectGuid>

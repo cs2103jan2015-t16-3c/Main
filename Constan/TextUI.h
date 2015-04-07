@@ -3,7 +3,6 @@
 #define TEXTUI_H_
 
 #include "Logic.h"
-#include "Display.h"
 #include <iostream>
 #include <string>
 #include <algorithm>
