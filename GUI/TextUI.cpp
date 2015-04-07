@@ -144,7 +144,7 @@ void TextUI::getDisplayVector() {
 }
 
 void TextUI::unparseDisplayVector() {
-	
+	display = "";
 	for ( size_t i=0 ; i < _displayVector->size() ; i++ ) {
 
 		string taskName = _displayVector->at(i).getTaskName();
@@ -154,7 +154,7 @@ void TextUI::unparseDisplayVector() {
 		string endDate = _displayVector->at(i).getEndDate();
 		string endTime = _displayVector->at(i).getEndTime();
 		string status = "done"; //taskVector->at(i).getCompletionStatus();
-		display = taskName + "]" + startDate + "]" + startTime + "]" + endDate + "]" + endTime + "]" + status + "]";
+		display = display + taskName + "]" + startDate + "]" + startTime + "]" + endDate + "]" + endTime + "]" + status + "]";
 	}
 }
 
