@@ -15,81 +15,81 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\NEW SRC\Command.h">
+    <ClInclude Include="Command.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\NEW SRC\CommandAdd.h">
+    <ClInclude Include="CommandAdd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\NEW SRC\CommandDelete.h">
+    <ClInclude Include="CommandDelete.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\NEW SRC\CommandDisplay.h">
+    <ClInclude Include="CommandDisplay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\NEW SRC\CommandEdit.h">
+    <ClInclude Include="CommandEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\NEW SRC\CommandSearch.h">
+    <ClInclude Include="CommandSearch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\NEW SRC\CommandUndo.h">
+    <ClInclude Include="CommandUndo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\NEW SRC\Logic.h">
+    <ClInclude Include="Logic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\NEW SRC\Parser.h">
+    <ClInclude Include="Parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\NEW SRC\Task.h">
+    <ClInclude Include="Task.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\NEW SRC\TaskManager.h">
+    <ClInclude Include="TaskManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\NEW SRC\TextUI.h">
+    <ClInclude Include="TextUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\NEW SRC\Command.cpp">
+    <ClCompile Include="Command.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\NEW SRC\CommandAdd.cpp">
+    <ClCompile Include="CommandAdd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\NEW SRC\CommandDelete.cpp">
+    <ClCompile Include="CommandDelete.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\NEW SRC\CommandDisplay.cpp">
+    <ClCompile Include="CommandDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\NEW SRC\CommandEdit.cpp">
+    <ClCompile Include="CommandEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\NEW SRC\CommandSearch.cpp">
+    <ClCompile Include="CommandSearch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\NEW SRC\CommandUndo.cpp">
+    <ClCompile Include="CommandUndo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\NEW SRC\Logic.cpp">
+    <ClCompile Include="Logic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\NEW SRC\Main.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\NEW SRC\Parser.cpp">
+    <ClCompile Include="Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\NEW SRC\Task.cpp">
+    <ClCompile Include="Task.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\NEW SRC\TaskManager.cpp">
+    <ClCompile Include="TaskManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\NEW SRC\TextUI.cpp">
+    <ClCompile Include="TextUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
