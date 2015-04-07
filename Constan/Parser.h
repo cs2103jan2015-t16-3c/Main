@@ -44,7 +44,7 @@ private:
 	string _startTime;
 	string _endDate;
 	string _endTime;
-//	string _type;
+	string _type;
 	string _displayType;
 	string _keyword;
 	int _taskID;
@@ -65,7 +65,7 @@ public:
 	void getKeyword(vector<string> &inputVector);
 	void getIndex(vector<string> &inputVector);
 	void getDisplayType(vector<string> &inputVector);
-//	void getType();
+	void getType();
 	bool isStartTimeDelimiterFound(vector<string> &inputVector, int &index);
 	bool isEndTimeDelimiterFound(vector<string> &inputVector, int &index);
 	bool isTaskNameDelimiterFound(vector<string> &inputVector, int &index);
@@ -77,6 +77,7 @@ public:
 	void splitInput(vector<string>* inputVector, string input);
 	void toStringLower(string& input);
 	string processToday();
+	string processTomorrow();
 	string processDate(string input);
 	MONTH_NAME determineMonthName(string month);
 	vector<string>* unparse(vector<Task>* vectorTask);
@@ -84,6 +85,8 @@ public:
 	void generateTaskID();
 	string readDate(string input);
 	bool isNumberFound (string input);
+	int stringToInt(string);
+	string intToString(int);
 	ALPHABETICAL_DATE determineAlphabeticalDate(string input);
 //	void extractEndingTime (string input);
 //	void determineEndTimeOrDate(string input);

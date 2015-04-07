@@ -54,7 +54,11 @@ Command* Parser::translateInput(vector<string>& inputVector) {
 	}/* else if (commandType == UNDO) {
 			CommandUndo* undoTask(); 
 			return undoTask();
-	}*/
+	} else if (commandType == INVALID) {
+			CommandInvalid* invalidEntry();
+			return invalidEntry();
+
+	*/
 //		case EXIT:
 	//		break;
 	//}
@@ -72,7 +76,7 @@ void Parser::getDisplayType(vector<string> &inputVector) {
 	_displayType = inputVector[1];	
 }
 
-/*void Parser::getType() {
+void Parser::getType() {
 	if (_startTime != "NULL" && _endTime != "NULL") {
 		_type = "timed";
 	} else if (_startTime == "NULL" && _endTime != "NULL") {
@@ -80,7 +84,7 @@ void Parser::getDisplayType(vector<string> &inputVector) {
 	} else {
 		_type = "floating";
 	}
-}*/
+}
 
 bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, int &index) {
 	for (int i = 0; i<inputVector.size(); i++){
@@ -175,9 +179,9 @@ string Parser::readDate(string input) {
 			case TODAY:
 				return processToday();
 				break;
-		//	case TOMORROW:
-		//		return processTomorrow();
-		//		break;
+			case TOMORROW:
+				return processTomorrow();
+				break;
 			case UNDEFINED:
 				return "NULL";
 				break;
@@ -268,6 +272,46 @@ string Parser::processToday(){
 
 	return today;
 }
+
+//added tomorrow 
+string Parser::processTomorrow(){
+	time_t t = time(0); 
+	char tmp[64]; 
+	strftime( tmp, sizeof(tmp), "%d%m%Y",localtime(&t) );  
+	string today(tmp);
+
+	string day = today.substr(0,2);
+	string monthYear = today.substr(2,6);
+
+	int intDay = stringToInt(day);
+	intDay++;
+	day = intToString(intDay);
+
+	return day + monthYear;
+}
+
+string Parser::intToString(int inputInt){
+
+	stringstream outputStream;
+
+	if(inputInt < 10){
+		outputStream << '0' << inputInt;
+	} else {
+		outputStream << inputInt;
+	}
+
+	return outputStream.str();
+}
+
+int Parser::stringToInt(string inputString){
+	int outputInt;
+	istringstream outputStream(inputString);
+
+	outputStream >> outputInt;
+
+	return outputInt;
+}
+// end of edit
 
 MONTH_NAME Parser::determineMonthName(string month) {
 	toStringLower(month);
