@@ -31,11 +31,11 @@ void CommandUnmark::updateDisplay(vector<Task>* currentDisplay) {
 	currentDisplay = _mergedDisplay;
 }
 */
-void CommandUnmark::updateFeedback(vector<string>* feedbackVector) {
+vector<string>* CommandUnmark::updateFeedback() {
 	_feedback = new vector<string>; 
 	_feedback->push_back (COMMAND_UNMARK);
 	_feedback->push_back (_taskName);
-	feedbackVector = _feedback;
+	return _feedback;
 }
 
 Command* CommandUnmark::getInverseCommand() {

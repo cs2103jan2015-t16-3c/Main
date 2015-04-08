@@ -32,11 +32,11 @@ void CommandMark::execute() {
 	currentDisplay = _mergedDisplay;
 }*/
 
-void CommandMark::updateFeedback(vector<string>* feedbackVector) {
+vector<string>* CommandMark::updateFeedback() {
 	_feedback = new vector<string>; 
 	_feedback->push_back (COMMAND_MARK);
 	_feedback->push_back (_taskName);
-	feedbackVector = _feedback;
+	return _feedback;
 }
 
 Command* CommandMark::getInverseCommand() {
