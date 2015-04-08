@@ -177,7 +177,7 @@ void TextUI::unparseDisplayVector() {
 		string startTime = _displayVector->at(i).getStartTime();
 		string endDate = _displayVector->at(i).getEndDate();
 		string endTime = _displayVector->at(i).getEndTime();
-		string status = "done"; //taskVector->at(i).getCompletionStatus();
+		string status = "undone"; //taskVector->at(i).getCompletionStatus();
 		display = display + taskName + "]" + startDate + "]" + startTime + "]" + endDate + "]" + endTime + "]" + status + "]";
 	}
 }

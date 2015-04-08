@@ -99,10 +99,12 @@ namespace GUIProject {
 			// 
 			// InputTextBox
 			// 
+			this->InputTextBox->BackColor = System::Drawing::Color::White;
 			this->InputTextBox->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->InputTextBox->Font = (gcnew System::Drawing::Font(L"Open Sans", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->InputTextBox->Location = System::Drawing::Point(169, 407);
+			this->InputTextBox->ForeColor = System::Drawing::Color::Black;
+			this->InputTextBox->Location = System::Drawing::Point(169, 433);
 			this->InputTextBox->Name = L"InputTextBox";
 			this->InputTextBox->Size = System::Drawing::Size(608, 25);
 			this->InputTextBox->TabIndex = 7;
@@ -113,6 +115,7 @@ namespace GUIProject {
 			// 
 			// listViewDisplay
 			// 
+			this->listViewDisplay->BackColor = System::Drawing::Color::White;
 			this->listViewDisplay->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->listViewDisplay->CheckBoxes = true;
 			this->listViewDisplay->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(6) {this->taskHeader, 
@@ -127,7 +130,6 @@ namespace GUIProject {
 			this->listViewDisplay->TabIndex = 6;
 			this->listViewDisplay->UseCompatibleStateImageBehavior = false;
 			this->listViewDisplay->View = System::Windows::Forms::View::Details;
-			//this->listViewDisplay->ItemChecked += gcnew System::Windows::Forms::ItemCheckedEventHandler(this, &ConstanGUI::listViewDisplay_ItemChecked);
 			// 
 			// taskHeader
 			// 
@@ -174,7 +176,7 @@ namespace GUIProject {
 			this->feedbackLabel->Font = (gcnew System::Drawing::Font(L"Calibri Light", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->feedbackLabel->ForeColor = System::Drawing::SystemColors::ControlDarkDark;
-			this->feedbackLabel->Location = System::Drawing::Point(167, 461);
+			this->feedbackLabel->Location = System::Drawing::Point(168, 407);
 			this->feedbackLabel->Name = L"feedbackLabel";
 			this->feedbackLabel->Size = System::Drawing::Size(608, 23);
 			this->feedbackLabel->TabIndex = 8;
@@ -185,7 +187,7 @@ namespace GUIProject {
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->label1->ForeColor = System::Drawing::SystemColors::ControlDark;
-			this->label1->Location = System::Drawing::Point(167, 437);
+			this->label1->Location = System::Drawing::Point(167, 463);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(281, 15);
 			this->label1->TabIndex = 9;
@@ -197,7 +199,7 @@ namespace GUIProject {
 			this->label2->Font = (gcnew System::Drawing::Font(L"Calibri", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->label2->ForeColor = System::Drawing::Color::Black;
-			this->label2->Location = System::Drawing::Point(34, 405);
+			this->label2->Location = System::Drawing::Point(34, 431);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(128, 21);
 			this->label2->TabIndex = 10;
@@ -255,7 +257,7 @@ namespace GUIProject {
 #pragma endregion
 
 private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
-			 
+			 /*
 			 System::Windows::Forms::ListViewGroup^  listViewGroup1 = (gcnew System::Windows::Forms::ListViewGroup(L"Scheduled Tasks", System::Windows::Forms::HorizontalAlignment::Left));
 			 System::Windows::Forms::ListViewGroup^  listViewGroup2 = (gcnew System::Windows::Forms::ListViewGroup(L"Deadlines", System::Windows::Forms::HorizontalAlignment::Left));
 			 System::Windows::Forms::ListViewGroup^  listViewGroup3 = (gcnew System::Windows::Forms::ListViewGroup(L"To Do", System::Windows::Forms::HorizontalAlignment::Left));
@@ -269,7 +271,7 @@ private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::W
 			 listViewGroup3->Name = L"FloatingGroup";
 			 
 			 this->listViewDisplay->Groups->AddRange(gcnew cli::array< System::Windows::Forms::ListViewGroup^  >(3) {listViewGroup1, listViewGroup2, listViewGroup3});
-
+			 */
 			 if (e->KeyChar == /*Keys::Enter*/ (char)13){
 				 feedbackLabel->Text = "";
 				 //clear the display box first
@@ -292,8 +294,175 @@ private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::W
 
 					  //pass command to TextUI.h class to be passed to logic and then processed
 					  userInterface.processUserInput(command);
+					  Print();
 
-					  
+					  /*
+					  String^ displayResult;
+					  String^ taskComponent;
+					  String^ taskIndex;
+					  String^ taskTitle;
+					  String^ taskStartDate;
+					  String^ taskStartTime;
+					  String^ taskEndDate;
+					  String^ taskEndTime;
+					  String^ feedbackStr;
+					  String^ taskStatus;
+
+					  //get A STRING of feedback message to be displayed from TextUI
+					  feedback = userInterface.showFeedback(); //std string
+					  //convert std string to System string
+
+					  //clear the feedback box first, then display feedback
+					  feedbackLabel->Text = "";
+					  feedbackStr = gcnew String(feedback.c_str());
+					  feedbackLabel->Text = feedbackStr;
+
+					  //get A STRING of the tasks list and their details to be displayed from TextUI
+					  stdDisplayResult = userInterface.showDisplay(); //std string
+					  //convert std string to System string
+					  displayResult = gcnew String(stdDisplayResult.c_str());
+
+					  int frontTask, endTask = -1, count, index = 1;
+
+					  count = userInterface.getNoOfTask();
+
+					  while (count > 0) {
+
+						  /*INDEX*
+						  taskIndex = System::Convert::ToString(index);
+						  index++;
+
+						  /*TITLE*
+						  frontTask = endTask + 1;
+						  //extract the task title
+						  endTask = stdDisplayResult.find_first_of("]", frontTask);
+						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+						  //convert to std string
+						  taskComponent = gcnew String(stdTaskComponent.c_str());
+						  //add into a system string object
+						  taskTitle = taskComponent;
+
+						  /*START DATE*
+						  frontTask = endTask + 1;
+						  //extract the task's start date
+						  endTask = stdDisplayResult.find_first_of("]", frontTask);
+						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+						  //convert to std string
+						  taskComponent = gcnew String(stdTaskComponent.c_str());
+						  if(taskComponent == "NULL")
+							  taskStartDate = "";
+						  else
+							  //add into a system string object
+							  taskStartDate = taskComponent;
+
+						  /*START TIME*
+						  frontTask = endTask + 1;
+						  //extract the task's start time
+						  endTask = stdDisplayResult.find_first_of("]", frontTask);
+						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+						  //convert to std string
+						  taskComponent = gcnew String(stdTaskComponent.c_str());
+						  if(taskComponent == "NULL")
+							  taskStartTime = "";
+						  else
+							  //add into a system string object
+							  taskStartTime = taskComponent;
+
+						  /*END DATE*
+						  frontTask = endTask + 1;
+						  //extract the task's end date
+						  endTask = stdDisplayResult.find_first_of("]", frontTask);
+						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+						  //convert to std string
+						  taskComponent = gcnew String(stdTaskComponent.c_str());
+						  if(taskComponent == "NULL")
+							  taskEndDate = "";
+						  else
+							  //add into a system string object
+							  taskEndDate = taskComponent;
+
+						  /*END TIME*
+						  frontTask = endTask + 1;
+						  //extract the task's start time
+						  endTask = stdDisplayResult.find_first_of("]", frontTask);
+						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+						  //convert to std string
+						  taskComponent = gcnew String(stdTaskComponent.c_str());
+						  if(taskComponent == "NULL")
+							  taskEndTime = "";
+						  else
+							  //add into a system string object
+							  taskEndTime = taskComponent;
+
+						  /*MARK/UNMARKED*
+						  frontTask = endTask + 1;
+						  //extract the task's status
+						  endTask = stdDisplayResult.find_first_of("]", frontTask);
+						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+						  //convert to std string
+						  taskComponent = gcnew String(stdTaskComponent.c_str());
+						  //add into a system string object
+						  taskStatus = taskComponent;
+
+						  aListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^  >(6) { taskTitle, taskStartDate, taskStartTime, taskEndDate, taskEndTime, taskIndex }, -1));
+
+						  //group according to task type and mark done/undone
+						  if(taskStartTime != "" && taskEndTime != "") {
+							  aListViewItem->Group = listViewGroup1;
+							  if(taskStatus == "done") {
+								aListViewItem->StateImageIndex = 1;
+								aListViewItem->ForeColor = System::Drawing::Color::LightGray;
+							  } else if(taskStatus == "undone")
+								  aListViewItem->StateImageIndex = 0;
+						  } else if(taskStartTime == "" && taskEndTime != "") {
+							  aListViewItem->Group = listViewGroup2;
+							  if(taskStatus == "done") {
+								aListViewItem->StateImageIndex = 1;
+								aListViewItem->ForeColor = System::Drawing::Color::LightGray;
+							  } else if(taskStatus == "undone")
+								  aListViewItem->StateImageIndex = 0;
+						  } else {
+							  aListViewItem->Group = listViewGroup3;
+							  if(taskStatus == "done") {
+								aListViewItem->StateImageIndex = 1;
+								aListViewItem->ForeColor = System::Drawing::Color::LightGray;
+							  } else if(taskStatus == "undone")
+								  aListViewItem->StateImageIndex = 0;
+						  }
+
+						  listViewDisplay->Items->Add(this->aListViewItem);
+
+						  count--;
+					  }
+
+					  //clear input box for the next command
+						InputTextBox->Clear();
+						*/
+						e->Handled = true;
+
+			 }
+					  //MessageBox::Show(input);
+					  //TestInput a;
+					  //a.userInput = input;
+		 }
+
+private: System::Void Print(){
+
+
+			 System::Windows::Forms::ListViewGroup^  listViewGroup1 = (gcnew System::Windows::Forms::ListViewGroup(L"Scheduled Tasks", System::Windows::Forms::HorizontalAlignment::Left));
+			 System::Windows::Forms::ListViewGroup^  listViewGroup2 = (gcnew System::Windows::Forms::ListViewGroup(L"Deadlines", System::Windows::Forms::HorizontalAlignment::Left));
+			 System::Windows::Forms::ListViewGroup^  listViewGroup3 = (gcnew System::Windows::Forms::ListViewGroup(L"To Do", System::Windows::Forms::HorizontalAlignment::Left));
+			 
+			 this->listViewDisplay->FullRowSelect = true;
+			 listViewGroup1->Header = L"Scheduled Tasks";
+			 listViewGroup1->Name = L"ScheduleGroup";
+			 listViewGroup2->Header = L"Deadlines";
+			 listViewGroup2->Name = L"DeadlineGroup";
+			 listViewGroup3->Header = L"To Do";
+			 listViewGroup3->Name = L"FloatingGroup";
+			 
+			 this->listViewDisplay->Groups->AddRange(gcnew cli::array< System::Windows::Forms::ListViewGroup^  >(3) {listViewGroup1, listViewGroup2, listViewGroup3});
+
 					  String^ displayResult;
 					  String^ taskComponent;
 					  String^ taskIndex;
@@ -434,13 +603,7 @@ private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::W
 
 					  //clear input box for the next command
 						InputTextBox->Clear();
-						e->Handled = true;
-
-			 }
-					  //MessageBox::Show(input);
-					  //TestInput a;
-					  //a.userInput = input;
-				  }
+		 }
 		 
 private: System::Void InputTextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 
@@ -449,7 +612,7 @@ private: System::Void InputTextBox_TextChanged(System::Object^  sender, System::
 			 }else if(InputTextBox->Text == "display") {
 				 feedbackLabel->Text = "display today/deadlines/schedules/to do"; 
 			 }else if(InputTextBox->Text == "edit") {
-				 feedbackLabel->Text = "edit [index]"; 
+				 feedbackLabel->Text = "edit [index] -t [task name]  -s [start date] [start time]  -e [end date] [end time]"; 
 			 }else if(InputTextBox->Text == "delete") {
 				 feedbackLabel->Text = "delete [index]"; 
 			 }else if(InputTextBox->Text == "mark") {
@@ -474,6 +637,11 @@ private: System::Void InputTextBox_DoubleClick(System::Object^  sender, System::
 //function run when the user tick/unticked the checkbox
 //take in the index displayed as string and 
 private: System::Void listViewDisplay_ItemChecked(System::Object^  sender, System::Windows::Forms::ItemCheckedEventArgs^  e) {
+			 
+			 feedbackLabel->Text = "";
+			 //clear the display box first
+			 listViewDisplay->Items->Clear(); 
+
 			 size_t displayIndex;
 			 ListViewItem^ selItem = e->Item;
 
@@ -486,8 +654,9 @@ private: System::Void listViewDisplay_ItemChecked(System::Object^  sender, Syste
 				 userInterface.processUserInput("mark" + index);
 			 }
 
-				 
-*/
+			 Print();
+		 }
+ */ //wait until command mark is implemented
 };
 }
 
