@@ -50,11 +50,11 @@ public:
 	vector<Task>* searchForString(string keyword);
 	vector<Task> retrieveTodaysTasks(string todaysDate);
 	vector<Task>* retrieveTimedTask(string timeIndicator);
-	void getTimedTaskVector(vector<Task>& timedTaskVector);
+	void getTimedTaskVector(vector<Task>* timedTaskVector);
 	vector<Task>* retrieveFloatingTask(string timeIndicator);
-	void getFloatingTaskVector(vector<Task>& floatingTaskVector);
+	void getFloatingTaskVector(vector<Task>* floatingTaskVector);
 	vector<Task>* retrieveDeadline(string timeIndicator);
-	void getDeadlineVector(vector<Task>& deadlineVector);
+	void getDeadlineVector(vector<Task>* deadlineVector);
 	void setCompletionStatus(int index, bool isComplete);
 	void incrementTaskID();
 	void updateTaskIDOnLoad();

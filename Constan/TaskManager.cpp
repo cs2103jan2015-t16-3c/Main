@@ -147,19 +147,19 @@ void TaskManager::getTaskDetails(int taskID, string &prevTaskName, string &prevS
 
 void TaskManager::editTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime) {
 	Task* taskToEdit = findTask(taskID);
-	if (taskName != DEFAULT_TASK_NAME || taskName != EMPTY_STRING) {
+	if (taskName != DEFAULT_TASK_NAME && taskName != EMPTY_STRING) {
 		taskToEdit->setTaskName(taskName);
 	}
-	if (startDate != DEFAULT_START_DATE || taskName != EMPTY_STRING) {
+	if (startDate != DEFAULT_START_DATE && taskName != EMPTY_STRING) {
 		taskToEdit->setStartDate(startDate);
 	}
-	if (startTime != DEFAULT_START_TIME || taskName != EMPTY_STRING) {
+	if (startTime != DEFAULT_START_TIME && taskName != EMPTY_STRING) {
 		taskToEdit->setStartTime(startTime);
 	}
-	if (endDate != DEFAULT_END_DATE || taskName != EMPTY_STRING) {
+	if (endDate != DEFAULT_END_DATE && taskName != EMPTY_STRING) {
 		taskToEdit->setEndDate(endDate);
 	}
-	if (endTime != DEFAULT_END_TIME || taskName != EMPTY_STRING) {
+	if (endTime != DEFAULT_END_TIME && taskName != EMPTY_STRING) {
 		taskToEdit->setEndTime(endTime);
 	}
 	_type = getType(taskToEdit->getTaskName(), taskToEdit->getStartDate(), taskToEdit->getStartTime(), taskToEdit->getEndDate(), taskToEdit->getEndTime());
@@ -286,80 +286,78 @@ string TaskManager::processTimeIndicator(string input) {
 }
 
 vector<Task>* TaskManager::retrieveTimedTask(string timeIndicator) {
-	vector<Task> timedTaskVector;
+	vector<Task>* timedTaskVector = new vector<Task>;
 	_timeIndicator = processTimeIndicator(timeIndicator);
 	getTimedTaskVector(timedTaskVector);
 	if (_timeIndicator != TASK_TYPE_ALL) {
 		vector<Task>* newVector = new vector<Task>;	
-		for (unsigned int i = 0; i < timedTaskVector.size(); i++) {
-			if (timedTaskVector[i].getStartDate() == _timeIndicator) {
-				newVector->push_back(timedTaskVector[i]);
+		for (unsigned int i = 0; i < timedTaskVector->size(); i++) {
+			if (timedTaskVector->at(i).getStartDate() == _timeIndicator) {
+				newVector->push_back(timedTaskVector->at(i));
 			}
 		}
 		return newVector;
 	} 
 	else {
-		return &timedTaskVector;
-	}
-}
-
-void TaskManager::getTimedTaskVector(vector<Task> &timedTaskVector){
-	for (unsigned int i = 0; i < _tasks.size(); i++) {
-		if (_tasks[i].getType() == TASK_TYPE_TIMED) {
-			timedTaskVector.push_back(_tasks[i]);
-		}
+		return timedTaskVector;
 	}
 }
 
 vector<Task>* TaskManager::retrieveFloatingTask(string timeIndicator) {
-	vector<Task> floatingTaskVector;
+	vector<Task>* floatingTaskVector = new vector<Task>;
 	_timeIndicator = processTimeIndicator(timeIndicator);
 	getFloatingTaskVector(floatingTaskVector);
 	if (_timeIndicator != TASK_TYPE_ALL) {
 		vector<Task>* newVector = new vector<Task>;	
-		for (unsigned int i = 0; i < floatingTaskVector.size(); i++) {
-			if (floatingTaskVector[i].getStartDate() == _timeIndicator) {
-				newVector->push_back(floatingTaskVector[i]);
+		for (unsigned int i = 0; i < floatingTaskVector->size(); i++) {
+			if (floatingTaskVector->at(i).getStartDate() == _timeIndicator) {
+				newVector->push_back(floatingTaskVector->at(i));
 			}
 		}
 		return newVector;
 	} 
 	else {
-		return &floatingTaskVector;
-	}
-}
-
-void TaskManager::getFloatingTaskVector(vector<Task> &floatingTaskVector) {
-	vector<Task>* newVector = new vector<Task>;
-	for (unsigned int i = 0; i < _tasks.size(); i++) {
-		if (_tasks[i].getType() == TASK_TYPE_FLOATING) {
-			floatingTaskVector.push_back(_tasks[i]);
-		}
+		return floatingTaskVector;
 	}
 }
 
 vector<Task>* TaskManager::retrieveDeadline(string timeIndicator) {
-	vector<Task> deadlineVector;
+	vector<Task>* deadlineVector = new vector<Task>;
 	_timeIndicator = processTimeIndicator(timeIndicator);
 	getDeadlineVector(deadlineVector);
 	if (_timeIndicator != TASK_TYPE_ALL) {
 		vector<Task>* newVector = new vector<Task>;	
-		for (unsigned int i = 0; i < deadlineVector.size(); i++) {
-			if (deadlineVector[i].getEndDate() == _timeIndicator) {
-				newVector->push_back(deadlineVector[i]);
+		for (unsigned int i = 0; i < deadlineVector->size(); i++) {
+			if (deadlineVector->at(i).getEndDate() == _timeIndicator) {
+				newVector->push_back(deadlineVector->at(i));
 			}
 		}
 		return newVector;
 	} else {
-		return &deadlineVector;
+		return deadlineVector;
 	}
 }
 
-void TaskManager::getDeadlineVector(vector<Task> &deadlineVector) {
-	vector<Task>* newVector = new vector<Task>;
+void TaskManager::getTimedTaskVector(vector<Task>* timedTaskVector){
+	for (unsigned int i = 0; i < _tasks.size(); i++) {
+		if (_tasks[i].getType() == TASK_TYPE_TIMED) {
+			timedTaskVector->push_back(_tasks[i]);
+		}
+	}
+}
+
+void TaskManager::getFloatingTaskVector(vector<Task>* floatingTaskVector) {
+	for (unsigned int i = 0; i < _tasks.size(); i++) {
+		if (_tasks[i].getType() == TASK_TYPE_FLOATING) {
+			floatingTaskVector->push_back(_tasks[i]);
+		}
+	}
+}
+
+void TaskManager::getDeadlineVector(vector<Task>* deadlineVector) {
 	for (unsigned int i = 0; i < _tasks.size(); i++) {
 		if (_tasks[i].getType() == TASK_TYPE_DEADLINE) {
-			deadlineVector.push_back(_tasks[i]);
+			deadlineVector->push_back(_tasks[i]);
 		}
 	}
 }
