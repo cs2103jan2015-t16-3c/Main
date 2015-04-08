@@ -16,7 +16,7 @@ class Logic {
 private:
 	vector<Task>* _currentDisplay;
 	vector<string>* _feedbackLogic;
-	stack<Command> inverseCommandStack;
+	stack<Command*> inverseCommandStack;
 	Parser parser;
 
 public:

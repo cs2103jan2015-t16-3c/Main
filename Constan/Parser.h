@@ -21,10 +21,37 @@
 #include "CommandEdit.h"
 #include "CommandDisplay.h"
 #include "CommandSearch.h"
-//#include "CommandClear.h"
+#include "CommandInvalid.h"
+#include "CommandMark.h"
+#include "CommandUnmark.h"
 
 using namespace std;
 
+static const string NULL_STRING = "NULL";
+/*static const string COMMAND_ADD = "add";
+static const string COMMAND_DELETE = "delete";
+static const string COMMAND_DISPLAY = "display";
+static const string COMMAND_MARK = "mark";
+static const string COMMAND_EDIT = "edit";
+static const string COMMAND_SEARCH = "search";
+static const string COMMAND_UNDO = "undo";
+static const string COMMAND_UNMARK = "unmark";
+static const string COMMAND_INVALID = "invalid";
+static const string DISPLAY_TODAY = "today";
+static const string DISPLAY_TOMORROW = "tomorrow"; */
+static const string COMMAND_EXIT = "exit"; 
+static const string DELIMITER_TASKNAME = "-t";
+static const string DELIMITER_STARTTIME = "-s";
+static const string DELIMITER_ENDTIME = "-e";
+
+static const string INVALID_COMMAND_ADD = "invalidAdd";
+static const string INVALID_COMMAND_DELETE = "invalidDelete";
+static const string INVALID_COMMAND_DISPLAY = "display";
+static const string INVALID_COMMAND_MARK = "mark";
+static const string INVALID_COMMAND_EDIT = "edit";
+static const string INVALID_COMMAND_SEARCH = "search";
+static const string INVALID_COMMAND_UNDO = "undo";
+static const string INVALID_COMMAND_UNMARK = "unmark";
 
 
 enum MONTH_NAME {
@@ -36,7 +63,7 @@ enum ALPHABETICAL_DATE {
 };
 	
 enum COMMAND_TYPE {
-	ADD, DISPLAY, DELETE_IT, INVALID, EDIT, SEARCH, EXIT, UNDO, CLEAR
+	ADD, DISPLAY, DELETE_IT, INVALID, EDIT, SEARCH, EXIT, UNDO, MARK, UNMARK
 };
 	
 class Parser {
@@ -51,46 +78,57 @@ private:
 	string _type;
 	string _displayType;
 	string _keyword;
+	string _report;
 	int _taskID;
 	int _count;
 	vector<Task>* _currentDisplay;
 	vector<string>* _vectorString;
-	stack<Command>* _inverseCommandStack;
+	stack<Command*>* _inverseCommandStack;
 
 //	string strindex;
 	int _index;
 public:
-	Parser(stack<Command> *inputStack);
+	Parser();
+	Parser(stack<Command*> *inverseCommandStack);
 	void updateDisplay(vector<Task>* currentDisplay);
+	void updateInverseCommandStack(stack<Command*> *inverseCommandStack);
 //	Parser(vector<Task>* currentDisplay);
 
 	Command* parse(string input);
 	Command* translateInput(vector<string>& inputVector);
+	
 	void getKeyword(vector<string> &inputVector);
 	void getIndex(vector<string> &inputVector);
 	void getDisplayType(vector<string> &inputVector);
 	void getType();
+	void getEndingTime(vector<string> &inputVector);
+	void getStartingTime(vector<string> &inputVector);
+	void getTaskName(vector<string> &inputVector);
+	void splitInput(vector<string>* inputVector, string input);
+	void toStringLower(string& input);
+	void generateTaskID();
+	void getReportType(vector<string> &inputVector);
+
 	bool isStartTimeDelimiterFound(vector<string> &inputVector, int &index);
 	bool isEndTimeDelimiterFound(vector<string> &inputVector, int &index);
 	bool isTaskNameDelimiterFound(vector<string> &inputVector, int &index);
 	bool isDelimiter (string input);
-	void getEndingTime(vector<string> &inputVector);
-	void getStartingTime(vector<string> &inputVector);
-	void getTaskName(vector<string> &inputVector);
+	bool isNumberFound (string input);
+	bool correctDisplay(string input);
+
 	COMMAND_TYPE determineCommandType(string command);
-	void splitInput(vector<string>* inputVector, string input);
-	void toStringLower(string& input);
+
 	string processToday();
 	string processTomorrow();
 	string processDate(string input);
-	MONTH_NAME determineMonthName(string month);
-	vector<string>* unparse(vector<Task>* vectorTask);
-	string convertTaskToString(Task& task);
-	void generateTaskID();
+//	string convertTaskToString(Task& task);
 	string readDate(string input);
-	bool isNumberFound (string input);
-	int stringToInt(string);
 	string intToString(int);
+
+	int stringToInt(string);
+
+	MONTH_NAME determineMonthName(string month);
+//	vector<string>* unparse(vector<Task>* vectorTask);
 	ALPHABETICAL_DATE determineAlphabeticalDate(string input);
 //	void extractEndingTime (string input);
 //	void determineEndTimeOrDate(string input);

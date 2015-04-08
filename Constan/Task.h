@@ -2,33 +2,46 @@
 #define TASK_H_
 
 #include <string>
+#include <sstream>
 
 using namespace std;
 
-const string DEFAULT_TASK_NAME = "NULL";
-const string DEFAULT_START_DATE = "NULL";
-const string DEFAULT_START_TIME = "NULL";
-const string DEFAULT_END_DATE = "NULL";
-const string DEFAULT_END_TIME = "NULL";
+static const string EMPTY_STRING = "";
+static const string DEFAULT_TASK_NAME = "NULL";
+static const string DEFAULT_START_DATE = "NULL";
+static const string DEFAULT_START_TIME = "NULL";
+static const string DEFAULT_END_DATE = "NULL";
+static const string DEFAULT_END_TIME = "NULL";
+static const string COMPLETION_TRUE = "TRUE";
+static const string COMPLETION_FALSE = "FALSE";
+static const string TASK_TYPE_FLOATING = "floating";
+static const string TASK_TYPE_DEADLINE = "deadline";
+static const string TASK_TYPE_TIMED = "timed";
+static const string TASK_TYPE_ALL = "all";
 
 class Task {
 private:
+	int _taskID;
 	string _taskName;
+	string _type;	
 	string _startDate;
 	string _startTime;
 	string _endDate;
 	string _endTime;
-	string _type;
-	int _taskID;
-//	bool _isComplete;
+	bool _isComplete;
 
 
 public:
 	Task();
 	Task(string taskName, string startDate, string startTime, string endDate, string endTime, string type);
+	Task(string taskName, int taskID, string type, string startDate, string startTime, string endDate, string endTime, bool isComplete);  
 	~Task();
+	void setTaskID (int taskID);
+	int getTaskID();
 	void setTaskName(string taskName);
 	string getTaskName();
+	void setType(string type);
+	string getType();
 	void setStartDate(string startDate);
 	string getStartDate();
 	void setStartTime(string startTime);
@@ -37,12 +50,11 @@ public:
 	string getEndDate();
 	void setEndTime(string endTime);
 	string getEndTime();
-	void setType(string type);
-	string getType();
-	void setTaskID (int taskID);
-	int getTaskID();
-//	void setCompletionStatus(bool isComplete);
-//	bool getCompletionStatus();
+	void setCompletionStatus(bool isComplete);
+	void setCompletionStatusViaString(string isComplete);
+	bool getCompletionStatus();
+	string getTaskIDAsString();
+	string getCompletionStatusAsString();
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include "CommandUndo.h"
 #include <algorithm>
 
-CommandUndo::CommandUndo(stack<Command>* inverseCommandStack) {
+CommandUndo::CommandUndo(stack<Command*>* inverseCommandStack) {
 	_inverseCommandStack = inverseCommandStack;
 }
 
@@ -9,7 +9,7 @@ void CommandUndo::execute() {
 	if (_inverseCommandStack->size()>0) {
 		recentCommand = _inverseCommandStack->top();
 		_inverseCommandStack->pop();
-		recentCommand.execute();
+		recentCommand->execute();
 	}
 }
 
@@ -24,7 +24,7 @@ void CommandUndo::execute() {
 
 vector<string>* CommandUndo::updateFeedback() {
 	_feedback = new vector<string>;
-	_feedback->push_back ("undo");
+	_feedback->push_back (COMMAND_UNDO);
 	return _feedback;
 }
 

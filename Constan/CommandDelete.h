@@ -23,6 +23,8 @@ private:
 	string _type;
 public:
 	CommandDelete(int index, vector<Task>* currentDisplay);
+	CommandDelete(vector<Task>* currentDisplay, int taskID);
+	void getTaskDetails();
 //	~CommandDelete(void);
 	
 	void execute();

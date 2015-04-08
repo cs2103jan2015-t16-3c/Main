@@ -48,6 +48,18 @@
     <ClInclude Include="TaskManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CommandMark.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandUnmark.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandInverseEdit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandInvalid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp">
@@ -84,6 +96,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TaskManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandMark.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandUnmark.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandInverseEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandInvalid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

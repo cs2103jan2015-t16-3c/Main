@@ -1,7 +1,9 @@
 #include "Parser.h"
 
+Parser::Parser (){
+}
 
-Parser::Parser(stack<Command>* inverseCommandStack){
+Parser::Parser(stack<Command*>* inverseCommandStack){
 	_inverseCommandStack = inverseCommandStack;
 	_count = 0;
 }
@@ -21,47 +23,119 @@ void Parser::updateDisplay (vector<Task>* currentDisplay) {
 	_currentDisplay = currentDisplay;
 }
 
+void Parser::updateInverseCommandStack(stack<Command*> *inverseCommandStack) {
+	_inverseCommandStack = inverseCommandStack;
+}
+
 Command* Parser::translateInput(vector<string>& inputVector) {
 	COMMAND_TYPE commandType = determineCommandType(inputVector[0]);
+	_report = NULL_STRING;
+	getReportType(inputVector);
 	if (commandType == ADD) {
-			getTaskName(inputVector);
-			getStartingTime(inputVector);
-			getEndingTime(inputVector);
-//			getType();
-			generateTaskID();
-			CommandAdd* addTask = new CommandAdd (_taskName, _startDate, _startTime, _endDate, _endTime, _taskID, _currentDisplay);
-			return addTask;
+			getTaskName(inputVector);			
+			if(_report != NULL_STRING){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+			    return invalidEntry;
+			}
+			else {
+				getStartingTime(inputVector);
+				getEndingTime(inputVector);
+				generateTaskID();
+				CommandAdd* addTask = new CommandAdd (_taskName, _startDate, _startTime, _endDate, _endTime, _taskID, _currentDisplay);
+				return addTask;
+			}
 	} else if (commandType == DELETE_IT) {
-			getIndex(inputVector);
-			CommandDelete* deleteTask = new CommandDelete (_index, _currentDisplay);
-			return deleteTask;
-	} else if (commandType == DISPLAY) {
-			getDisplayType(inputVector);
-			CommandDisplay* displayTask = new CommandDisplay (_displayType);
-			return displayTask;
+			if(_report != NULL_STRING){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+				return invalidEntry;
+			}
+			else {
+				getIndex(inputVector);
+				CommandDelete* deleteTask = new CommandDelete (_index, _currentDisplay);
+				return deleteTask;
+			}
+	} else if (commandType == DISPLAY) {			
+			if(_report != NULL_STRING){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+			    return invalidEntry;
+			}
+			else {
+				getDisplayType(inputVector);
+				CommandDisplay* displayTask = new CommandDisplay (_displayType, _currentDisplay);
+				return displayTask;
+			}
 	} else if (commandType == SEARCH) {
-			getKeyword(inputVector);
-			CommandSearch* searchTask = new CommandSearch (_keyword);
-			return searchTask;
+			if(_report != NULL_STRING){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+			    return invalidEntry;
+			}
+			else {
+				getKeyword(inputVector);
+				CommandSearch* searchTask = new CommandSearch (_keyword);
+				return searchTask;
+			}
 	} else if (commandType == EDIT) {
 			getIndex(inputVector);
 			getTaskName(inputVector);
 			getStartingTime(inputVector);
 			getEndingTime(inputVector);
-//			getType();
-			CommandEdit* editTask = new CommandEdit (_index, _taskName, _startDate, _startTime, _endDate, _endTime, _currentDisplay);
-			return editTask;
-	}/* else if (commandType == UNDO) {
-			CommandUndo* undoTask(); 
-			return undoTask();
+			if(_report != NULL_STRING){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+			    return invalidEntry;
+			}
+			else {
+				CommandEdit* editTask = new CommandEdit (_index, _taskName, _startDate, _startTime, _endDate, _endTime, _currentDisplay);
+				return editTask;
+			}
+	} else if (commandType == MARK) {
+			if(_report != NULL_STRING){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+				return invalidEntry;
+			}
+			else {
+				getIndex(inputVector);
+				CommandMark* markTask = new CommandMark (_index, _currentDisplay);
+				return markTask;
+			}
+	} else if (commandType == UNMARK) {
+			if(_report != NULL_STRING){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+				return invalidEntry;
+			}
+			else {
+				getIndex(inputVector);
+				CommandUnmark* unmarkTask = new CommandUnmark (_index, _currentDisplay);
+				return unmarkTask;
+			}
+	} else if (commandType == UNDO) {
+			CommandUndo* undoTask = new CommandUndo (_inverseCommandStack); 
+			return undoTask;
 	} else if (commandType == INVALID) {
-			CommandInvalid* invalidEntry();
-			return invalidEntry();
+			CommandInvalid* invalidEntry = new CommandInvalid (_report);
+			return invalidEntry;
+	}
+}
 
-	*/
-//		case EXIT:
-	//		break;
-	//}
+void Parser::getReportType(vector<string> &inputVector){
+	string input = inputVector[0];
+	toStringLower(input);
+	if(input == COMMAND_ADD && inputVector.size() == 1 || _taskName == NULL_STRING){
+		_report = "invalidAdd";
+	} else if(input == COMMAND_DELETE && inputVector.size() == 1){
+		_report = "invalidDelete";
+	} else if(input == COMMAND_EDIT && inputVector.size() == 1){
+		_report = "invalidEdit";
+	} else if(input == COMMAND_DISPLAY && inputVector.size() != 2){
+		_report = "invalidDisplay";
+//	} else if (input =="display" && !correctDisplay(inputVector[1])){
+//		_report = "invalidDisplay";
+	} else if (input == COMMAND_SEARCH && inputVector.size() == 1){
+		_report = "invalidSearch";
+	} else if (input == COMMAND_MARK && inputVector.size() == 1){
+		_report = "invalidMark";
+	} else if (input == COMMAND_UNMARK && inputVector.size() == 1){
+		_report = "invalidUnmark";
+	}
 }
 
 void Parser::getKeyword(vector<string> &inputVector) {
@@ -77,18 +151,18 @@ void Parser::getDisplayType(vector<string> &inputVector) {
 }
 
 void Parser::getType() {
-	if (_startTime != "NULL" && _endTime != "NULL") {
-		_type = "timed";
-	} else if (_startTime == "NULL" && _endTime != "NULL") {
-		_type = "deadline";
+	if (_startTime != NULL_STRING && _endTime != NULL_STRING) {
+		_type = TASK_TYPE_TIMED;
+	} else if (_startTime == NULL_STRING && _endTime != NULL_STRING) {
+		_type = TASK_TYPE_DEADLINE;
 	} else {
-		_type = "floating";
+		_type = TASK_TYPE_FLOATING;
 	}
 }
 
 bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, int &index) {
-	for (int i = 0; i<inputVector.size(); i++){
-		if (inputVector[i] == "-s"){
+	for (unsigned int i = 0; i<inputVector.size(); i++){
+		if (inputVector[i] == DELIMITER_STARTTIME){
 			index = i;
 			return true;
 		}
@@ -97,8 +171,8 @@ bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, int &index) 
 }
 
 bool Parser::isEndTimeDelimiterFound(vector<string> &inputVector, int &index) {
-	for (int i = 0; i<inputVector.size(); i++){
-		if (inputVector[i] == "-e"){
+	for (unsigned int i = 0; i<inputVector.size(); i++){
+		if (inputVector[i] == DELIMITER_ENDTIME){
 			index = i;
 			return true;
 		}
@@ -107,8 +181,8 @@ bool Parser::isEndTimeDelimiterFound(vector<string> &inputVector, int &index) {
 }
 
 bool Parser::isTaskNameDelimiterFound(vector<string> &inputVector, int &index) {
-	for (int i = 0; i<inputVector.size(); i++){
-		if (inputVector[i] == "-t"){
+	for (unsigned int i = 0; i<inputVector.size(); i++){
+		if (inputVector[i] == DELIMITER_TASKNAME){
 			index = i;
 			return true;
 		}
@@ -119,7 +193,7 @@ bool Parser::isTaskNameDelimiterFound(vector<string> &inputVector, int &index) {
 
 
 bool Parser::isDelimiter (string input) {
-	if (input == "-t" || input == "-s" || input == "-e") {
+	if (input == DELIMITER_TASKNAME || input == DELIMITER_STARTTIME || input == DELIMITER_ENDTIME) {
 		return true;
 	} else {
 		return false;
@@ -127,43 +201,43 @@ bool Parser::isDelimiter (string input) {
 }
 
 void Parser::getEndingTime(vector<string> &inputVector) {
-	string tempString = "";
+	string tempString = EMPTY_STRING;
 	int index;
 	if(isEndTimeDelimiterFound(inputVector, index)) {
 		index++;
 		while (index < inputVector.size() && !isDelimiter(inputVector[index])){
-			tempString = tempString + " " + inputVector[index];
+			tempString = tempString + WHITE_SPACE + inputVector[index];
 			index++;
 		}
 		unsigned int startIndex = 1;
-		unsigned int partitionIndex = tempString.find_last_of(" ");
+		unsigned int partitionIndex = tempString.find_last_of(WHITE_SPACE);
 		_endDate = tempString.substr(startIndex, partitionIndex-startIndex);
 		_endDate = readDate(_endDate);
 		_endTime = tempString.substr(partitionIndex+1);
 	} else {
-		_endDate = "NULL";
-		_endTime = "NULL";
+		_endDate = NULL_STRING;
+		_endTime = NULL_STRING;
 
 	}
 }
 
 void Parser::getStartingTime(vector<string> &inputVector) {
-	string tempString = "";
+	string tempString = EMPTY_STRING;
 	int index;
 	if(isStartTimeDelimiterFound(inputVector, index)) {
 		index++;
 		while (index < inputVector.size() && !isDelimiter(inputVector[index])){
-			tempString = tempString + " " + inputVector[index];
+			tempString = tempString + WHITE_SPACE + inputVector[index];
 			index++;
 		}
 		unsigned int startIndex = 1;
-		unsigned int partitionIndex = tempString.find_last_of(" ");
+		unsigned int partitionIndex = tempString.find_last_of(WHITE_SPACE);
 		_startDate = tempString.substr(startIndex, partitionIndex-startIndex);
 		_startDate = readDate(_startDate);
 		_startTime = tempString.substr(partitionIndex+1);
 	} else {
-		_startDate = "NULL";
-		_startTime = "NULL";
+		_startDate = NULL_STRING;
+		_startTime = NULL_STRING;
 	}
 }
 
@@ -183,7 +257,7 @@ string Parser::readDate(string input) {
 				return processTomorrow();
 				break;
 			case UNDEFINED:
-				return "NULL";
+				return NULL_STRING;
 				break;
 		}
 	}
@@ -191,9 +265,9 @@ string Parser::readDate(string input) {
 
 ALPHABETICAL_DATE Parser::determineAlphabeticalDate(string input) {
 	toStringLower(input);
-	if (input == "today"){
+	if (input == DISPLAY_TODAY){
 		return TODAY;
-	} else if (input == "tomorrow") {
+	} else if (input == DISPLAY_TOMORROW) {
 		return TOMORROW;
 	} else {
 		return UNDEFINED;
@@ -201,7 +275,7 @@ ALPHABETICAL_DATE Parser::determineAlphabeticalDate(string input) {
 }
 
 bool Parser::isNumberFound(string input) {
-	for (int i =0; i < input.size(); i++) {
+	for (unsigned int i =0; i < input.size(); i++) {
 		if (isdigit(input.at(i))) {
 			return true;
 		}
@@ -210,17 +284,17 @@ bool Parser::isNumberFound(string input) {
 }
 
 void Parser::getTaskName(vector<string> &inputVector) {
-	string tempString = "";
+	string tempString = EMPTY_STRING;
 	int index;
 	if(isTaskNameDelimiterFound(inputVector, index)) {
 		index++;
 		while (index < inputVector.size() && !isDelimiter(inputVector[index])){
-			tempString = tempString + " " + inputVector[index];
+			tempString = tempString + WHITE_SPACE + inputVector[index];
 			index++;
 		}
 		_taskName = tempString.substr(1);
 	} else {
-		_taskName = "NULL";
+		_taskName = NULL_STRING;
 	}
 }
 
@@ -232,20 +306,24 @@ void Parser::toStringLower(string& input) {
 
 COMMAND_TYPE Parser::determineCommandType(string command) {
 	toStringLower(command);
-	if (command == "add"){
+	if (command == COMMAND_ADD){
 		return ADD;
-	} else if (command == "display") {
+	} else if (command == COMMAND_DISPLAY) {
 		return DISPLAY;
-	} else if (command == "delete") {
+	} else if (command == COMMAND_DELETE) {
 		return DELETE_IT;
-	} else if (command == "clear") {
-		return CLEAR;
-	} else if (command == "exit") {
+	} else if (command == COMMAND_MARK) {
+		return MARK;
+	} else if (command == COMMAND_UNMARK) {
+		return UNMARK;
+	} else if (command == COMMAND_EXIT) {
 		return EXIT;
-	} else if (command == "edit") {
+	} else if (command == COMMAND_EDIT) {
 		return EDIT;
-	} else if (command == "search") {
+	} else if (command == COMMAND_SEARCH) {
 		return SEARCH;
+	} else if (command == COMMAND_UNDO) {
+		return UNDO;
 	} else {
 		return INVALID;
 	}
@@ -405,6 +483,7 @@ string Parser::processDate(string input) {
 	}
 }
 
+/*
 vector<string>* Parser::unparse(vector<Task>* vectorTask) {
 	_vectorString = new vector<string>;
 	vector<Task>::iterator taskIter;
@@ -431,3 +510,4 @@ string Parser::convertTaskToString(Task& task) {
 		return taskName;
 	}
 }
+*/

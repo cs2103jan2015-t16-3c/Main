@@ -5,6 +5,9 @@ string TextUI::MESSAGE_ADDED = "Task added: ";
 string TextUI::MESSAGE_DELETED = "Task deleted: ";
 string TextUI::MESSAGE_EDITED = "Task edited: ";
 string TextUI::MESSAGE_DISPLAYED = "Task displayed: ";
+string TextUI::MESSAGE_UNDONE = "Command undone.";
+string TextUI::MESSAGE_MARKED = "Task marked: ";
+string TextUI::MESSAGE_UNMARKED = "Task unmarked: ";
 
 string TextUI::ERROR_UNRECOGNISED_COMMAND_TYPE = "ERROR: Unrecognised command type.\nEnter \"help\" for list of valid command type in CONSTAN!";
 string TextUI::ERROR_INVALID_FORMAT = "ERROR: Invalid format.\nEnter \"help\" for list of valid formatting in CONSTAN!";
@@ -48,8 +51,18 @@ TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeStr
 	if (commandTypeString == "display")
 		return COMMAND_TYPE_FEEDBACK::DISPLAY_TASK;
 
-	if (commandTypeString == "mark" || "unmark" || "search" || "undo" || "redo" )
-		return COMMAND_TYPE_FEEDBACK::OTHERS;
+	if (commandTypeString == "undo")
+		return COMMAND_TYPE_FEEDBACK::UNDO_TASK;
+
+	if (commandTypeString == "mark")
+		return COMMAND_TYPE_FEEDBACK::MARK_TASK;
+	
+	if (commandTypeString == "unmark")
+		return COMMAND_TYPE_FEEDBACK::UNMARK_TASK;
+
+
+	if (commandTypeString == "search")
+		return COMMAND_TYPE_FEEDBACK::SEARCH_TASK;
 
 	else {
 		return COMMAND_TYPE_FEEDBACK::INVALID_TASK;
@@ -82,9 +95,18 @@ void TextUI::setFeedback(string userCommand) {
 	case DISPLAY_TASK:
 		displayedFeedback(MESSAGE_DISPLAYED);
 		return;
-	case OTHERS:
-		displayedFeedback();
+	case UNDO_TASK:
+		displayedFeedback(MESSAGE_UNDONE);
 		return;
+	case MARK_TASK:
+		displayedFeedback(MESSAGE_MARKED);
+		return;
+	case UNMARK_TASK:
+		displayedFeedback(MESSAGE_UNMARKED);
+		return;
+//	case OTHERS:
+//		displayedFeedback();
+//		return;
 	case INVALID_TASK:             
 		//showToUser(ERROR_UNRECOGNISED_COMMAND_TYPE);
 		return;
@@ -120,8 +142,10 @@ void TextUI::displayedFeedback() {
 
 //get feedback result from Logic CLASS
 string TextUI::getFeedbackResult() {
-	
-	return _feedback->at(1);
+	if (_feedback->size() > 1) {
+		return _feedback->at(1);
+	}
+	return "";
 }
 
 //pass the string of feedback to GUI

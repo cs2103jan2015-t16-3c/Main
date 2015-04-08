@@ -7,7 +7,7 @@ Task::Task() {
 	setStartTime(DEFAULT_START_TIME);
 	setEndDate(DEFAULT_END_DATE);
 	setEndTime(DEFAULT_END_TIME);
-	//setCompletionStatus(false);
+	setCompletionStatus(false);
 }
 
 Task::Task(string taskName, string startDate, string startTime, string endDate, string endTime, string type) {
@@ -18,11 +18,31 @@ Task::Task(string taskName, string startDate, string startTime, string endDate, 
 	setEndDate(endDate);
 	setEndTime(endTime);
 	setType(type);
-	//setCompletionStatus(false);
+	setCompletionStatus(false);
+}
+
+Task::Task(string taskName, int taskID, string type, string startDate, string startTime, string endDate, string endTime, bool isComplete) {
+	//constructor for loading from file
+	setTaskName(taskName);
+	setTaskID(taskID);
+	setType(type);
+	setStartDate(startDate);
+	setStartTime(startTime);
+	setEndDate(endDate);
+	setEndTime(endTime);
+	setCompletionStatus(isComplete);
 }
 
 Task::~Task() {
 	//destructor
+}
+
+void Task::setTaskID (int taskID) {
+	_taskID = taskID;
+}
+
+int Task::getTaskID() {
+	return _taskID;
 }
 
 void Task::setTaskName(string taskName) {
@@ -31,6 +51,14 @@ void Task::setTaskName(string taskName) {
 
 string Task::getTaskName() {
 	return _taskName;
+}
+
+void Task::setType(string type) {
+	_type = type;
+}
+
+string Task::getType() {
+	return _type;
 }
 
 void Task::setStartDate(string startDate) {
@@ -65,26 +93,37 @@ string Task::getEndTime() {
 	return _endTime;
 }
 
-void Task::setType(string type) {
-	_type = type;
+void Task::setCompletionStatusViaString(string isComplete) {
+	if (isComplete == COMPLETION_TRUE) {
+		_isComplete = true; 
+	}
+	else if (isComplete == COMPLETION_FALSE) {
+		_isComplete = false;
+	}
+	else {
+		//error message
+	}
 }
 
-string Task::getType() {
-	return _type;
+void Task::setCompletionStatus(bool isComplete) {
+	_isComplete = isComplete;
 }
 
-void Task::setTaskID (int taskID) {
-	_taskID = taskID;
+bool Task::getCompletionStatus() {
+	return _isComplete;
 }
 
-int Task::getTaskID() {
-	return _taskID;
+string Task::getTaskIDAsString() {
+	 ostringstream ss;
+     ss << _taskID;
+     return ss.str();
 }
 
-//void Task::setCompletionStatus(bool isComplete) {
-	//_isComplete = isComplete;
-//}
-
-//bool Task::getCompletionStatus() {
-	//return _isComplete;
-//}
+string Task::getCompletionStatusAsString () {
+	if (_isComplete) {
+		return COMPLETION_TRUE;
+	}
+	else {
+		return COMPLETION_FALSE;
+	}
+}

@@ -12,12 +12,13 @@ class CommandDisplay :
 private:
 	string _displayType;
 public:
-	CommandDisplay(string displayType);
+	CommandDisplay(string displayType, vector<Task>* currentDisplay);
 	~CommandDisplay(void);
 
 	void execute();
 	vector<Task>* updateDisplay();
 	vector<string>* updateFeedback();
 	Command* getInverseCommand();
+	vector<Task>* generateDisplay();
 };
 #endif

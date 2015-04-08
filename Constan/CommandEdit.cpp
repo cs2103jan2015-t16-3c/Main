@@ -17,9 +17,21 @@ CommandEdit::~CommandEdit(void) {
 void CommandEdit::execute() {
 	_taskID = _currentDisplay->at(_index-1).getTaskID();
 //	_taskName = _currentDisplay->at(_index-1).getTaskName();
+	TaskManager::getInstance()->getTaskDetails(_taskID, _prevTaskName, _prevStartDate, _prevStartTime, _prevEndDate, _prevEndTime, _isPrevComplete);
 	TaskManager::getInstance()->editTask(_taskID, _taskName, _startDate, _startTime, _endDate, _endTime);
 	_taskName = TaskManager::getInstance()->getTaskName(_taskID);
-//	TaskManager::getInstance()->getTaskDetails(_taskID, _prevTaskName, _prevStartDate, _prevStartTime, _prevEndDate, _prevEndTime);
+}
+
+vector<string>* CommandEdit::updateFeedback() {
+	_feedback = new vector<string>; 
+	_feedback->push_back (COMMAND_EDIT);
+	_feedback->push_back (_taskName);
+	return _feedback;	
+}
+
+Command* CommandEdit::getInverseCommand() {
+	CommandInverseEdit* invEdit = new CommandInverseEdit (_taskID, _prevTaskName, _prevStartDate, _prevStartTime, _prevEndDate, _prevEndTime, _isPrevComplete);
+	return invEdit;
 }
 
 /*vector<Task>* CommandEdit::updateDisplay() {
@@ -30,14 +42,3 @@ void CommandEdit::execute() {
 	//merge (_timedTaskVector.begin(), _timedTaskVector.end(), _deadlineVector.begin(), _deadlineVector.end(), _mergedDisplay.begin(), Compare_Task());
 	return _mergedDisplay;
 }*/
-
-vector<string>* CommandEdit::updateFeedback() {
-	_feedback = new vector<string>; 
-	_feedback->push_back ("edit");
-	_feedback->push_back (_taskName);
-	return _feedback;	
-}
-
-Command* CommandEdit::getInverseCommand() {
-	return NULL;
-}

@@ -3,6 +3,7 @@
 #define COMMANDEDIT_H_
 
 #include "Command.h"
+#include "CommandInverseEdit.h"
 #include "Task.h"
 #include "TaskManager.h"
 
@@ -22,6 +23,7 @@ private:
 	string _prevStartTime;
 	string _prevEndDate;
 	string _prevEndTime;
+	bool _isPrevComplete;
 public:
 	CommandEdit(int index, string taskName, string startDate, string startTime, string endDate, string endTime, vector<Task>* currentDisplay);
 	~CommandEdit(void);

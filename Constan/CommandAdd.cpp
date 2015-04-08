@@ -13,7 +13,7 @@ CommandAdd::CommandAdd(string taskName, string startDate, string startTime, stri
 }
 
 void CommandAdd::execute() {
-	TaskManager::getInstance()->addTask(_taskName, _startDate, _startTime, _endDate, _endTime);
+	TaskManager::getInstance()->addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _taskID);
 }
 
 /*vector<Task>* CommandAdd::updateDisplay() {
@@ -27,13 +27,13 @@ void CommandAdd::execute() {
 
 vector<string>* CommandAdd::updateFeedback() {
 	_feedback = new vector<string>;
-	_feedback->push_back ("add");
+	_feedback->push_back (COMMAND_ADD);
 	_feedback->push_back (_taskName);
 	return _feedback;
 }
 
 Command* CommandAdd::getInverseCommand() {
-	CommandDelete* invAdd = new CommandDelete (_taskID, _currentDisplay);
+	CommandDelete* invAdd = new CommandDelete ( _currentDisplay, _taskID);
 	return invAdd;
 }
 

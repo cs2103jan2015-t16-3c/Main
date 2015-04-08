@@ -12,15 +12,15 @@ using namespace std;
 class CommandUndo :
 	public Command {
 private:
-	stack<Command>* _inverseCommandStack;
-	Command recentCommand;
+	stack<Command*>* _inverseCommandStack;
+	Command* recentCommand;
 public:
-	CommandUndo(stack<Command>* inverseCommandStack);
+	CommandUndo(stack<Command*>* inverseCommandStack);
 	void execute();
 	Command* getInverseCommand();
-//	vector<Task>* updateDisplay();
 	vector<string>* updateFeedback();
 
+//	vector<Task>* updateDisplay();
 //	vector<Task> getTaskToDisplay();
 	//~CommandAdd(void);
 };

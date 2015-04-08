@@ -11,11 +11,12 @@ void Logic::processCommand(string input) {
 	cmd->execute();
 	Command* invCommand = cmd->getInverseCommand();
 	if (invCommand != NULL) {
-		inverseCommandStack.push(*invCommand);
+		inverseCommandStack.push(invCommand);
 	}
 	_currentDisplay = cmd->updateDisplay();
 	_feedbackLogic = cmd->updateFeedback();
 	parser.updateDisplay(_currentDisplay);
+	parser.updateInverseCommandStack(&inverseCommandStack);
 }
 
 /*

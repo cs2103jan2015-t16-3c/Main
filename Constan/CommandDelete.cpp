@@ -3,6 +3,12 @@
 CommandDelete::CommandDelete(int index, vector<Task>* currentDisplay) {
 	_index = index;
 	_currentDisplay = currentDisplay;
+	_taskID = EMPTY_NUMBER;
+}
+
+CommandDelete::CommandDelete(vector<Task>* currentDisplay, int taskID) {
+	_taskID = taskID;
+	_currentDisplay = currentDisplay;
 }
 
 //CommandDelete::~CommandDelete(void)
@@ -10,15 +16,19 @@ CommandDelete::CommandDelete(int index, vector<Task>* currentDisplay) {
 //}
 
 void CommandDelete::execute() {
+	if (_taskID == EMPTY_NUMBER) {
+		getTaskDetails();
+	}
+	TaskManager::getInstance()->deleteTask(_taskID);   
+}
+
+void CommandDelete::getTaskDetails() {
 	_taskID = _currentDisplay->at(_index-1).getTaskID();
 	_taskName = _currentDisplay->at(_index-1).getTaskName();
 	_startDate = _currentDisplay->at(_index-1).getStartDate();
 	_startTime = _currentDisplay->at(_index-1).getStartTime();
 	_endDate = _currentDisplay->at(_index-1).getEndDate();
 	_endTime = _currentDisplay->at(_index-1).getEndTime();
-//	_type = _currentDisplay->at(_index-1).getType();
-	TaskManager::getInstance()->deleteTask(_taskID);
-    
 }
 
 /*vector<Task>* CommandDelete::updateDisplay() {
@@ -32,7 +42,7 @@ void CommandDelete::execute() {
 
 vector<string>* CommandDelete::updateFeedback() {
 	_feedback = new vector<string>; 
-	_feedback->push_back ("delete");
+	_feedback->push_back (COMMAND_DELETE);
 	_feedback->push_back (_taskName);
 	return _feedback;
 }

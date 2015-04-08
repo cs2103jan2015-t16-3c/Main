@@ -20,8 +20,8 @@ class TextUI
 {
 public:
     enum COMMAND_TYPE_FEEDBACK {
-        ADD_TASK, DELETE_TASK, EDIT_TASK, DISPLAY_TASK, 
-        INVALID_TASK, HELP, OTHERS
+        ADD_TASK, DELETE_TASK, EDIT_TASK, DISPLAY_TASK, SEARCH_TASK,
+        INVALID_TASK, HELP, OTHERS, UNDO_TASK, MARK_TASK, UNMARK_TASK
     };
 
     private:
@@ -31,6 +31,10 @@ public:
     static string MESSAGE_DELETED;
     static string MESSAGE_EDITED;
 	static string MESSAGE_DISPLAYED;
+	static string MESSAGE_UNDONE;
+    static string MESSAGE_MARKED;
+	static string MESSAGE_UNMARKED;
+
 
     static string ERROR_UNRECOGNISED_COMMAND_TYPE;
     static string ERROR_INVALID_FORMAT;
