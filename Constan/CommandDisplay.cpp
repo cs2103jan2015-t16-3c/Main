@@ -37,8 +37,8 @@ vector<Task>* CommandDisplay::generateDisplay() {
 	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask(_displayType);
 	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline(_displayType);
 	_floatingTaskVector  = TaskManager::getInstance()->retrieveFloatingTask(_displayType);
-	_mergedDisplay = _deadlineVector;
-	_mergedDisplay->insert (_mergedDisplay->end(), _timedTaskVector->begin(), _timedTaskVector->end());
+	_mergedDisplay = _timedTaskVector;
+	_mergedDisplay->insert (_mergedDisplay->end(), _deadlineVector->begin(), _deadlineVector->end());
 	_mergedDisplay->insert (_mergedDisplay->end(), _floatingTaskVector->begin(), _floatingTaskVector->end());
 	//merge (_timedTaskVector.begin(), _timedTaskVector.end(), _deadlineVector.begin(), _deadlineVector.end(), _mergedDisplay.begin(), Compare_Task());
 	return _mergedDisplay;

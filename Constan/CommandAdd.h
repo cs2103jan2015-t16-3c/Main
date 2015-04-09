@@ -22,7 +22,7 @@ private:
 
 public:
 	CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, int taskID, vector<Task>* currentDisplay);
-
+	
 	void execute();
 //	vector<Task>* updateDisplay();
 	vector<string>* updateFeedback();
