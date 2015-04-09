@@ -75,15 +75,15 @@ Command* Parser::translateInput(vector<string>& inputVector) {
 				return searchTask;
 			}
 	} else if (commandType == EDIT) {
-			getIndex(inputVector);
-			getTaskName(inputVector);
-			getStartingTime(inputVector);
-			getEndingTime(inputVector);
 			if(_report != NULL_STRING){
 				CommandInvalid* invalidEntry = new CommandInvalid (_report);
 			    return invalidEntry;
 			}
 			else {
+				getIndex(inputVector);
+				getTaskName(inputVector);
+				getStartingTime(inputVector);
+				getEndingTime(inputVector);
 				CommandEdit* editTask = new CommandEdit (_index, _taskName, _startDate, _startTime, _endDate, _endTime, _currentDisplay);
 				return editTask;
 			}
@@ -119,7 +119,7 @@ Command* Parser::translateInput(vector<string>& inputVector) {
 void Parser::getReportType(vector<string> &inputVector){
 	string input = inputVector[0];
 	toStringLower(input);
-	if(input == COMMAND_ADD && inputVector.size() == 1 || _taskName == NULL_STRING){
+	if(input == COMMAND_ADD && inputVector.size() == 1){
 		_report = "invalidAdd";
 	} else if(input == COMMAND_DELETE && inputVector.size() == 1){
 		_report = "invalidDelete";
@@ -143,7 +143,21 @@ void Parser::getKeyword(vector<string> &inputVector) {
 }
 
 void Parser::getIndex(vector<string> &inputVector) {
-	_index = std::stoi(inputVector[1]);	
+	int indexLimit = findFirstDelimiter(inputVector);
+	if (indexLimit > 1 || indexLimit == INDEX_NOT_FOUND) {
+		_index = std::stoi(inputVector[1]);
+	} else {
+		_index = INDEX_NOT_FOUND;
+	}
+}
+
+int Parser::findFirstDelimiter(vector<string> &inputVector) {
+	for (unsigned int i = 0; i < inputVector.size(); i++){
+		if (isDelimiter(inputVector[i])){
+			return i;
+		}
+	}
+	return INDEX_NOT_FOUND;
 }
 
 void Parser::getDisplayType(vector<string> &inputVector) {
@@ -259,6 +273,8 @@ string Parser::readDate(string input) {
 			case UNDEFINED:
 				return NULL_STRING;
 				break;
+			default:
+				return NULL_STRING;
 		}
 	}
 }

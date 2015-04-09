@@ -53,6 +53,8 @@ static const string INVALID_COMMAND_SEARCH = "search";
 static const string INVALID_COMMAND_UNDO = "undo";
 static const string INVALID_COMMAND_UNMARK = "unmark";
 
+static const int INDEX_NOT_FOUND = -1;
+
 
 enum MONTH_NAME {
 	JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC
@@ -126,6 +128,7 @@ public:
 	string intToString(int);
 
 	int stringToInt(string);
+	int findFirstDelimiter(vector<string> &inputVector);
 
 	MONTH_NAME determineMonthName(string month);
 //	vector<string>* unparse(vector<Task>* vectorTask);
