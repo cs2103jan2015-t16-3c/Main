@@ -26,6 +26,9 @@ public:
 
     private:
 
+	static string EMPTY_STRING;
+	static string SPACE;
+
     static string MESSAGE_WELCOME;
     static string MESSAGE_ADDED;
     static string MESSAGE_DELETED;
@@ -41,6 +44,32 @@ public:
     static string ERROR_INVALID_DATE_TIME;
     static string ERROR_OTHERS;
     static string HELP_USER_GUIDE;
+
+	static string JANUARY;
+	static string FEBRUARY;
+	static string MARCH;
+	static string APRIL;
+	static string MAY;
+	static string JUNE;
+	static string JULY;
+	static string AUGUST;
+	static string SEPTEMBER;
+	static string OCTOBER;
+	static string NOVEMBER;
+	static string DECEMBER;
+
+	static string FIRST;
+	static string SECOND;
+	static string THIRD;
+	static string FOURTH;
+	static string FIFTH;
+	static string SIXTH;
+	static string SEVENTH;
+	static string EIGHTH;
+	static string NINTH;
+	static string TENTH;
+	static string ELEVENTH;
+	static string TWELFTH;
 
 	Logic toLogic;
 	vector<string>* _feedback;
@@ -62,6 +91,8 @@ public:
 	void setDisplay();
 	void getDisplayVector();
 	void unparseDisplayVector();
+	string formatDate(string date);
+	string formatTime(string time);
 
 public:
     TextUI(void);

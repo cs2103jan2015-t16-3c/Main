@@ -51,6 +51,7 @@ namespace GUIProject {
 
 
 	private: System::Windows::Forms::TextBox^  InputTextBox;
+	//private: System::Resources::ResourceManager^ Resources;
 
 
 	private: System::Windows::Forms::ListView^  listViewDisplay;
@@ -74,6 +75,8 @@ namespace GUIProject {
 	private: System::Windows::Forms::Label^  EndDateLabel;
 	private: System::Windows::Forms::Label^  EndTimeLabel;
 	private: System::Windows::Forms::Label^  BlankLabel;
+	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::Label^  userName;
 	protected: 
 
 
@@ -111,6 +114,8 @@ namespace GUIProject {
 			this->EndDateLabel = (gcnew System::Windows::Forms::Label());
 			this->EndTimeLabel = (gcnew System::Windows::Forms::Label());
 			this->BlankLabel = (gcnew System::Windows::Forms::Label());
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->userName = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// InputTextBox
@@ -120,7 +125,7 @@ namespace GUIProject {
 			this->InputTextBox->Font = (gcnew System::Drawing::Font(L"Open Sans", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->InputTextBox->ForeColor = System::Drawing::Color::Black;
-			this->InputTextBox->Location = System::Drawing::Point(169, 433);
+			this->InputTextBox->Location = System::Drawing::Point(179, 433);
 			this->InputTextBox->Name = L"InputTextBox";
 			this->InputTextBox->Size = System::Drawing::Size(608, 25);
 			this->InputTextBox->TabIndex = 7;
@@ -140,12 +145,13 @@ namespace GUIProject {
 				static_cast<System::Byte>(0)));
 			this->listViewDisplay->FullRowSelect = true;
 			this->listViewDisplay->HeaderStyle = System::Windows::Forms::ColumnHeaderStyle::Nonclickable;
-			this->listViewDisplay->Location = System::Drawing::Point(37, 95);
+			this->listViewDisplay->Location = System::Drawing::Point(47, 95);
 			this->listViewDisplay->Name = L"listViewDisplay";
 			this->listViewDisplay->Size = System::Drawing::Size(740, 303);
 			this->listViewDisplay->TabIndex = 6;
 			this->listViewDisplay->UseCompatibleStateImageBehavior = false;
 			this->listViewDisplay->View = System::Windows::Forms::View::Details;
+			this->listViewDisplay->ItemCheck += gcnew System::Windows::Forms::ItemCheckEventHandler(this, &ConstanGUI::listViewDisplay_ItemCheck);
 			// 
 			// taskHeader
 			// 
@@ -192,7 +198,7 @@ namespace GUIProject {
 			this->feedbackLabel->Font = (gcnew System::Drawing::Font(L"Calibri Light", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->feedbackLabel->ForeColor = System::Drawing::SystemColors::ControlDarkDark;
-			this->feedbackLabel->Location = System::Drawing::Point(168, 407);
+			this->feedbackLabel->Location = System::Drawing::Point(178, 407);
 			this->feedbackLabel->Name = L"feedbackLabel";
 			this->feedbackLabel->Size = System::Drawing::Size(608, 23);
 			this->feedbackLabel->TabIndex = 8;
@@ -203,7 +209,7 @@ namespace GUIProject {
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->label1->ForeColor = System::Drawing::SystemColors::ControlDark;
-			this->label1->Location = System::Drawing::Point(167, 463);
+			this->label1->Location = System::Drawing::Point(177, 463);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(281, 15);
 			this->label1->TabIndex = 9;
@@ -215,7 +221,7 @@ namespace GUIProject {
 			this->label2->Font = (gcnew System::Drawing::Font(L"Calibri", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->label2->ForeColor = System::Drawing::Color::Black;
-			this->label2->Location = System::Drawing::Point(34, 431);
+			this->label2->Location = System::Drawing::Point(44, 431);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(128, 21);
 			this->label2->TabIndex = 10;
@@ -229,11 +235,13 @@ namespace GUIProject {
 			this->label3->Font = (gcnew System::Drawing::Font(L"Calibri", 36, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->label3->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->label3->Location = System::Drawing::Point(30, 9);
+			this->label3->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
+			this->label3->Location = System::Drawing::Point(36, 9);
 			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(269, 73);
+			this->label3->Size = System::Drawing::Size(159, 73);
 			this->label3->TabIndex = 11;
-			this->label3->Text = L"Hello Jim.";
+			this->label3->Text = L"Hello";
+			this->label3->TextAlign = System::Drawing::ContentAlignment::TopRight;
 			// 
 			// label4
 			// 
@@ -242,7 +250,7 @@ namespace GUIProject {
 			this->label4->Font = (gcnew System::Drawing::Font(L"Calibri", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->label4->ForeColor = System::Drawing::SystemColors::Desktop;
-			this->label4->Location = System::Drawing::Point(43, 70);
+			this->label4->Location = System::Drawing::Point(53, 70);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(145, 18);
 			this->label4->TabIndex = 12;
@@ -250,14 +258,15 @@ namespace GUIProject {
 			// 
 			// ExitButton
 			// 
-			this->ExitButton->BackColor = System::Drawing::SystemColors::ButtonFace;
+			this->ExitButton->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(224)));
 			this->ExitButton->FlatAppearance->BorderSize = 0;
 			this->ExitButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->ExitButton->Font = (gcnew System::Drawing::Font(L"Calibri", 7.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->ExitButton->Location = System::Drawing::Point(762, 6);
+			this->ExitButton->Location = System::Drawing::Point(735, 12);
 			this->ExitButton->Name = L"ExitButton";
-			this->ExitButton->Size = System::Drawing::Size(43, 24);
+			this->ExitButton->Size = System::Drawing::Size(52, 31);
 			this->ExitButton->TabIndex = 13;
 			this->ExitButton->Text = L"X";
 			this->ExitButton->UseVisualStyleBackColor = false;
@@ -268,7 +277,7 @@ namespace GUIProject {
 			this->IndexLabel->AutoSize = true;
 			this->IndexLabel->Font = (gcnew System::Drawing::Font(L"Calibri", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->IndexLabel->Location = System::Drawing::Point(40, 99);
+			this->IndexLabel->Location = System::Drawing::Point(50, 99);
 			this->IndexLabel->Name = L"IndexLabel";
 			this->IndexLabel->Size = System::Drawing::Size(29, 17);
 			this->IndexLabel->TabIndex = 14;
@@ -279,7 +288,7 @@ namespace GUIProject {
 			this->TaskLabel->AutoSize = true;
 			this->TaskLabel->Font = (gcnew System::Drawing::Font(L"Calibri", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->TaskLabel->Location = System::Drawing::Point(76, 99);
+			this->TaskLabel->Location = System::Drawing::Point(86, 99);
 			this->TaskLabel->Name = L"TaskLabel";
 			this->TaskLabel->Size = System::Drawing::Size(272, 17);
 			this->TaskLabel->TabIndex = 15;
@@ -291,7 +300,7 @@ namespace GUIProject {
 			this->StartDateLabel->AutoSize = true;
 			this->StartDateLabel->Font = (gcnew System::Drawing::Font(L"Calibri", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->StartDateLabel->Location = System::Drawing::Point(443, 99);
+			this->StartDateLabel->Location = System::Drawing::Point(453, 99);
 			this->StartDateLabel->Name = L"StartDateLabel";
 			this->StartDateLabel->Size = System::Drawing::Size(73, 17);
 			this->StartDateLabel->TabIndex = 16;
@@ -302,7 +311,7 @@ namespace GUIProject {
 			this->StartTimeLabel->AutoSize = true;
 			this->StartTimeLabel->Font = (gcnew System::Drawing::Font(L"Calibri", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->StartTimeLabel->Location = System::Drawing::Point(522, 99);
+			this->StartTimeLabel->Location = System::Drawing::Point(532, 99);
 			this->StartTimeLabel->Name = L"StartTimeLabel";
 			this->StartTimeLabel->Size = System::Drawing::Size(67, 17);
 			this->StartTimeLabel->TabIndex = 17;
@@ -313,7 +322,7 @@ namespace GUIProject {
 			this->EndDateLabel->AutoSize = true;
 			this->EndDateLabel->Font = (gcnew System::Drawing::Font(L"Calibri", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->EndDateLabel->Location = System::Drawing::Point(597, 99);
+			this->EndDateLabel->Location = System::Drawing::Point(607, 99);
 			this->EndDateLabel->Name = L"EndDateLabel";
 			this->EndDateLabel->Size = System::Drawing::Size(72, 17);
 			this->EndDateLabel->TabIndex = 18;
@@ -324,7 +333,7 @@ namespace GUIProject {
 			this->EndTimeLabel->AutoSize = true;
 			this->EndTimeLabel->Font = (gcnew System::Drawing::Font(L"Calibri", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
-			this->EndTimeLabel->Location = System::Drawing::Point(677, 99);
+			this->EndTimeLabel->Location = System::Drawing::Point(687, 100);
 			this->EndTimeLabel->Name = L"EndTimeLabel";
 			this->EndTimeLabel->Size = System::Drawing::Size(69, 17);
 			this->EndTimeLabel->TabIndex = 19;
@@ -333,19 +342,48 @@ namespace GUIProject {
 			// BlankLabel
 			// 
 			this->BlankLabel->AutoSize = true;
-			this->BlankLabel->Location = System::Drawing::Point(753, 99);
+			this->BlankLabel->Location = System::Drawing::Point(763, 99);
 			this->BlankLabel->Name = L"BlankLabel";
 			this->BlankLabel->Size = System::Drawing::Size(20, 17);
 			this->BlankLabel->TabIndex = 20;
 			this->BlankLabel->Text = L"   ";
 			// 
+			// button1
+			// 
+			this->button1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(224)));
+			this->button1->FlatAppearance->BorderSize = 0;
+			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button1->Font = (gcnew System::Drawing::Font(L"Calibri Light", 19.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->button1->ImageAlign = System::Drawing::ContentAlignment::TopCenter;
+			this->button1->Location = System::Drawing::Point(679, 12);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(50, 31);
+			this->button1->TabIndex = 21;
+			this->button1->Text = L"-";
+			this->button1->TextAlign = System::Drawing::ContentAlignment::TopCenter;
+			this->button1->UseVisualStyleBackColor = false;
+			this->button1->Click += gcnew System::EventHandler(this, &ConstanGUI::button1_Click);
+			// 
+			// userName
+			// 
+			this->userName->AutoSize = true;
+			this->userName->BackColor = System::Drawing::Color::Transparent;
+			this->userName->Font = (gcnew System::Drawing::Font(L"Calibri", 36, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->userName->Location = System::Drawing::Point(174, 9);
+			this->userName->Name = L"userName";
+			this->userName->Size = System::Drawing::Size(128, 73);
+			this->userName->TabIndex = 22;
+			this->userName->Text = L"Jim.";
+			// 
 			// ConstanGUI
 			// 
-			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::None;
 			this->AutoScroll = true;
-			this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
 			this->BackColor = System::Drawing::Color::White;
-			this->ClientSize = System::Drawing::Size(813, 510);
+			this->ClientSize = System::Drawing::Size(790, 508);
+			this->Controls->Add(this->button1);
 			this->Controls->Add(this->BlankLabel);
 			this->Controls->Add(this->EndTimeLabel);
 			this->Controls->Add(this->EndDateLabel);
@@ -360,11 +398,11 @@ namespace GUIProject {
 			this->Controls->Add(this->feedbackLabel);
 			this->Controls->Add(this->InputTextBox);
 			this->Controls->Add(this->listViewDisplay);
+			this->Controls->Add(this->userName);
 			this->Controls->Add(this->label3);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->MaximizeBox = false;
 			this->Name = L"ConstanGUI";
-			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -404,7 +442,7 @@ private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::W
 						return;
 					  }
 
-					  if (command == "exit") {
+					  if (command == "") {
 						return; //HOW TO EXIT PROGRAM???
 					  }
 
@@ -749,33 +787,46 @@ private: System::Void InputTextBox_DoubleClick(System::Object^  sender, System::
 			 InputTextBox->Clear();
 			 feedbackLabel->Text = "Enter command";
 		 }
-/*
+
+
 //function run when the user tick/unticked the checkbox
 //take in the index displayed as string and 
-private: System::Void listViewDisplay_ItemChecked(System::Object^  sender, System::Windows::Forms::ItemCheckedEventArgs^  e) {
-			 
+private: System::Void listViewDisplay_ItemCheck(System::Object^  sender, System::Windows::Forms::ItemCheckEventArgs^  e) {
+			
 			 feedbackLabel->Text = "";
-			 //clear the display box first
-			 listViewDisplay->Items->Clear(); 
 
-			 size_t displayIndex;
-			 ListViewItem^ selItem = e->Item;
-
-			 String^ txt = selItem->SubItems[5]->Text;
+			 //int itemIndex = e->Index;
+			 ListViewItem^ item1 = listViewDisplay->Items[e->Index];
+			
+			 String^ txt = item1->SubItems[5]->Text;
 			 string index = msclr::interop::marshal_as < std::string > (txt); 
-			 
-			 if(e->Item->Checked) {
-				 userInterface.processUserInput("unmark" + index);
-			 } else if(e->Item->Checked == 0) {
-				 userInterface.processUserInput("mark" + index);
+			 string unmark = "unmark ";
+			 string mark = "mark ";
+
+			 if(e->CurrentValue == CheckState::Checked) {
+				 userInterface.processUserInput( unmark + index );
+				 item1->ForeColor = System::Drawing::Color::Black;
+
+			 } else if(e->CurrentValue == CheckState::Unchecked) {
+				 userInterface.processUserInput( mark + index );
+				 item1->ForeColor = System::Drawing::Color::LightGray;
 			 }
 
-			 Print();
 		 }
- */ //wait until command mark is implemented
+		 
+
+
 private: System::Void ExitButton_Click(System::Object^  sender, System::EventArgs^  e) {
 			  Application::Exit();
 		 }
+
+
+private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+			 this->WindowState = FormWindowState::Minimized;
+
+		 }
+
+
 };
 }
 
