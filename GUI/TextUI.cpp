@@ -225,27 +225,29 @@ void TextUI::unparseDisplayVector() {
 string TextUI::formatDate(string date) {
 
 	string day = date.substr(0,2);
+	if( day == FIRST || day == SECOND || day == THIRD || day == FOURTH || day == FIFTH || day == SIXTH || day == SEVENTH || day == EIGHTH || day == NINTH )
+		day = day.substr(1,1);
 	string month = date.substr(2,2);
 	string year = date.substr(4,4);
 
 	if (month == FIRST)
-		date = day[1] + SPACE + JANUARY + SPACE + year;
+		date = day + SPACE + JANUARY + SPACE + year;
 	if (month == SECOND)
-		date = day[1] + SPACE + FEBRUARY + SPACE + year;
+		date = day + SPACE + FEBRUARY + SPACE + year;
 	if (month == THIRD)
-		date = day[1] + SPACE + MARCH + SPACE + year;
+		date = day + SPACE + MARCH + SPACE + year;
 	if (month == FOURTH)
-		date = day[1] + SPACE + APRIL + SPACE + year;
+		date = day + SPACE + APRIL + SPACE + year;
 	if (month == FIFTH)
-		date = day[1] + SPACE + MAY + SPACE + year;
+		date = day + SPACE + MAY + SPACE + year;
 	if (month == SIXTH)
-		date = day[1] + SPACE + JUNE + SPACE + year;
+		date = day + SPACE + JUNE + SPACE + year;
 	if (month == SEVENTH)
-		date = day[1] + SPACE + JULY + SPACE + year;
+		date = day + SPACE + JULY + SPACE + year;
 	if (month == EIGHTH)
-		date = day[1] + SPACE + AUGUST + SPACE + year;
+		date = day + SPACE + AUGUST + SPACE + year;
 	if (month == NINTH)
-		date = day[1] + SPACE + SEPTEMBER + SPACE + year;
+		date = day + SPACE + SEPTEMBER + SPACE + year;
 	if (month == TENTH)
 		date = day + SPACE + OCTOBER + SPACE + year;
 	if (month == ELEVENTH)
