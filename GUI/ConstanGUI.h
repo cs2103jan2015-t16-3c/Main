@@ -66,6 +66,14 @@ namespace GUIProject {
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::Label^  label3;
 	private: System::Windows::Forms::Label^  label4;
+	private: System::Windows::Forms::Button^  ExitButton;
+	private: System::Windows::Forms::Label^  IndexLabel;
+	private: System::Windows::Forms::Label^  TaskLabel;
+	private: System::Windows::Forms::Label^  StartDateLabel;
+	private: System::Windows::Forms::Label^  StartTimeLabel;
+	private: System::Windows::Forms::Label^  EndDateLabel;
+	private: System::Windows::Forms::Label^  EndTimeLabel;
+	private: System::Windows::Forms::Label^  BlankLabel;
 	protected: 
 
 
@@ -95,6 +103,14 @@ namespace GUIProject {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->ExitButton = (gcnew System::Windows::Forms::Button());
+			this->IndexLabel = (gcnew System::Windows::Forms::Label());
+			this->TaskLabel = (gcnew System::Windows::Forms::Label());
+			this->StartDateLabel = (gcnew System::Windows::Forms::Label());
+			this->StartTimeLabel = (gcnew System::Windows::Forms::Label());
+			this->EndDateLabel = (gcnew System::Windows::Forms::Label());
+			this->EndTimeLabel = (gcnew System::Windows::Forms::Label());
+			this->BlankLabel = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// InputTextBox
@@ -232,12 +248,112 @@ namespace GUIProject {
 			this->label4->TabIndex = 12;
 			this->label4->Text = L"Welcome to CONSTAN";
 			// 
+			// ExitButton
+			// 
+			this->ExitButton->BackColor = System::Drawing::SystemColors::ButtonFace;
+			this->ExitButton->FlatAppearance->BorderSize = 0;
+			this->ExitButton->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->ExitButton->Font = (gcnew System::Drawing::Font(L"Calibri", 7.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->ExitButton->Location = System::Drawing::Point(762, 6);
+			this->ExitButton->Name = L"ExitButton";
+			this->ExitButton->Size = System::Drawing::Size(43, 24);
+			this->ExitButton->TabIndex = 13;
+			this->ExitButton->Text = L"X";
+			this->ExitButton->UseVisualStyleBackColor = false;
+			this->ExitButton->Click += gcnew System::EventHandler(this, &ConstanGUI::ExitButton_Click);
+			// 
+			// IndexLabel
+			// 
+			this->IndexLabel->AutoSize = true;
+			this->IndexLabel->Font = (gcnew System::Drawing::Font(L"Calibri", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->IndexLabel->Location = System::Drawing::Point(40, 99);
+			this->IndexLabel->Name = L"IndexLabel";
+			this->IndexLabel->Size = System::Drawing::Size(29, 17);
+			this->IndexLabel->TabIndex = 14;
+			this->IndexLabel->Text = L" Id. ";
+			// 
+			// TaskLabel
+			// 
+			this->TaskLabel->AutoSize = true;
+			this->TaskLabel->Font = (gcnew System::Drawing::Font(L"Calibri", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->TaskLabel->Location = System::Drawing::Point(76, 99);
+			this->TaskLabel->Name = L"TaskLabel";
+			this->TaskLabel->Size = System::Drawing::Size(272, 17);
+			this->TaskLabel->TabIndex = 15;
+			this->TaskLabel->Text = L"Task                                                                             " 
+				L"   ";
+			// 
+			// StartDateLabel
+			// 
+			this->StartDateLabel->AutoSize = true;
+			this->StartDateLabel->Font = (gcnew System::Drawing::Font(L"Calibri", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->StartDateLabel->Location = System::Drawing::Point(443, 99);
+			this->StartDateLabel->Name = L"StartDateLabel";
+			this->StartDateLabel->Size = System::Drawing::Size(73, 17);
+			this->StartDateLabel->TabIndex = 16;
+			this->StartDateLabel->Text = L" Start Date ";
+			// 
+			// StartTimeLabel
+			// 
+			this->StartTimeLabel->AutoSize = true;
+			this->StartTimeLabel->Font = (gcnew System::Drawing::Font(L"Calibri", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->StartTimeLabel->Location = System::Drawing::Point(522, 99);
+			this->StartTimeLabel->Name = L"StartTimeLabel";
+			this->StartTimeLabel->Size = System::Drawing::Size(67, 17);
+			this->StartTimeLabel->TabIndex = 17;
+			this->StartTimeLabel->Text = L"Start Time";
+			// 
+			// EndDateLabel
+			// 
+			this->EndDateLabel->AutoSize = true;
+			this->EndDateLabel->Font = (gcnew System::Drawing::Font(L"Calibri", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->EndDateLabel->Location = System::Drawing::Point(597, 99);
+			this->EndDateLabel->Name = L"EndDateLabel";
+			this->EndDateLabel->Size = System::Drawing::Size(72, 17);
+			this->EndDateLabel->TabIndex = 18;
+			this->EndDateLabel->Text = L"  End Date  ";
+			// 
+			// EndTimeLabel
+			// 
+			this->EndTimeLabel->AutoSize = true;
+			this->EndTimeLabel->Font = (gcnew System::Drawing::Font(L"Calibri", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->EndTimeLabel->Location = System::Drawing::Point(677, 99);
+			this->EndTimeLabel->Name = L"EndTimeLabel";
+			this->EndTimeLabel->Size = System::Drawing::Size(69, 17);
+			this->EndTimeLabel->TabIndex = 19;
+			this->EndTimeLabel->Text = L" End Time  ";
+			// 
+			// BlankLabel
+			// 
+			this->BlankLabel->AutoSize = true;
+			this->BlankLabel->Location = System::Drawing::Point(753, 99);
+			this->BlankLabel->Name = L"BlankLabel";
+			this->BlankLabel->Size = System::Drawing::Size(20, 17);
+			this->BlankLabel->TabIndex = 20;
+			this->BlankLabel->Text = L"   ";
+			// 
 			// ConstanGUI
 			// 
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::None;
 			this->AutoScroll = true;
+			this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
 			this->BackColor = System::Drawing::Color::White;
 			this->ClientSize = System::Drawing::Size(813, 510);
+			this->Controls->Add(this->BlankLabel);
+			this->Controls->Add(this->EndTimeLabel);
+			this->Controls->Add(this->EndDateLabel);
+			this->Controls->Add(this->StartTimeLabel);
+			this->Controls->Add(this->StartDateLabel);
+			this->Controls->Add(this->TaskLabel);
+			this->Controls->Add(this->IndexLabel);
+			this->Controls->Add(this->ExitButton);
 			this->Controls->Add(this->label4);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
@@ -245,10 +361,10 @@ namespace GUIProject {
 			this->Controls->Add(this->InputTextBox);
 			this->Controls->Add(this->listViewDisplay);
 			this->Controls->Add(this->label3);
-			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->MaximizeBox = false;
 			this->Name = L"ConstanGUI";
-			this->Text = L"CONSTAN - your trusty task manager";
+			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -657,6 +773,9 @@ private: System::Void listViewDisplay_ItemChecked(System::Object^  sender, Syste
 			 Print();
 		 }
  */ //wait until command mark is implemented
+private: System::Void ExitButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			  Application::Exit();
+		 }
 };
 }
 
