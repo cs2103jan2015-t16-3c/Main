@@ -190,7 +190,7 @@ void TextUI::setDisplay() {
 	getDisplayVector();
 	unparseDisplayVector();
 //	getDeadlineVector();
-	unparseDeadlineVector();
+//	unparseDeadlineVector();
 }
 
 void TextUI::getDisplayVector() { 
@@ -235,7 +235,7 @@ void TextUI::getDeadlineVector() {
 
 }
 */
-
+/*
 void TextUI::unparseDeadlineVector() {
 
 	displayDeadline = EMPTY_STRING;
@@ -257,6 +257,7 @@ void TextUI::unparseDeadlineVector() {
 			displayDeadline = displayDeadline + taskName + "]" + endDate + "]" + endTime + "]";
 	}
 }
+*/
 
 string TextUI::formatDate(string date) {
 

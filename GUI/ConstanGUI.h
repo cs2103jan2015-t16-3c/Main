@@ -73,6 +73,7 @@ namespace GUIProject {
 	private: System::Windows::Forms::Label^  headerLabel;
 
 	private: System::Drawing::Color chosenColor;
+	private: System::Drawing::Color chosenBGColor;
 
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::TextBox^  displayTypeTexbox;
@@ -195,7 +196,7 @@ namespace GUIProject {
 			this->startDateHeader->DisplayIndex = 2;
 			this->startDateHeader->Text = L"Start Date";
 			this->startDateHeader->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
-			this->startDateHeader->Width = 80;
+			this->startDateHeader->Width = 90;
 			// 
 			// startTimeHeader
 			// 
@@ -209,7 +210,7 @@ namespace GUIProject {
 			this->endDateHeader->DisplayIndex = 4;
 			this->endDateHeader->Text = L"End Date";
 			this->endDateHeader->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
-			this->endDateHeader->Width = 80;
+			this->endDateHeader->Width = 90;
 			// 
 			// endTimeHeader
 			// 
@@ -249,8 +250,8 @@ namespace GUIProject {
 			// 
 			// label2
 			// 
-			this->label2->BackColor = System::Drawing::SystemColors::WindowFrame;
-			this->label2->Font = (gcnew System::Drawing::Font(L"Calibri", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+			this->label2->BackColor = System::Drawing::Color::Tomato;
+			this->label2->Font = (gcnew System::Drawing::Font(L"Calibri", 9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->label2->ForeColor = System::Drawing::Color::White;
 			this->label2->Location = System::Drawing::Point(304, 508);
@@ -312,13 +313,13 @@ namespace GUIProject {
 				static_cast<System::Byte>(0)));
 			this->headerLabel->ForeColor = System::Drawing::Color::White;
 			this->headerLabel->ImageAlign = System::Drawing::ContentAlignment::BottomCenter;
-			this->headerLabel->Location = System::Drawing::Point(304, 76);
+			this->headerLabel->Location = System::Drawing::Point(304, 79);
 			this->headerLabel->Name = L"headerLabel";
 			this->headerLabel->RightToLeft = System::Windows::Forms::RightToLeft::No;
 			this->headerLabel->Size = System::Drawing::Size(673, 40);
 			this->headerLabel->TabIndex = 14;
-			this->headerLabel->Text = L" ID                                                      TASK                    " 
-				L"                          START DATE / TIME                     END DATE / TIME " 
+			this->headerLabel->Text = L" ID                                                   TASK                       " 
+				L"                              START DATE / TIME                  END DATE / TIME" 
 				L"          ";
 			this->headerLabel->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
@@ -460,24 +461,26 @@ namespace GUIProject {
 			this->greyTheme->BackColor = System::Drawing::SystemColors::WindowFrame;
 			this->greyTheme->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
 			this->greyTheme->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->greyTheme->Location = System::Drawing::Point(135, 503);
+			this->greyTheme->Location = System::Drawing::Point(39, 502);
 			this->greyTheme->Name = L"greyTheme";
 			this->greyTheme->Size = System::Drawing::Size(30, 30);
 			this->greyTheme->TabIndex = 31;
+			this->greyTheme->Click += gcnew System::EventHandler(this, &ConstanGUI::greyTheme_Click);
 			// 
 			// blueTheme
 			// 
-			this->blueTheme->BackColor = System::Drawing::Color::Teal;
-			this->blueTheme->Location = System::Drawing::Point(40, 503);
+			this->blueTheme->BackColor = System::Drawing::Color::DarkSlateGray;
+			this->blueTheme->Location = System::Drawing::Point(90, 502);
 			this->blueTheme->Name = L"blueTheme";
 			this->blueTheme->Size = System::Drawing::Size(30, 30);
 			this->blueTheme->TabIndex = 32;
+			this->blueTheme->Click += gcnew System::EventHandler(this, &ConstanGUI::blueTheme_Click);
 			// 
 			// pinkTheme
 			// 
-			this->pinkTheme->BackColor = System::Drawing::Color::LightCoral;
+			this->pinkTheme->BackColor = System::Drawing::Color::Crimson;
 			this->pinkTheme->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->pinkTheme->Location = System::Drawing::Point(88, 503);
+			this->pinkTheme->Location = System::Drawing::Point(142, 502);
 			this->pinkTheme->Name = L"pinkTheme";
 			this->pinkTheme->Size = System::Drawing::Size(30, 30);
 			this->pinkTheme->TabIndex = 33;
@@ -497,7 +500,7 @@ namespace GUIProject {
 			// 
 			// deadlineBG
 			// 
-			this->deadlineBG->BackColor = System::Drawing::Color::White;
+			this->deadlineBG->BackColor = System::Drawing::Color::WhiteSmoke;
 			this->deadlineBG->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->deadlineBG->Location = System::Drawing::Point(40, 253);
 			this->deadlineBG->Name = L"deadlineBG";
@@ -876,43 +879,169 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 		 }
 
 private: System::Void pinkTheme_Click(System::Object^  sender, System::EventArgs^  e) {
-			 chosenColor = System::Drawing::Color::LightCoral;
+				this->chosenColor = System::Drawing::Color::LightCoral;
 
-			 
-				this->feedbackLabel->ForeColor = System::Drawing::Color::Gray;
-				this->label2->BackColor = System::Drawing::Color::LightCoral;
-				this->helloLabel->BackColor = System::Drawing::Color::LightCoral;
-				this->welcomeMsgLabel->BackColor = System::Drawing::Color::LightCoral;
+//				PrintDeadline();
 
-				this->ExitButton->BackColor = System::Drawing::SystemColors::ControlLight;
-				this->ExitButton->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
-								static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				this->feedbackLabel->BackColor = System::Drawing::Color::LightCoral;
+				this->feedbackLabel->ForeColor = System::Drawing::Color::White;
 
-				this->button1->BackColor = System::Drawing::SystemColors::ControlLight;
-				this->button1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
-								static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				this->label2->BackColor = System::Drawing::Color::Crimson;
 
-				this->headerLabel->BackColor = System::Drawing::Color::LightCoral;
+				this->helloLabel->BackColor = System::Drawing::Color::White;
+				this->helloLabel->ForeColor = System::Drawing::Color::LightCoral;
 
-				this->displayTypeTexbox->BackColor = System::Drawing::SystemColors::ControlLight;
-				this->displayTypeTexbox->ForeColor = System::Drawing::Color::DimGray;
+				this->welcomeMsgLabel->BackColor = System::Drawing::Color::White;
+				this->welcomeMsgLabel->ForeColor = System::Drawing::Color::LightCoral;
 
-				this->TodayIsLabel->BackColor = System::Drawing::Color::LightCoral;
-				this->TodayDateTextbox->BackColor = System::Drawing::Color::LightCoral;
+				this->ExitButton->BackColor = System::Drawing::Color::LightCoral;
+				this->ExitButton->ForeColor = System::Drawing::Color::White;
 
-				this->searchTextBox->BackColor = System::Drawing::SystemColors::Window;
+				this->button1->BackColor = System::Drawing::Color::LightCoral;
+				this->button1->ForeColor = System::Drawing::Color::White;
+
+				this->headerLabel->BackColor = System::Drawing::Color::Crimson;
+
+				this->displayTypeTexbox->BackColor = System::Drawing::Color::LightCoral;
+				this->displayTypeTexbox->ForeColor = System::Drawing::Color::White;
+
+				this->TodayIsLabel->BackColor = System::Drawing::Color::White;
+				this->TodayIsLabel->ForeColor = System::Drawing::Color::LightCoral;
+
+				this->TodayDateTextbox->BackColor = System::Drawing::Color::White;
+				this->TodayDateTextbox->ForeColor = System::Drawing::Color::LightCoral;
+
+				this->searchTextBox->BackColor = System::Drawing::Color::White;
 				this->searchTextBox->ForeColor = System::Drawing::Color::DimGray;
 
-				this->label4->BackColor = System::Drawing::SystemColors::Control;
+				this->label4->BackColor = System::Drawing::Color::White;
 				this->label4->ForeColor = System::Drawing::Color::DimGray;
 
 				this->label5->BackColor = System::Drawing::Color::White;
 				this->label5->ForeColor = System::Drawing::Color::DimGray;
 
-				this->label3->ForeColor = System::Drawing::Color::DimGray;
+				this->label3->BackColor = System::Drawing::Color::LightCoral;
+				this->label3->ForeColor = System::Drawing::Color::White;
+				
+				this->deadlineBG->BackColor = System::Drawing::Color::White;
+				this->deadlineListView->BackColor = System::Drawing::Color::White;
+				this->listViewDisplay->BackColor = System::Drawing::Color::White;
+				this->InputTextBox->BackColor = System::Drawing::Color::White;
+				this->label1->ForeColor = System::Drawing::Color::White;
 
-				this->BackColor = System::Drawing::SystemColors::ControlLight;
+				this->BackColor = System::Drawing::Color::LightCoral;
 
+		 }
+private: System::Void greyTheme_Click(System::Object^  sender, System::EventArgs^  e) {
+
+
+				this->feedbackLabel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				this->feedbackLabel->ForeColor = System::Drawing::Color::LightGray;
+
+				this->label2->BackColor = System::Drawing::Color::Tomato;
+
+				this->helloLabel->BackColor = System::Drawing::Color::Tomato;
+				this->helloLabel->ForeColor = System::Drawing::Color::White;
+
+				this->welcomeMsgLabel->BackColor = System::Drawing::Color::Tomato;
+				this->welcomeMsgLabel->ForeColor = System::Drawing::Color::White;
+
+				this->TodayIsLabel->BackColor = System::Drawing::Color::Tomato;
+				this->TodayIsLabel->ForeColor = System::Drawing::Color::White;
+
+				this->TodayDateTextbox->BackColor = System::Drawing::Color::Tomato;
+				this->TodayDateTextbox->ForeColor = System::Drawing::Color::White;
+
+				this->displayTypeTexbox->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				this->displayTypeTexbox->ForeColor = System::Drawing::Color::White;
+
+				this->searchTextBox->BackColor = System::Drawing::SystemColors::WindowFrame;
+				this->searchTextBox->ForeColor = System::Drawing::Color::White;
+
+				this->label4->BackColor = System::Drawing::SystemColors::WindowFrame;
+				this->label4->ForeColor = System::Drawing::Color::White;
+
+				this->label5->BackColor = System::Drawing::SystemColors::WindowFrame;
+				this->label5->ForeColor = System::Drawing::Color::White;
+
+				this->ExitButton->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				this->ExitButton->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(224)));
+
+				this->button1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				this->button1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(224)));
+
+				this->headerLabel->BackColor = System::Drawing::SystemColors::WindowFrame;	
+
+				this->label3->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				this->label3->ForeColor = System::Drawing::Color::White;
+				
+				this->deadlineBG->BackColor = System::Drawing::Color::WhiteSmoke;
+				this->deadlineListView->BackColor = System::Drawing::Color::WhiteSmoke;
+				this->listViewDisplay->BackColor = System::Drawing::Color::WhiteSmoke;
+				this->InputTextBox->BackColor = System::Drawing::Color::WhiteSmoke;
+				this->label1->ForeColor = System::Drawing::SystemColors::ControlDark;
+
+				this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+
+
+		 }
+private: System::Void blueTheme_Click(System::Object^  sender, System::EventArgs^  e) {
+
+				this->feedbackLabel->BackColor = System::Drawing::Color::Teal;
+				this->feedbackLabel->ForeColor = System::Drawing::Color::White;
+
+				this->label2->BackColor = System::Drawing::Color::DarkSlateGray;
+
+				this->helloLabel->BackColor = System::Drawing::Color::White;
+				this->helloLabel->ForeColor = System::Drawing::Color::Teal;
+
+				this->welcomeMsgLabel->BackColor = System::Drawing::Color::White;
+				this->welcomeMsgLabel->ForeColor = System::Drawing::Color::Teal;
+
+				this->TodayIsLabel->BackColor = System::Drawing::Color::White;
+				this->TodayIsLabel->ForeColor = System::Drawing::Color::Teal;
+
+				this->TodayDateTextbox->BackColor = System::Drawing::Color::White;
+				this->TodayDateTextbox->ForeColor = System::Drawing::Color::Teal;
+
+				this->displayTypeTexbox->BackColor = System::Drawing::Color::Teal;
+				this->displayTypeTexbox->ForeColor = System::Drawing::Color::White;
+
+				this->searchTextBox->BackColor = System::Drawing::Color::DarkCyan;
+				this->searchTextBox->ForeColor = System::Drawing::Color::White;
+
+				this->label4->BackColor = System::Drawing::Color::DarkCyan;
+				this->label4->ForeColor = System::Drawing::Color::White;
+
+				this->label5->BackColor = System::Drawing::Color::DarkCyan;
+				this->label5->ForeColor = System::Drawing::Color::White;
+
+				this->ExitButton->BackColor = System::Drawing::Color::Teal;
+				this->ExitButton->ForeColor = System::Drawing::Color::White;
+
+				this->button1->BackColor = System::Drawing::Color::Teal;
+				this->button1->ForeColor = System::Drawing::Color::White;
+
+				this->headerLabel->BackColor = System::Drawing::Color::DarkSlateGray;	
+
+				this->label3->BackColor = System::Drawing::Color::Teal;
+				this->label3->ForeColor = System::Drawing::Color::White;
+				
+				this->deadlineBG->BackColor = System::Drawing::Color::WhiteSmoke;
+				this->deadlineListView->BackColor = System::Drawing::Color::WhiteSmoke;
+				this->listViewDisplay->BackColor = System::Drawing::Color::WhiteSmoke;
+				this->InputTextBox->BackColor = System::Drawing::Color::WhiteSmoke;
+				this->label1->ForeColor = System::Drawing::Color::White;
+
+				this->BackColor = System::Drawing::Color::Teal;
 		 }
 };
 }
