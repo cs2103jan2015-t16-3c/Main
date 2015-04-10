@@ -95,6 +95,34 @@ namespace GUIProject {
 	private: System::Windows::Forms::Label^  pinkTheme;
 	private: System::Windows::Forms::Label^  label3;
 	private: System::Windows::Forms::Label^  deadlineBG;
+	private: System::Windows::Forms::Label^  helpButton;
+	private: System::Windows::Forms::Label^  helpPage;
+
+	private: System::Windows::Forms::Label^  helpLabel1;
+	private: System::Windows::Forms::Label^  helpLabel2;
+	private: System::Windows::Forms::Label^  helpLabel3;
+
+	private: System::Windows::Forms::Label^  helpLabel4;
+
+	private: System::Windows::Forms::Label^  helpLabel5;
+
+	private: System::Windows::Forms::Label^  helpLabel6;
+	private: System::Windows::Forms::Label^  helpLabel7;
+	private: System::Windows::Forms::Label^  helpLabel8;
+	private: System::Windows::Forms::Label^  helpLabel9;
+	private: System::Windows::Forms::Label^  helpPageClose;
+
+	private: System::Windows::Forms::Label^  helpLabel11;
+	private: System::Windows::Forms::Label^  helpLabel12;
+	private: System::Windows::Forms::Label^  helpLabel13;
+	private: System::Windows::Forms::Label^  helpLabel10;
+
+	private: System::Windows::Forms::Label^  helpLabel14;
+	private: System::Windows::Forms::Label^  helpLabel15;
+	private: System::Windows::Forms::Label^  helpLabel16;
+
+
+
 
 	protected: 
 
@@ -112,7 +140,7 @@ namespace GUIProject {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::ListViewItem^  listViewItem1 = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::Windows::Forms::ListViewItem::ListViewSubItem^  >(2) {(gcnew System::Windows::Forms::ListViewItem::ListViewSubItem(nullptr, 
+			System::Windows::Forms::ListViewItem^  listViewItem4 = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::Windows::Forms::ListViewItem::ListViewSubItem^  >(2) {(gcnew System::Windows::Forms::ListViewItem::ListViewSubItem(nullptr, 
 				L"tutorial", System::Drawing::Color::DimGray, System::Drawing::Color::WhiteSmoke, (gcnew System::Drawing::Font(L"Calibri", 
 				9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0))))), (gcnew System::Windows::Forms::ListViewItem::ListViewSubItem(nullptr, 
 				L"today", System::Drawing::Color::Gray, System::Drawing::Color::WhiteSmoke, (gcnew System::Drawing::Font(L"Calibri", 
@@ -147,6 +175,25 @@ namespace GUIProject {
 			this->pinkTheme = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->deadlineBG = (gcnew System::Windows::Forms::Label());
+			this->helpButton = (gcnew System::Windows::Forms::Label());
+			this->helpPage = (gcnew System::Windows::Forms::Label());
+			this->helpLabel1 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel2 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel3 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel4 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel5 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel6 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel7 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel8 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel9 = (gcnew System::Windows::Forms::Label());
+			this->helpPageClose = (gcnew System::Windows::Forms::Label());
+			this->helpLabel11 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel12 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel13 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel10 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel14 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel15 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel16 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// InputTextBox
@@ -351,9 +398,9 @@ namespace GUIProject {
 			this->displayTypeTexbox->Font = (gcnew System::Drawing::Font(L"Calibri Light", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->displayTypeTexbox->ForeColor = System::Drawing::Color::White;
-			this->displayTypeTexbox->Location = System::Drawing::Point(306, 29);
+			this->displayTypeTexbox->Location = System::Drawing::Point(306, 30);
 			this->displayTypeTexbox->Name = L"displayTypeTexbox";
-			this->displayTypeTexbox->Size = System::Drawing::Size(413, 49);
+			this->displayTypeTexbox->Size = System::Drawing::Size(671, 49);
 			this->displayTypeTexbox->TabIndex = 23;
 			this->displayTypeTexbox->Text = L"Today\'s task:";
 			// 
@@ -394,8 +441,8 @@ namespace GUIProject {
 				static_cast<System::Byte>(0)));
 			this->deadlineListView->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(64)));
-			listViewItem1->UseItemStyleForSubItems = false;
-			this->deadlineListView->Items->AddRange(gcnew cli::array< System::Windows::Forms::ListViewItem^  >(1) {listViewItem1});
+			listViewItem4->UseItemStyleForSubItems = false;
+			this->deadlineListView->Items->AddRange(gcnew cli::array< System::Windows::Forms::ListViewItem^  >(1) {listViewItem4});
 			this->deadlineListView->Location = System::Drawing::Point(53, 258);
 			this->deadlineListView->Name = L"deadlineListView";
 			this->deadlineListView->Scrollable = false;
@@ -427,7 +474,7 @@ namespace GUIProject {
 			this->searchTextBox->Name = L"searchTextBox";
 			this->searchTextBox->Size = System::Drawing::Size(258, 28);
 			this->searchTextBox->TabIndex = 28;
-			this->searchTextBox->Text = L"search";
+			this->searchTextBox->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &ConstanGUI::searchTextBox_KeyPress);
 			// 
 			// label4
 			// 
@@ -507,12 +554,239 @@ namespace GUIProject {
 			this->deadlineBG->Size = System::Drawing::Size(227, 222);
 			this->deadlineBG->TabIndex = 35;
 			// 
+			// helpButton
+			// 
+			this->helpButton->AutoSize = true;
+			this->helpButton->BackColor = System::Drawing::Color::Transparent;
+			this->helpButton->Font = (gcnew System::Drawing::Font(L"Calibri", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpButton->ForeColor = System::Drawing::Color::White;
+			this->helpButton->Location = System::Drawing::Point(612, 9);
+			this->helpButton->Name = L"helpButton";
+			this->helpButton->Size = System::Drawing::Size(19, 24);
+			this->helpButton->TabIndex = 36;
+			this->helpButton->Text = L"\?";
+			this->helpButton->Click += gcnew System::EventHandler(this, &ConstanGUI::helpButton_Click);
+			// 
+			// helpPage
+			// 
+			this->helpPage->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+			this->helpPage->Font = (gcnew System::Drawing::Font(L"Calibri Light", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpPage->ForeColor = System::Drawing::Color::White;
+			this->helpPage->ImageAlign = System::Drawing::ContentAlignment::TopLeft;
+			this->helpPage->Location = System::Drawing::Point(304, 40);
+			this->helpPage->Name = L"helpPage";
+			this->helpPage->Size = System::Drawing::Size(673, 436);
+			this->helpPage->TabIndex = 37;
+			this->helpPage->Text = L"Help Page";
+			// 
+			// helpLabel1
+			// 
+			this->helpLabel1->AutoSize = true;
+			this->helpLabel1->Font = (gcnew System::Drawing::Font(L"Calibri", 10.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel1->ForeColor = System::Drawing::Color::White;
+			this->helpLabel1->Location = System::Drawing::Point(313, 95);
+			this->helpLabel1->Name = L"helpLabel1";
+			this->helpLabel1->Size = System::Drawing::Size(217, 23);
+			this->helpLabel1->TabIndex = 38;
+			this->helpLabel1->Text = L"General command format:";
+			// 
+			// helpLabel2
+			// 
+			this->helpLabel2->Font = (gcnew System::Drawing::Font(L"Calibri", 9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel2->ForeColor = System::Drawing::Color::White;
+			this->helpLabel2->Location = System::Drawing::Point(331, 123);
+			this->helpLabel2->Name = L"helpLabel2";
+			this->helpLabel2->Size = System::Drawing::Size(98, 212);
+			this->helpLabel2->TabIndex = 39;
+			this->helpLabel2->Text = L"add...............\r\n\r\n\r\nsearch...........\r\nedit...............\r\ndelete..........." 
+				L"\r\nmark.............\r\nunmark.........\r\nundo.............\r\ndisplay..........";
+			// 
+			// helpLabel3
+			// 
+			this->helpLabel3->Font = (gcnew System::Drawing::Font(L"Calibri Light", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel3->ForeColor = System::Drawing::Color::White;
+			this->helpLabel3->Location = System::Drawing::Point(417, 123);
+			this->helpLabel3->Name = L"helpLabel3";
+			this->helpLabel3->Size = System::Drawing::Size(496, 56);
+			this->helpLabel3->TabIndex = 40;
+			this->helpLabel3->Text = L"for schedules:  add -t [task name] -s [start date] [start time] -e [end date] [en" 
+				L"d time]\r\nfor deadlines:  add -t [task name] -e [end date] [end time]\r\nfor to-dos" 
+				L":        add -t [task name] ";
+			// 
+			// helpLabel4
+			// 
+			this->helpLabel4->AutoSize = true;
+			this->helpLabel4->Font = (gcnew System::Drawing::Font(L"Calibri", 10.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel4->ForeColor = System::Drawing::Color::White;
+			this->helpLabel4->Location = System::Drawing::Point(313, 387);
+			this->helpLabel4->Name = L"helpLabel4";
+			this->helpLabel4->Size = System::Drawing::Size(179, 23);
+			this->helpLabel4->TabIndex = 41;
+			this->helpLabel4->Text = L"Changing preference:";
+			// 
+			// helpLabel5
+			// 
+			this->helpLabel5->AutoSize = true;
+			this->helpLabel5->Font = (gcnew System::Drawing::Font(L"Calibri", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel5->ForeColor = System::Drawing::Color::White;
+			this->helpLabel5->Location = System::Drawing::Point(334, 415);
+			this->helpLabel5->Name = L"helpLabel5";
+			this->helpLabel5->Size = System::Drawing::Size(132, 18);
+			this->helpLabel5->TabIndex = 42;
+			this->helpLabel5->Text = L"Choose color theme";
+			// 
+			// helpLabel6
+			// 
+			this->helpLabel6->BackColor = System::Drawing::SystemColors::WindowFrame;
+			this->helpLabel6->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->helpLabel6->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->helpLabel6->Location = System::Drawing::Point(337, 439);
+			this->helpLabel6->Name = L"helpLabel6";
+			this->helpLabel6->Size = System::Drawing::Size(30, 30);
+			this->helpLabel6->TabIndex = 43;
+			// 
+			// helpLabel7
+			// 
+			this->helpLabel7->BackColor = System::Drawing::Color::DarkSlateGray;
+			this->helpLabel7->Location = System::Drawing::Point(452, 439);
+			this->helpLabel7->Name = L"helpLabel7";
+			this->helpLabel7->Size = System::Drawing::Size(30, 30);
+			this->helpLabel7->TabIndex = 44;
+			// 
+			// helpLabel8
+			// 
+			this->helpLabel8->BackColor = System::Drawing::Color::Crimson;
+			this->helpLabel8->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->helpLabel8->Location = System::Drawing::Point(551, 439);
+			this->helpLabel8->Name = L"helpLabel8";
+			this->helpLabel8->Size = System::Drawing::Size(30, 30);
+			this->helpLabel8->TabIndex = 45;
+			// 
+			// helpLabel9
+			// 
+			this->helpLabel9->Font = (gcnew System::Drawing::Font(L"Calibri Light", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel9->ForeColor = System::Drawing::Color::White;
+			this->helpLabel9->Location = System::Drawing::Point(366, 435);
+			this->helpLabel9->Name = L"helpLabel9";
+			this->helpLabel9->Size = System::Drawing::Size(291, 39);
+			this->helpLabel9->TabIndex = 46;
+			this->helpLabel9->Text = L"Grey                              Teal                         Crimson\r\n(default)" 
+				L"";
+			// 
+			// helpPageClose
+			// 
+			this->helpPageClose->AutoSize = true;
+			this->helpPageClose->Font = (gcnew System::Drawing::Font(L"Calibri", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpPageClose->ForeColor = System::Drawing::Color::White;
+			this->helpPageClose->Location = System::Drawing::Point(849, 451);
+			this->helpPageClose->Name = L"helpPageClose";
+			this->helpPageClose->Size = System::Drawing::Size(125, 18);
+			this->helpPageClose->TabIndex = 47;
+			this->helpPageClose->Text = L"close Help Page [x]";
+			this->helpPageClose->Click += gcnew System::EventHandler(this, &ConstanGUI::helpPageClose_Click);
+			// 
+			// helpLabel11
+			// 
+			this->helpLabel11->AutoSize = true;
+			this->helpLabel11->Font = (gcnew System::Drawing::Font(L"Calibri", 10.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel11->ForeColor = System::Drawing::Color::White;
+			this->helpLabel11->Location = System::Drawing::Point(313, 313);
+			this->helpLabel11->Name = L"helpLabel11";
+			this->helpLabel11->Size = System::Drawing::Size(232, 23);
+			this->helpLabel11->TabIndex = 48;
+			this->helpLabel11->Text = L"Accepted date/time format:";
+			// 
+			// helpLabel12
+			// 
+			this->helpLabel12->AutoSize = true;
+			this->helpLabel12->Font = (gcnew System::Drawing::Font(L"Calibri", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel12->ForeColor = System::Drawing::Color::White;
+			this->helpLabel12->Location = System::Drawing::Point(334, 341);
+			this->helpLabel12->Name = L"helpLabel12";
+			this->helpLabel12->Size = System::Drawing::Size(47, 21);
+			this->helpLabel12->TabIndex = 49;
+			this->helpLabel12->Text = L"Date:\r";
+			// 
+			// helpLabel13
+			// 
+			this->helpLabel13->AutoSize = true;
+			this->helpLabel13->Font = (gcnew System::Drawing::Font(L"Calibri Light", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel13->ForeColor = System::Drawing::Color::White;
+			this->helpLabel13->Location = System::Drawing::Point(381, 343);
+			this->helpLabel13->Name = L"helpLabel13";
+			this->helpLabel13->Size = System::Drawing::Size(202, 36);
+			this->helpLabel13->TabIndex = 50;
+			this->helpLabel13->Text = L"DDMMYYYY (eg. 13042015)\r\nDD MMM YYYY (eg 13 Apr 2015)";
+			// 
+			// helpLabel10
+			// 
+			this->helpLabel10->AutoSize = true;
+			this->helpLabel10->Font = (gcnew System::Drawing::Font(L"Calibri Light", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel10->ForeColor = System::Drawing::Color::White;
+			this->helpLabel10->Location = System::Drawing::Point(639, 343);
+			this->helpLabel10->Name = L"helpLabel10";
+			this->helpLabel10->Size = System::Drawing::Size(256, 36);
+			this->helpLabel10->TabIndex = 52;
+			this->helpLabel10->Text = L"HHMM (eg. 1200)\r\n0000 = 12:00 a.m.  to  2359 = 11:59 p.m.\r\n";
+			// 
+			// helpLabel14
+			// 
+			this->helpLabel14->AutoSize = true;
+			this->helpLabel14->Font = (gcnew System::Drawing::Font(L"Calibri", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel14->ForeColor = System::Drawing::Color::White;
+			this->helpLabel14->Location = System::Drawing::Point(592, 341);
+			this->helpLabel14->Name = L"helpLabel14";
+			this->helpLabel14->Size = System::Drawing::Size(49, 21);
+			this->helpLabel14->TabIndex = 51;
+			this->helpLabel14->Text = L"Time:";
+			// 
+			// helpLabel15
+			// 
+			this->helpLabel15->Font = (gcnew System::Drawing::Font(L"Calibri Light", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel15->ForeColor = System::Drawing::Color::White;
+			this->helpLabel15->Location = System::Drawing::Point(417, 176);
+			this->helpLabel15->Name = L"helpLabel15";
+			this->helpLabel15->Size = System::Drawing::Size(496, 56);
+			this->helpLabel15->TabIndex = 53;
+			this->helpLabel15->Text = L"search [keyword(s)]\r\nedit add -t [task name] -s [start date] [start time] -e [end" 
+				L" date] [end time]\r\ndelete [index]";
+			// 
+			// helpLabel16
+			// 
+			this->helpLabel16->Font = (gcnew System::Drawing::Font(L"Calibri Light", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel16->ForeColor = System::Drawing::Color::White;
+			this->helpLabel16->Location = System::Drawing::Point(417, 231);
+			this->helpLabel16->Name = L"helpLabel16";
+			this->helpLabel16->Size = System::Drawing::Size(496, 82);
+			this->helpLabel16->TabIndex = 54;
+			this->helpLabel16->Text = L"mark [index]\r\nunmark [index]\r\nundo\r\ndisplay all/today/tomorrow";
+			// 
 			// ConstanGUI
 			// 
 			this->AutoScroll = true;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(64)));
 			this->ClientSize = System::Drawing::Size(1000, 562);
+			this->Controls->Add(this->headerLabel);
+			this->Controls->Add(this->listViewDisplay);
+			this->Controls->Add(this->helpButton);
 			this->Controls->Add(this->pinkTheme);
 			this->Controls->Add(this->blueTheme);
 			this->Controls->Add(this->greyTheme);
@@ -521,20 +795,36 @@ namespace GUIProject {
 			this->Controls->Add(this->searchTextBox);
 			this->Controls->Add(this->TodayDateTextbox);
 			this->Controls->Add(this->TodayIsLabel);
-			this->Controls->Add(this->headerLabel);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->ExitButton);
 			this->Controls->Add(this->welcomeMsgLabel);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->InputTextBox);
-			this->Controls->Add(this->listViewDisplay);
 			this->Controls->Add(this->helloLabel);
-			this->Controls->Add(this->displayTypeTexbox);
 			this->Controls->Add(this->feedbackLabel);
 			this->Controls->Add(this->deadlineListView);
 			this->Controls->Add(this->deadlineBG);
 			this->Controls->Add(this->label3);
+			this->Controls->Add(this->displayTypeTexbox);
+			this->Controls->Add(this->helpLabel16);
+			this->Controls->Add(this->helpLabel15);
+			this->Controls->Add(this->helpLabel10);
+			this->Controls->Add(this->helpLabel14);
+			this->Controls->Add(this->helpLabel13);
+			this->Controls->Add(this->helpLabel12);
+			this->Controls->Add(this->helpLabel11);
+			this->Controls->Add(this->helpPageClose);
+			this->Controls->Add(this->helpLabel8);
+			this->Controls->Add(this->helpLabel7);
+			this->Controls->Add(this->helpLabel9);
+			this->Controls->Add(this->helpLabel6);
+			this->Controls->Add(this->helpLabel5);
+			this->Controls->Add(this->helpLabel4);
+			this->Controls->Add(this->helpLabel3);
+			this->Controls->Add(this->helpLabel2);
+			this->Controls->Add(this->helpLabel1);
+			this->Controls->Add(this->helpPage);
 			this->Font = (gcnew System::Drawing::Font(L"Calibri", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
@@ -560,16 +850,19 @@ private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::W
 					  //convert to std string
 					  command = msclr::interop::marshal_as < std::string > (userInput); 
 					 
-					  if (command == "clr") {
+					  if (command == "clr" || command == "Clr") {
 						//clear screen
 						  listViewDisplay->Items->Clear(); 
 						return;
 					  }
 
 					  if (command == "") {
-						return; //HOW TO EXIT PROGRAM???
+						return;
 					  }
 
+					  if (command == "exit" || command == "Exit") {
+						  Application::Exit();
+					  }
 					  //pass command to TextUI.h class to be passed to logic and then processed
 					  userInterface.processUserInput(command);
 					  Print();
@@ -581,6 +874,33 @@ private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::W
 					  //MessageBox::Show(input);
 					  //TestInput a;
 					  //a.userInput = input;
+		 }
+
+
+private: System::Void searchTextBox_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
+			
+			 if (e->KeyChar == /*Keys::Enter*/ (char)13){
+				 feedbackLabel->Text = "";
+				 //clear the display box first
+				 listViewDisplay->Items->Clear(); 
+					  
+					  String^ userSearchInput;
+					  string search = "search ";
+					  userSearchInput = searchTextBox->Text; //System String
+					  //convert to std string
+					  command = search + msclr::interop::marshal_as < std::string > (userSearchInput);
+					 
+					  if (command == "") {
+						return;
+					  }
+
+					  userInterface.processUserInput(command);
+					  Print();
+
+					  searchTextBox->Text = "";
+
+					  e->Handled = true;
+			 }
 		 }
 
 
@@ -798,9 +1118,9 @@ private: System::Void PrintDeadline() {
 
 						  aListViewItem->UseItemStyleForSubItems = false;
 						  aListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::Windows::Forms::ListViewItem::ListViewSubItem^  >(2) {(gcnew System::Windows::Forms::ListViewItem::ListViewSubItem(nullptr, 
-							taskTitle, chosenColor, System::Drawing::Color::WhiteSmoke, (gcnew System::Drawing::Font(L"Calibri", 
+							  taskTitle, chosenColor, chosenBGColor, (gcnew System::Drawing::Font(L"Calibri", 
 							9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0))))), (gcnew System::Windows::Forms::ListViewItem::ListViewSubItem(nullptr, 
-							deadline, System::Drawing::Color::DimGray, System::Drawing::Color::WhiteSmoke, (gcnew System::Drawing::Font(L"Calibri Light", 
+							deadline, chosenColor, chosenBGColor, (gcnew System::Drawing::Font(L"Calibri Light", 
 							9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)))))}, -1));
 
 						  deadlineListView->Items->Add(this->aListViewItem);
@@ -879,7 +1199,9 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 		 }
 
 private: System::Void pinkTheme_Click(System::Object^  sender, System::EventArgs^  e) {
+				
 				this->chosenColor = System::Drawing::Color::LightCoral;
+				this->chosenBGColor = System::Drawing::Color::White;
 
 //				PrintDeadline();
 
@@ -933,7 +1255,11 @@ private: System::Void pinkTheme_Click(System::Object^  sender, System::EventArgs
 
 		 }
 private: System::Void greyTheme_Click(System::Object^  sender, System::EventArgs^  e) {
+				
+				this->chosenColor = System::Drawing::Color::DimGray;
+				this->chosenBGColor = System::Drawing::Color::WhiteSmoke;
 
+				//PrintDeadline();
 
 				this->feedbackLabel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(64)));
@@ -995,6 +1321,11 @@ private: System::Void greyTheme_Click(System::Object^  sender, System::EventArgs
 		 }
 private: System::Void blueTheme_Click(System::Object^  sender, System::EventArgs^  e) {
 
+				this->chosenColor = System::Drawing::Color::Teal;
+				this->chosenBGColor = System::Drawing::Color::WhiteSmoke;
+
+				//PrintDeadline();
+			 
 				this->feedbackLabel->BackColor = System::Drawing::Color::Teal;
 				this->feedbackLabel->ForeColor = System::Drawing::Color::White;
 
@@ -1042,6 +1373,52 @@ private: System::Void blueTheme_Click(System::Object^  sender, System::EventArgs
 				this->label1->ForeColor = System::Drawing::Color::White;
 
 				this->BackColor = System::Drawing::Color::Teal;
+		 }
+
+private: System::Void helpButton_Click(System::Object^  sender, System::EventArgs^  e) {
+			 
+			 helpPage->BringToFront();
+			 helpLabel1->BringToFront();
+			 helpLabel2->BringToFront();
+			 helpLabel3->BringToFront();
+			 helpLabel4->BringToFront();
+			 helpLabel5->BringToFront();
+			 helpLabel6->BringToFront();
+			 helpLabel9->BringToFront();
+			 helpLabel7->BringToFront();
+			 helpLabel8->BringToFront();		 
+			 helpLabel10->BringToFront();
+			 helpLabel11->BringToFront();
+			 helpLabel12->BringToFront();
+			 helpLabel13->BringToFront();
+			 helpLabel14->BringToFront();
+			 helpLabel15->BringToFront();
+			 helpLabel16->BringToFront();
+			 helpPageClose->BringToFront();
+
+		 }
+
+
+private: System::Void helpPageClose_Click(System::Object^  sender, System::EventArgs^  e) {
+			 
+			 helpLabel1->SendToBack();
+			 helpLabel2->SendToBack();
+			 helpLabel3->SendToBack();
+			 helpLabel4->SendToBack();
+			 helpLabel5->SendToBack();
+			 helpLabel6->SendToBack();
+			 helpLabel7->SendToBack();
+			 helpLabel8->SendToBack();
+			 helpLabel9->SendToBack();
+			 helpLabel10->SendToBack();
+			 helpLabel11->SendToBack();
+			 helpLabel12->SendToBack();
+			 helpLabel13->SendToBack();
+			 helpLabel14->SendToBack();
+			 helpLabel15->SendToBack();
+			 helpLabel16->SendToBack();
+			 helpPageClose->SendToBack();
+			 helpPage->SendToBack();
 		 }
 };
 }
