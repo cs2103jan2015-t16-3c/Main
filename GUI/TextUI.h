@@ -74,9 +74,12 @@ public:
 	Logic toLogic;
 	vector<string>* _feedback;
 	vector<Task>* _displayVector;
+	vector<Task>* _deadlineVector;
 	string feedback;
 	string display;
+	string displayDeadline;
 	int noOfTask;
+	int noOfDeadline;
 
     //string getFirstWord(string userCommand);
     COMMAND_TYPE_FEEDBACK determineCommandType(string commandTypeString);
@@ -91,6 +94,8 @@ public:
 	void setDisplay();
 	void getDisplayVector();
 	void unparseDisplayVector();
+//	void getDeadlineVector();
+	void unparseDeadlineVector();
 	string formatDate(string date);
 	string formatTime(string time);
 
@@ -99,7 +104,9 @@ public:
     ~TextUI(void);
 	string showFeedback();
 	string showDisplay();
+	string showDeadline();
 	int getNoOfTask();
+	int getNoOfDeadline();
     void processUserInput(string command);
 
 };

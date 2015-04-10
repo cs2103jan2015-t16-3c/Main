@@ -189,6 +189,8 @@ void TextUI::setDisplay() {
 
 	getDisplayVector();
 	unparseDisplayVector();
+//	getDeadlineVector();
+	unparseDeadlineVector();
 }
 
 void TextUI::getDisplayVector() { 
@@ -205,20 +207,54 @@ void TextUI::unparseDisplayVector() {
 
 		string taskName = _displayVector->at(i).getTaskName();
 		//taskName = convertToCorrectFormat(taskName);
+
 		string startDate = _displayVector->at(i).getStartDate();
-		startDate = formatDate(startDate);
+		if (startDate != "NULL")
+			startDate = formatDate(startDate);
 
 		string startTime = _displayVector->at(i).getStartTime();
-		startTime = formatTime(startTime);
+		if (startTime != "NULL")
+			startTime = formatTime(startTime);
 
 		string endDate = _displayVector->at(i).getEndDate();
-		endDate = formatDate(endDate);
+		if (endDate != "NULL")
+			endDate = formatDate(endDate);
 
 		string endTime = _displayVector->at(i).getEndTime();
-		endTime = formatTime(endTime);
+		if (endTime != "NULL")
+			endTime = formatTime(endTime);
 
 		string status = _displayVector->at(i).getCompletionStatusAsString();
 		display = display + taskName + "]" + startDate + "]" + startTime + "]" + endDate + "]" + endTime + "]" + status + "]";
+	}
+}
+/*
+void TextUI::getDeadlineVector() { 
+
+	_deadlineVector =  toLogic.getDeadlineVector();
+
+}
+*/
+
+void TextUI::unparseDeadlineVector() {
+
+	displayDeadline = EMPTY_STRING;
+
+	for ( size_t i=0 ; i < _deadlineVector->size() ; i++ ) {
+
+		string taskName = _deadlineVector->at(i).getTaskName();
+		//taskName = convertToCorrectFormat(taskName);
+
+		string endDate = _displayVector->at(i).getEndDate();
+			endDate = formatDate(endDate);
+
+		string endTime = _displayVector->at(i).getEndTime();
+			endTime = formatTime(endTime);
+
+		string status = _displayVector->at(i).getCompletionStatusAsString();
+
+		if (status == "undone")
+			displayDeadline = displayDeadline + taskName + "]" + endDate + "]" + endTime + "]";
 	}
 }
 
@@ -292,9 +328,19 @@ string TextUI::showDisplay() {
 	return display;
 }
 
+string TextUI::showDeadline() {
+
+	return displayDeadline;
+}
+
 int TextUI::getNoOfTask() {
 	noOfTask = _displayVector->size();
 	return noOfTask;
+}
+
+int TextUI::getNoOfDeadline() {
+	noOfDeadline = _deadlineVector->size();
+	return noOfDeadline;
 }
 
 /*

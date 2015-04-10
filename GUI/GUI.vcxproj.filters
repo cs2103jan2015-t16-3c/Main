@@ -44,14 +44,4 @@
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="GUI.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="CONSTAN LOGO.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
 </Project>
