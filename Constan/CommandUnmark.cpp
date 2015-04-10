@@ -3,6 +3,7 @@
 CommandUnmark::CommandUnmark(int index, vector<Task>* currentDisplay) {
 	_index = index;
 	_currentDisplay = currentDisplay;
+	_taskID = EMPTY_NUMBER;
 }
 
 CommandUnmark::CommandUnmark(vector<Task>* currentDisplay, int taskID) {

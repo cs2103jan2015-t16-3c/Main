@@ -53,7 +53,11 @@ static const string INVALID_COMMAND_SEARCH = "search";
 static const string INVALID_COMMAND_UNDO = "undo";
 static const string INVALID_COMMAND_UNMARK = "unmark";
 
+static const string DEFAULT_REPORT_STRING = "invalidCommand";
+
 static const int INDEX_NOT_FOUND = -1;
+static const int ZERO = 0;
+static const int SIZE_TIME_STRING = 4;
 
 
 enum MONTH_NAME {
@@ -126,6 +130,7 @@ public:
 //	string convertTaskToString(Task& task);
 	string readDate(string input);
 	string intToString(int);
+	string verifyTime(string input);
 
 	int stringToInt(string);
 	int findFirstDelimiter(vector<string> &inputVector);

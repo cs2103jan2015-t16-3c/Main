@@ -29,15 +29,14 @@ void Parser::updateInverseCommandStack(stack<Command*> *inverseCommandStack) {
 
 Command* Parser::translateInput(vector<string>& inputVector) {
 	COMMAND_TYPE commandType = determineCommandType(inputVector[0]);
-	_report = NULL_STRING;
+	_report = DEFAULT_REPORT_STRING;
 	getReportType(inputVector);
-	if (commandType == ADD) {
-			getTaskName(inputVector);			
-			if(_report != NULL_STRING){
+	if (commandType == ADD) {	
+			if(_report != DEFAULT_REPORT_STRING){
 				CommandInvalid* invalidEntry = new CommandInvalid (_report);
 			    return invalidEntry;
-			}
-			else {
+			} else {
+				getTaskName(inputVector);	
 				getStartingTime(inputVector);
 				getEndingTime(inputVector);
 				generateTaskID();
@@ -45,41 +44,37 @@ Command* Parser::translateInput(vector<string>& inputVector) {
 				return addTask;
 			}
 	} else if (commandType == DELETE_IT) {
-			if(_report != NULL_STRING){
+			if(_report != DEFAULT_REPORT_STRING){
 				CommandInvalid* invalidEntry = new CommandInvalid (_report);
 				return invalidEntry;
-			}
-			else {
+			} else {
 				getIndex(inputVector);
 				CommandDelete* deleteTask = new CommandDelete (_index, _currentDisplay);
 				return deleteTask;
 			}
 	} else if (commandType == DISPLAY) {			
-			if(_report != NULL_STRING){
+			if(_report != DEFAULT_REPORT_STRING){
 				CommandInvalid* invalidEntry = new CommandInvalid (_report);
 			    return invalidEntry;
-			}
-			else {
+			} else {
 				getDisplayType(inputVector);
 				CommandDisplay* displayTask = new CommandDisplay (_displayType, _currentDisplay);
 				return displayTask;
 			}
 	} else if (commandType == SEARCH) {
-			if(_report != NULL_STRING){
+			if(_report != DEFAULT_REPORT_STRING){
 				CommandInvalid* invalidEntry = new CommandInvalid (_report);
 			    return invalidEntry;
-			}
-			else {
+			} else {
 				getKeyword(inputVector);
 				CommandSearch* searchTask = new CommandSearch (_keyword);
 				return searchTask;
 			}
 	} else if (commandType == EDIT) {
-			if(_report != NULL_STRING){
+			if(_report != DEFAULT_REPORT_STRING){
 				CommandInvalid* invalidEntry = new CommandInvalid (_report);
 			    return invalidEntry;
-			}
-			else {
+			} else {
 				getIndex(inputVector);
 				getTaskName(inputVector);
 				getStartingTime(inputVector);
@@ -88,21 +83,19 @@ Command* Parser::translateInput(vector<string>& inputVector) {
 				return editTask;
 			}
 	} else if (commandType == MARK) {
-			if(_report != NULL_STRING){
+			if(_report != DEFAULT_REPORT_STRING){
 				CommandInvalid* invalidEntry = new CommandInvalid (_report);
 				return invalidEntry;
-			}
-			else {
+			} else {
 				getIndex(inputVector);
 				CommandMark* markTask = new CommandMark (_index, _currentDisplay);
 				return markTask;
 			}
 	} else if (commandType == UNMARK) {
-			if(_report != NULL_STRING){
+			if(_report != DEFAULT_REPORT_STRING){
 				CommandInvalid* invalidEntry = new CommandInvalid (_report);
 				return invalidEntry;
-			}
-			else {
+			} else {
 				getIndex(inputVector);
 				CommandUnmark* unmarkTask = new CommandUnmark (_index, _currentDisplay);
 				return unmarkTask;
@@ -228,6 +221,7 @@ void Parser::getEndingTime(vector<string> &inputVector) {
 		_endDate = tempString.substr(startIndex, partitionIndex-startIndex);
 		_endDate = readDate(_endDate);
 		_endTime = tempString.substr(partitionIndex+1);
+		_endTime = verifyTime(_endTime);
 	} else {
 		_endDate = NULL_STRING;
 		_endTime = NULL_STRING;
@@ -249,18 +243,26 @@ void Parser::getStartingTime(vector<string> &inputVector) {
 		_startDate = tempString.substr(startIndex, partitionIndex-startIndex);
 		_startDate = readDate(_startDate);
 		_startTime = tempString.substr(partitionIndex+1);
+		_startTime = verifyTime(_startTime);
 	} else {
 		_startDate = NULL_STRING;
 		_startTime = NULL_STRING;
 	}
 }
 
+string Parser::verifyTime(string input) {
+	if (input.size() == SIZE_TIME_STRING) {
+		return input;
+	}
+	return NULL_STRING;
+}
+
 string Parser::readDate(string input) {
 	if (isNumberFound(input)) {
-//		if (input.size() > 9) {
+		if (input.size() > 4) {
 			return processDate(input);
-//		} else
-//			return input;
+		} else
+			return NULL_STRING;
 	} else {
 		//ALPHABETICAL_DATE alphaDate = determineAlphabeticalDate(input);
 		switch (determineAlphabeticalDate(input)){
@@ -308,7 +310,11 @@ void Parser::getTaskName(vector<string> &inputVector) {
 			tempString = tempString + WHITE_SPACE + inputVector[index];
 			index++;
 		}
-		_taskName = tempString.substr(1);
+		if (tempString.size() == ZERO) {
+			_taskName = NULL_STRING;
+		} else {
+			_taskName = tempString.substr(1);
+		}
 	} else {
 		_taskName = NULL_STRING;
 	}
