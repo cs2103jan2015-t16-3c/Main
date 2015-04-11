@@ -15,9 +15,11 @@ using namespace std;
 class Logic {
 private:
 	vector<Task>* _currentDisplay;
+	vector<Task>* _deadlineVector;
 	vector<string>* _feedbackLogic;
 	stack<Command*> inverseCommandStack;
 	Parser parser;
+	string _todayDate;
 
 public:
 	Logic();
@@ -25,6 +27,8 @@ public:
 	void processCommand(string input);
 	//vector<string>* getDisplay();
 	vector<string>* getFeedback();
+	vector<Task>* getDeadlineVector();
+	string getTodayDate();
 
 	vector<Task>* getDisplayVector();
 //	string getFeedback();
