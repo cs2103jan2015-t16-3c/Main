@@ -78,6 +78,7 @@ public:
 	string processTomorrow();
 	string intToString(int);
 	int stringToInt(string);
+	string retrieveTodayDate();
 };
 
 #endif

@@ -30,3 +30,15 @@ vector<Task>* Command::updateDisplay(){
 vector<string>* Command::updateFeedback(){
 	return _feedback;
 }
+
+vector<Task>* Command::updateDeadline() {
+	_deadlineVector = TaskManager::getInstance()->retrieveDeadline(DISPLAY_TODAY);
+	_mergedDisplay = _deadlineVector;
+	_deadlineVector = TaskManager::getInstance()->retrieveDeadline(DISPLAY_TOMORROW);
+	_mergedDisplay->insert (_mergedDisplay->end(), _deadlineVector->begin(), _deadlineVector->end());
+	return _mergedDisplay;
+}
+
+string Command::updateTodayDate() {
+	return TaskManager::getInstance()->retrieveTodayDate();
+}

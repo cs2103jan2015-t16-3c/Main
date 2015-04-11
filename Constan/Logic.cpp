@@ -15,6 +15,8 @@ void Logic::processCommand(string input) {
 	}
 	_currentDisplay = cmd->updateDisplay();
 	_feedbackLogic = cmd->updateFeedback();
+	_deadlineVector = cmd->updateDeadline();
+	_todayDate = cmd->updateTodayDate();
 	parser.updateDisplay(_currentDisplay);
 	parser.updateInverseCommandStack(&inverseCommandStack);
 }
@@ -32,6 +34,14 @@ vector<string>* Logic::getFeedback() {
 
 vector<Task>* Logic::getDisplayVector() {
 	return _currentDisplay;
+}
+
+vector<Task>* Logic::getDeadlineVector() {
+	return _deadlineVector;
+}
+
+string Logic::getTodayDate() {
+	return _todayDate;
 }
 
 /*
