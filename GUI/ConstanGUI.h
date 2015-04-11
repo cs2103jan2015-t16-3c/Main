@@ -198,12 +198,12 @@ namespace GUIProject {
 			// InputTextBox
 			// 
 			this->InputTextBox->BackColor = System::Drawing::Color::WhiteSmoke;
-			this->InputTextBox->Font = (gcnew System::Drawing::Font(L"Open Sans", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+			this->InputTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->InputTextBox->ForeColor = System::Drawing::Color::Black;
 			this->InputTextBox->Location = System::Drawing::Point(509, 508);
 			this->InputTextBox->Name = L"InputTextBox";
-			this->InputTextBox->Size = System::Drawing::Size(468, 25);
+			this->InputTextBox->Size = System::Drawing::Size(468, 19);
 			this->InputTextBox->TabIndex = 7;
 			this->InputTextBox->TextChanged += gcnew System::EventHandler(this, &ConstanGUI::InputTextBox_TextChanged);
 			this->InputTextBox->DoubleClick += gcnew System::EventHandler(this, &ConstanGUI::InputTextBox_DoubleClick);
@@ -290,7 +290,7 @@ namespace GUIProject {
 			this->label1->ForeColor = System::Drawing::SystemColors::ControlDark;
 			this->label1->Location = System::Drawing::Point(517, 536);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(281, 15);
+			this->label1->Size = System::Drawing::Size(244, 13);
 			this->label1->TabIndex = 9;
 			this->label1->Text = L"add / display / edit / delete / mark / unmark / search";
 			// 
@@ -329,7 +329,7 @@ namespace GUIProject {
 			this->welcomeMsgLabel->ForeColor = System::Drawing::Color::White;
 			this->welcomeMsgLabel->Location = System::Drawing::Point(53, 102);
 			this->welcomeMsgLabel->Name = L"welcomeMsgLabel";
-			this->welcomeMsgLabel->Size = System::Drawing::Size(164, 21);
+			this->welcomeMsgLabel->Size = System::Drawing::Size(132, 17);
 			this->welcomeMsgLabel->TabIndex = 12;
 			this->welcomeMsgLabel->Text = L"Welcome to CONSTAN";
 			// 
@@ -397,9 +397,9 @@ namespace GUIProject {
 			this->displayTypeTexbox->Font = (gcnew System::Drawing::Font(L"Calibri Light", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->displayTypeTexbox->ForeColor = System::Drawing::Color::White;
-			this->displayTypeTexbox->Location = System::Drawing::Point(306, 30);
+			this->displayTypeTexbox->Location = System::Drawing::Point(306, 37);
 			this->displayTypeTexbox->Name = L"displayTypeTexbox";
-			this->displayTypeTexbox->Size = System::Drawing::Size(671, 49);
+			this->displayTypeTexbox->Size = System::Drawing::Size(671, 40);
 			this->displayTypeTexbox->TabIndex = 23;
 			this->displayTypeTexbox->Text = L"Today\'s task:";
 			// 
@@ -412,7 +412,7 @@ namespace GUIProject {
 			this->TodayIsLabel->ForeColor = System::Drawing::Color::White;
 			this->TodayIsLabel->Location = System::Drawing::Point(53, 144);
 			this->TodayIsLabel->Name = L"TodayIsLabel";
-			this->TodayIsLabel->Size = System::Drawing::Size(65, 21);
+			this->TodayIsLabel->Size = System::Drawing::Size(52, 17);
 			this->TodayIsLabel->TabIndex = 24;
 			this->TodayIsLabel->Text = L"Today is";
 			// 
@@ -425,7 +425,7 @@ namespace GUIProject {
 			this->TodayDateTextbox->ForeColor = System::Drawing::Color::White;
 			this->TodayDateTextbox->Location = System::Drawing::Point(57, 165);
 			this->TodayDateTextbox->Name = L"TodayDateTextbox";
-			this->TodayDateTextbox->Size = System::Drawing::Size(188, 25);
+			this->TodayDateTextbox->Size = System::Drawing::Size(188, 20);
 			this->TodayDateTextbox->TabIndex = 25;
 			this->TodayDateTextbox->Text = L"12 March 2015";
 			// 
@@ -471,7 +471,7 @@ namespace GUIProject {
 			this->searchTextBox->ForeColor = System::Drawing::Color::White;
 			this->searchTextBox->Location = System::Drawing::Point(642, 8);
 			this->searchTextBox->Name = L"searchTextBox";
-			this->searchTextBox->Size = System::Drawing::Size(258, 28);
+			this->searchTextBox->Size = System::Drawing::Size(258, 24);
 			this->searchTextBox->TabIndex = 28;
 			this->searchTextBox->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &ConstanGUI::searchTextBox_KeyPress);
 			// 
@@ -484,7 +484,7 @@ namespace GUIProject {
 			this->label4->ForeColor = System::Drawing::Color::White;
 			this->label4->Location = System::Drawing::Point(879, 14);
 			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(17, 21);
+			this->label4->Size = System::Drawing::Size(14, 17);
 			this->label4->TabIndex = 29;
 			this->label4->Text = L"/";
 			// 
@@ -497,7 +497,7 @@ namespace GUIProject {
 			this->label5->ImageAlign = System::Drawing::ContentAlignment::BottomLeft;
 			this->label5->Location = System::Drawing::Point(879, 9);
 			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(20, 18);
+			this->label5->Size = System::Drawing::Size(16, 16);
 			this->label5->TabIndex = 30;
 			this->label5->Text = L"O";
 			this->label5->TextAlign = System::Drawing::ContentAlignment::BottomLeft;
@@ -540,7 +540,7 @@ namespace GUIProject {
 			this->label3->ForeColor = System::Drawing::Color::White;
 			this->label3->Location = System::Drawing::Point(34, 226);
 			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(138, 29);
+			this->label3->Size = System::Drawing::Size(110, 23);
 			this->label3->TabIndex = 34;
 			this->label3->Text = L"Deadline due";
 			// 
@@ -562,7 +562,7 @@ namespace GUIProject {
 			this->helpButton->ForeColor = System::Drawing::Color::White;
 			this->helpButton->Location = System::Drawing::Point(612, 9);
 			this->helpButton->Name = L"helpButton";
-			this->helpButton->Size = System::Drawing::Size(19, 24);
+			this->helpButton->Size = System::Drawing::Size(16, 19);
 			this->helpButton->TabIndex = 36;
 			this->helpButton->Text = L"\?";
 			this->helpButton->Click += gcnew System::EventHandler(this, &ConstanGUI::helpButton_Click);
@@ -589,7 +589,7 @@ namespace GUIProject {
 			this->helpLabel1->ForeColor = System::Drawing::Color::White;
 			this->helpLabel1->Location = System::Drawing::Point(313, 95);
 			this->helpLabel1->Name = L"helpLabel1";
-			this->helpLabel1->Size = System::Drawing::Size(217, 23);
+			this->helpLabel1->Size = System::Drawing::Size(171, 18);
 			this->helpLabel1->TabIndex = 38;
 			this->helpLabel1->Text = L"General command format:";
 			// 
@@ -626,7 +626,7 @@ namespace GUIProject {
 			this->helpLabel4->ForeColor = System::Drawing::Color::White;
 			this->helpLabel4->Location = System::Drawing::Point(313, 387);
 			this->helpLabel4->Name = L"helpLabel4";
-			this->helpLabel4->Size = System::Drawing::Size(85, 23);
+			this->helpLabel4->Size = System::Drawing::Size(66, 18);
 			this->helpLabel4->TabIndex = 41;
 			this->helpLabel4->Text = L"Hot Keys:";
 			// 
@@ -638,7 +638,7 @@ namespace GUIProject {
 			this->helpPageClose->ForeColor = System::Drawing::Color::White;
 			this->helpPageClose->Location = System::Drawing::Point(849, 451);
 			this->helpPageClose->Name = L"helpPageClose";
-			this->helpPageClose->Size = System::Drawing::Size(125, 18);
+			this->helpPageClose->Size = System::Drawing::Size(110, 14);
 			this->helpPageClose->TabIndex = 47;
 			this->helpPageClose->Text = L"close Help Page [x]";
 			this->helpPageClose->Click += gcnew System::EventHandler(this, &ConstanGUI::helpPageClose_Click);
@@ -651,7 +651,7 @@ namespace GUIProject {
 			this->helpLabel11->ForeColor = System::Drawing::Color::White;
 			this->helpLabel11->Location = System::Drawing::Point(313, 313);
 			this->helpLabel11->Name = L"helpLabel11";
-			this->helpLabel11->Size = System::Drawing::Size(232, 23);
+			this->helpLabel11->Size = System::Drawing::Size(181, 18);
 			this->helpLabel11->TabIndex = 48;
 			this->helpLabel11->Text = L"Accepted date/time format:";
 			// 
@@ -663,7 +663,7 @@ namespace GUIProject {
 			this->helpLabel12->ForeColor = System::Drawing::Color::White;
 			this->helpLabel12->Location = System::Drawing::Point(334, 341);
 			this->helpLabel12->Name = L"helpLabel12";
-			this->helpLabel12->Size = System::Drawing::Size(47, 21);
+			this->helpLabel12->Size = System::Drawing::Size(40, 17);
 			this->helpLabel12->TabIndex = 49;
 			this->helpLabel12->Text = L"Date:\r";
 			// 
@@ -675,7 +675,7 @@ namespace GUIProject {
 			this->helpLabel13->ForeColor = System::Drawing::Color::White;
 			this->helpLabel13->Location = System::Drawing::Point(381, 343);
 			this->helpLabel13->Name = L"helpLabel13";
-			this->helpLabel13->Size = System::Drawing::Size(202, 36);
+			this->helpLabel13->Size = System::Drawing::Size(166, 28);
 			this->helpLabel13->TabIndex = 50;
 			this->helpLabel13->Text = L"DDMMYYYY (eg. 13042015)\r\nDD MMM YYYY (eg 13 Apr 2015)";
 			// 
@@ -687,7 +687,7 @@ namespace GUIProject {
 			this->helpLabel10->ForeColor = System::Drawing::Color::White;
 			this->helpLabel10->Location = System::Drawing::Point(639, 343);
 			this->helpLabel10->Name = L"helpLabel10";
-			this->helpLabel10->Size = System::Drawing::Size(256, 36);
+			this->helpLabel10->Size = System::Drawing::Size(205, 28);
 			this->helpLabel10->TabIndex = 52;
 			this->helpLabel10->Text = L"HHMM (eg. 1200)\r\n0000 = 12:00 a.m.  to  2359 = 11:59 p.m.\r\n";
 			// 
@@ -699,7 +699,7 @@ namespace GUIProject {
 			this->helpLabel14->ForeColor = System::Drawing::Color::White;
 			this->helpLabel14->Location = System::Drawing::Point(592, 341);
 			this->helpLabel14->Name = L"helpLabel14";
-			this->helpLabel14->Size = System::Drawing::Size(49, 21);
+			this->helpLabel14->Size = System::Drawing::Size(40, 17);
 			this->helpLabel14->TabIndex = 51;
 			this->helpLabel14->Text = L"Time:";
 			// 
@@ -734,7 +734,7 @@ namespace GUIProject {
 			this->helpLabel5->ForeColor = System::Drawing::Color::White;
 			this->helpLabel5->Location = System::Drawing::Point(335, 414);
 			this->helpLabel5->Name = L"helpLabel5";
-			this->helpLabel5->Size = System::Drawing::Size(111, 54);
+			this->helpLabel5->Size = System::Drawing::Size(96, 42);
 			this->helpLabel5->TabIndex = 42;
 			this->helpLabel5->Text = L"Help (F1)\r\nSearch (CTRL + F)\r\nUndo (CTRL + Z)";
 			// 
@@ -746,7 +746,7 @@ namespace GUIProject {
 			this->helpLabel6->ForeColor = System::Drawing::Color::White;
 			this->helpLabel6->Location = System::Drawing::Point(514, 414);
 			this->helpLabel6->Name = L"helpLabel6";
-			this->helpLabel6->Size = System::Drawing::Size(187, 18);
+			this->helpLabel6->Size = System::Drawing::Size(160, 14);
 			this->helpLabel6->TabIndex = 55;
 			this->helpLabel6->Text = L"Enter command (CTRL+Enter)\r\n";
 			// 
