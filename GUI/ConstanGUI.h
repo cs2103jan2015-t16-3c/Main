@@ -14,7 +14,7 @@ namespace GUIProject {
 	using namespace System::Drawing;
 
 	string command, feedback, stdDisplayResult, stdTaskComponent;
-
+	bool helpDisplayed = false;
 	TextUI userInterface;
 
 	/// <summary>
@@ -104,12 +104,12 @@ namespace GUIProject {
 
 	private: System::Windows::Forms::Label^  helpLabel4;
 
-	private: System::Windows::Forms::Label^  helpLabel5;
 
-	private: System::Windows::Forms::Label^  helpLabel6;
-	private: System::Windows::Forms::Label^  helpLabel7;
-	private: System::Windows::Forms::Label^  helpLabel8;
-	private: System::Windows::Forms::Label^  helpLabel9;
+
+
+
+
+
 	private: System::Windows::Forms::Label^  helpPageClose;
 
 	private: System::Windows::Forms::Label^  helpLabel11;
@@ -120,6 +120,8 @@ namespace GUIProject {
 	private: System::Windows::Forms::Label^  helpLabel14;
 	private: System::Windows::Forms::Label^  helpLabel15;
 	private: System::Windows::Forms::Label^  helpLabel16;
+	private: System::Windows::Forms::Label^  helpLabel5;
+	private: System::Windows::Forms::Label^  helpLabel6;
 
 
 
@@ -140,7 +142,7 @@ namespace GUIProject {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::ListViewItem^  listViewItem4 = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::Windows::Forms::ListViewItem::ListViewSubItem^  >(2) {(gcnew System::Windows::Forms::ListViewItem::ListViewSubItem(nullptr, 
+			System::Windows::Forms::ListViewItem^  listViewItem1 = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::Windows::Forms::ListViewItem::ListViewSubItem^  >(2) {(gcnew System::Windows::Forms::ListViewItem::ListViewSubItem(nullptr, 
 				L"tutorial", System::Drawing::Color::DimGray, System::Drawing::Color::WhiteSmoke, (gcnew System::Drawing::Font(L"Calibri", 
 				9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0))))), (gcnew System::Windows::Forms::ListViewItem::ListViewSubItem(nullptr, 
 				L"today", System::Drawing::Color::Gray, System::Drawing::Color::WhiteSmoke, (gcnew System::Drawing::Font(L"Calibri", 
@@ -181,11 +183,6 @@ namespace GUIProject {
 			this->helpLabel2 = (gcnew System::Windows::Forms::Label());
 			this->helpLabel3 = (gcnew System::Windows::Forms::Label());
 			this->helpLabel4 = (gcnew System::Windows::Forms::Label());
-			this->helpLabel5 = (gcnew System::Windows::Forms::Label());
-			this->helpLabel6 = (gcnew System::Windows::Forms::Label());
-			this->helpLabel7 = (gcnew System::Windows::Forms::Label());
-			this->helpLabel8 = (gcnew System::Windows::Forms::Label());
-			this->helpLabel9 = (gcnew System::Windows::Forms::Label());
 			this->helpPageClose = (gcnew System::Windows::Forms::Label());
 			this->helpLabel11 = (gcnew System::Windows::Forms::Label());
 			this->helpLabel12 = (gcnew System::Windows::Forms::Label());
@@ -194,6 +191,8 @@ namespace GUIProject {
 			this->helpLabel14 = (gcnew System::Windows::Forms::Label());
 			this->helpLabel15 = (gcnew System::Windows::Forms::Label());
 			this->helpLabel16 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel5 = (gcnew System::Windows::Forms::Label());
+			this->helpLabel6 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// InputTextBox
@@ -441,8 +440,8 @@ namespace GUIProject {
 				static_cast<System::Byte>(0)));
 			this->deadlineListView->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(64)));
-			listViewItem4->UseItemStyleForSubItems = false;
-			this->deadlineListView->Items->AddRange(gcnew cli::array< System::Windows::Forms::ListViewItem^  >(1) {listViewItem4});
+			listViewItem1->UseItemStyleForSubItems = false;
+			this->deadlineListView->Items->AddRange(gcnew cli::array< System::Windows::Forms::ListViewItem^  >(1) {listViewItem1});
 			this->deadlineListView->Location = System::Drawing::Point(53, 258);
 			this->deadlineListView->Name = L"deadlineListView";
 			this->deadlineListView->Scrollable = false;
@@ -627,60 +626,9 @@ namespace GUIProject {
 			this->helpLabel4->ForeColor = System::Drawing::Color::White;
 			this->helpLabel4->Location = System::Drawing::Point(313, 387);
 			this->helpLabel4->Name = L"helpLabel4";
-			this->helpLabel4->Size = System::Drawing::Size(179, 23);
+			this->helpLabel4->Size = System::Drawing::Size(85, 23);
 			this->helpLabel4->TabIndex = 41;
-			this->helpLabel4->Text = L"Changing preference:";
-			// 
-			// helpLabel5
-			// 
-			this->helpLabel5->AutoSize = true;
-			this->helpLabel5->Font = (gcnew System::Drawing::Font(L"Calibri", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
-				static_cast<System::Byte>(0)));
-			this->helpLabel5->ForeColor = System::Drawing::Color::White;
-			this->helpLabel5->Location = System::Drawing::Point(334, 415);
-			this->helpLabel5->Name = L"helpLabel5";
-			this->helpLabel5->Size = System::Drawing::Size(132, 18);
-			this->helpLabel5->TabIndex = 42;
-			this->helpLabel5->Text = L"Choose color theme";
-			// 
-			// helpLabel6
-			// 
-			this->helpLabel6->BackColor = System::Drawing::SystemColors::WindowFrame;
-			this->helpLabel6->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
-			this->helpLabel6->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->helpLabel6->Location = System::Drawing::Point(337, 439);
-			this->helpLabel6->Name = L"helpLabel6";
-			this->helpLabel6->Size = System::Drawing::Size(30, 30);
-			this->helpLabel6->TabIndex = 43;
-			// 
-			// helpLabel7
-			// 
-			this->helpLabel7->BackColor = System::Drawing::Color::DarkSlateGray;
-			this->helpLabel7->Location = System::Drawing::Point(452, 439);
-			this->helpLabel7->Name = L"helpLabel7";
-			this->helpLabel7->Size = System::Drawing::Size(30, 30);
-			this->helpLabel7->TabIndex = 44;
-			// 
-			// helpLabel8
-			// 
-			this->helpLabel8->BackColor = System::Drawing::Color::Crimson;
-			this->helpLabel8->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->helpLabel8->Location = System::Drawing::Point(551, 439);
-			this->helpLabel8->Name = L"helpLabel8";
-			this->helpLabel8->Size = System::Drawing::Size(30, 30);
-			this->helpLabel8->TabIndex = 45;
-			// 
-			// helpLabel9
-			// 
-			this->helpLabel9->Font = (gcnew System::Drawing::Font(L"Calibri Light", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
-				static_cast<System::Byte>(0)));
-			this->helpLabel9->ForeColor = System::Drawing::Color::White;
-			this->helpLabel9->Location = System::Drawing::Point(366, 435);
-			this->helpLabel9->Name = L"helpLabel9";
-			this->helpLabel9->Size = System::Drawing::Size(291, 39);
-			this->helpLabel9->TabIndex = 46;
-			this->helpLabel9->Text = L"Grey                              Teal                         Crimson\r\n(default)" 
-				L"";
+			this->helpLabel4->Text = L"Hot Keys:";
 			// 
 			// helpPageClose
 			// 
@@ -778,14 +726,36 @@ namespace GUIProject {
 			this->helpLabel16->TabIndex = 54;
 			this->helpLabel16->Text = L"mark [index]\r\nunmark [index]\r\nundo\r\ndisplay all/today/tomorrow";
 			// 
+			// helpLabel5
+			// 
+			this->helpLabel5->AutoSize = true;
+			this->helpLabel5->Font = (gcnew System::Drawing::Font(L"Calibri", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel5->ForeColor = System::Drawing::Color::White;
+			this->helpLabel5->Location = System::Drawing::Point(335, 414);
+			this->helpLabel5->Name = L"helpLabel5";
+			this->helpLabel5->Size = System::Drawing::Size(111, 54);
+			this->helpLabel5->TabIndex = 42;
+			this->helpLabel5->Text = L"Help (F1)\r\nSearch (CTRL + F)\r\nUndo (CTRL + Z)";
+			// 
+			// helpLabel6
+			// 
+			this->helpLabel6->AutoSize = true;
+			this->helpLabel6->Font = (gcnew System::Drawing::Font(L"Calibri", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+				static_cast<System::Byte>(0)));
+			this->helpLabel6->ForeColor = System::Drawing::Color::White;
+			this->helpLabel6->Location = System::Drawing::Point(514, 414);
+			this->helpLabel6->Name = L"helpLabel6";
+			this->helpLabel6->Size = System::Drawing::Size(187, 18);
+			this->helpLabel6->TabIndex = 55;
+			this->helpLabel6->Text = L"Enter command (CTRL+Enter)\r\n";
+			// 
 			// ConstanGUI
 			// 
 			this->AutoScroll = true;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(64)));
 			this->ClientSize = System::Drawing::Size(1000, 562);
-			this->Controls->Add(this->headerLabel);
-			this->Controls->Add(this->listViewDisplay);
 			this->Controls->Add(this->helpButton);
 			this->Controls->Add(this->pinkTheme);
 			this->Controls->Add(this->blueTheme);
@@ -806,7 +776,10 @@ namespace GUIProject {
 			this->Controls->Add(this->deadlineListView);
 			this->Controls->Add(this->deadlineBG);
 			this->Controls->Add(this->label3);
+			this->Controls->Add(this->headerLabel);
+			this->Controls->Add(this->listViewDisplay);
 			this->Controls->Add(this->displayTypeTexbox);
+			this->Controls->Add(this->helpLabel6);
 			this->Controls->Add(this->helpLabel16);
 			this->Controls->Add(this->helpLabel15);
 			this->Controls->Add(this->helpLabel10);
@@ -815,10 +788,6 @@ namespace GUIProject {
 			this->Controls->Add(this->helpLabel12);
 			this->Controls->Add(this->helpLabel11);
 			this->Controls->Add(this->helpPageClose);
-			this->Controls->Add(this->helpLabel8);
-			this->Controls->Add(this->helpLabel7);
-			this->Controls->Add(this->helpLabel9);
-			this->Controls->Add(this->helpLabel6);
 			this->Controls->Add(this->helpLabel5);
 			this->Controls->Add(this->helpLabel4);
 			this->Controls->Add(this->helpLabel3);
@@ -828,8 +797,10 @@ namespace GUIProject {
 			this->Font = (gcnew System::Drawing::Font(L"Calibri", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+			this->KeyPreview = true;
 			this->MaximizeBox = false;
 			this->Name = L"ConstanGUI";
+			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &ConstanGUI::ConstanGUI_KeyDown);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -1253,6 +1224,23 @@ private: System::Void pinkTheme_Click(System::Object^  sender, System::EventArgs
 
 				this->BackColor = System::Drawing::Color::LightCoral;
 
+				/*Help page color*/
+				helpPage->BackColor = System::Drawing::Color::LightCoral;
+				helpLabel1->BackColor = System::Drawing::Color::LightCoral;
+				helpLabel2->BackColor = System::Drawing::Color::LightCoral;
+				helpLabel3->BackColor = System::Drawing::Color::LightCoral;
+				helpLabel4->BackColor = System::Drawing::Color::LightCoral;
+				helpLabel5->BackColor = System::Drawing::Color::LightCoral;
+				helpLabel6->BackColor = System::Drawing::Color::LightCoral;
+				helpLabel10->BackColor = System::Drawing::Color::LightCoral;
+				helpLabel11->BackColor = System::Drawing::Color::LightCoral;
+				helpLabel12->BackColor = System::Drawing::Color::LightCoral;
+				helpLabel13->BackColor = System::Drawing::Color::LightCoral;
+				helpLabel14->BackColor = System::Drawing::Color::LightCoral;
+				helpLabel15->BackColor = System::Drawing::Color::LightCoral;
+				helpLabel16->BackColor = System::Drawing::Color::LightCoral;
+				helpPageClose->BackColor = System::Drawing::Color::LightCoral;
+
 		 }
 private: System::Void greyTheme_Click(System::Object^  sender, System::EventArgs^  e) {
 				
@@ -1317,6 +1305,37 @@ private: System::Void greyTheme_Click(System::Object^  sender, System::EventArgs
 				this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(64)));
 
+				/*Help page color*/
+				helpPage->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpLabel1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpLabel2->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpLabel3->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpLabel4->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpLabel5->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpLabel6->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpLabel10->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpLabel11->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpLabel12->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpLabel13->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpLabel14->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpLabel15->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpLabel16->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+				helpPageClose->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
 
 		 }
 private: System::Void blueTheme_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -1373,10 +1392,37 @@ private: System::Void blueTheme_Click(System::Object^  sender, System::EventArgs
 				this->label1->ForeColor = System::Drawing::Color::White;
 
 				this->BackColor = System::Drawing::Color::Teal;
+
+				/*Help page color*/
+				helpPage->BackColor = System::Drawing::Color::Teal;
+				helpLabel1->BackColor = System::Drawing::Color::Teal;
+				helpLabel2->BackColor = System::Drawing::Color::Teal;
+				helpLabel3->BackColor = System::Drawing::Color::Teal;
+				helpLabel4->BackColor = System::Drawing::Color::Teal;
+				helpLabel5->BackColor = System::Drawing::Color::Teal;
+				helpLabel6->BackColor = System::Drawing::Color::Teal;
+				helpLabel10->BackColor = System::Drawing::Color::Teal;
+				helpLabel11->BackColor = System::Drawing::Color::Teal;
+				helpLabel12->BackColor = System::Drawing::Color::Teal;
+				helpLabel13->BackColor = System::Drawing::Color::Teal;
+				helpLabel14->BackColor = System::Drawing::Color::Teal;
+				helpLabel15->BackColor = System::Drawing::Color::Teal;
+				helpLabel16->BackColor = System::Drawing::Color::Teal;
+				helpPageClose->BackColor = System::Drawing::Color::Teal;
+
 		 }
 
 private: System::Void helpButton_Click(System::Object^  sender, System::EventArgs^  e) {
 			 
+			 if (helpDisplayed == false)
+				 displayHelp();
+			 else if (helpDisplayed == true)
+				 closeHelp();			 
+
+		 }
+
+private: System::Void displayHelp() {
+
 			 helpPage->BringToFront();
 			 helpLabel1->BringToFront();
 			 helpLabel2->BringToFront();
@@ -1384,9 +1430,6 @@ private: System::Void helpButton_Click(System::Object^  sender, System::EventArg
 			 helpLabel4->BringToFront();
 			 helpLabel5->BringToFront();
 			 helpLabel6->BringToFront();
-			 helpLabel9->BringToFront();
-			 helpLabel7->BringToFront();
-			 helpLabel8->BringToFront();		 
 			 helpLabel10->BringToFront();
 			 helpLabel11->BringToFront();
 			 helpLabel12->BringToFront();
@@ -1396,20 +1439,25 @@ private: System::Void helpButton_Click(System::Object^  sender, System::EventArg
 			 helpLabel16->BringToFront();
 			 helpPageClose->BringToFront();
 
+			 helpDisplayed = true;
+
 		 }
 
 
 private: System::Void helpPageClose_Click(System::Object^  sender, System::EventArgs^  e) {
 			 
+			 closeHelp();
+			 
+		 }
+
+private: System::Void closeHelp() {
+
 			 helpLabel1->SendToBack();
 			 helpLabel2->SendToBack();
 			 helpLabel3->SendToBack();
 			 helpLabel4->SendToBack();
 			 helpLabel5->SendToBack();
 			 helpLabel6->SendToBack();
-			 helpLabel7->SendToBack();
-			 helpLabel8->SendToBack();
-			 helpLabel9->SendToBack();
 			 helpLabel10->SendToBack();
 			 helpLabel11->SendToBack();
 			 helpLabel12->SendToBack();
@@ -1419,7 +1467,52 @@ private: System::Void helpPageClose_Click(System::Object^  sender, System::Event
 			 helpLabel16->SendToBack();
 			 helpPageClose->SendToBack();
 			 helpPage->SendToBack();
+
+			 helpDisplayed = false;
+
 		 }
+
+
+/*HOT KEY CODES*/
+private: System::Void ConstanGUI_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+			
+			 /*F1 for help*/
+			if (e->KeyCode == Keys::F1) {
+
+				if (helpDisplayed == false)
+				 displayHelp();
+				else if (helpDisplayed == true)
+				 closeHelp();
+			}
+
+			/*CTRL+F for search*/
+			if (e->Control && e->KeyCode == Keys::F) {
+				searchTextBox->Select();
+				e->SuppressKeyPress = true;
+				return;
+			}
+
+			/*CTRL+F for undo*/
+			if (e->Control && e->KeyCode == Keys::Z) {
+				feedbackLabel->Text = "";
+				listViewDisplay->Items->Clear(); 
+					  
+					  string undo = "undo";
+					  //convert to std string
+					  command = undo;
+					  userInterface.processUserInput(command);
+					  Print();
+			}
+
+			/*CTRL+ENTER to enter command*/
+			if (e->Control && e->KeyCode == Keys::Enter) {
+				InputTextBox->Select();
+				e->SuppressKeyPress = true;
+				return;
+			}			
+
+		 }
+
 };
 }
 
