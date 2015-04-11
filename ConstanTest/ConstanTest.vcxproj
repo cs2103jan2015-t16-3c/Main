@@ -90,6 +90,7 @@
   <ItemGroup>
     <ClCompile Include="CommandAddTest.cpp" />
     <ClCompile Include="CommandDeleteTest.cpp" />
+    <ClCompile Include="CommandDisplayTest.cpp" />
     <ClCompile Include="CommandEditTest.cpp" />
     <ClCompile Include="CommandMarkTest.cpp" />
     <ClCompile Include="CommandSearchTest.cpp" />
