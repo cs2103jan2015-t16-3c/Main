@@ -170,6 +170,18 @@ void TextUI::displayedFeedback() {
 	feedback = getFeedbackResult();
 }
 
+
+string TextUI::showTodayDate() {
+	
+	getTodayDateString();
+	return todayDate;
+}
+
+void TextUI::getTodayDateString() {
+
+	todayDate = toLogic.getTodayDate();
+}
+
 //get feedback result from Logic CLASS
 string TextUI::getFeedbackResult() {
 	if (_feedback->size() > 1) {
@@ -191,6 +203,7 @@ void TextUI::setDisplay() {
 	unparseDisplayVector();
 //	getDeadlineVector();
 //	unparseDeadlineVector();
+
 }
 
 void TextUI::getDisplayVector() { 
@@ -235,7 +248,7 @@ void TextUI::getDeadlineVector() {
 
 }
 */
-/*
+
 void TextUI::unparseDeadlineVector() {
 
 	displayDeadline = EMPTY_STRING;
@@ -243,12 +256,14 @@ void TextUI::unparseDeadlineVector() {
 	for ( size_t i=0 ; i < _deadlineVector->size() ; i++ ) {
 
 		string taskName = _deadlineVector->at(i).getTaskName();
-		//taskName = convertToCorrectFormat(taskName);
 
-		string endDate = _displayVector->at(i).getEndDate();
-			endDate = formatDate(endDate);
+		string endDate = _deadlineVector->at(i).getEndDate();
+			if (endDate == todayDate)
+				endDate = "today";
+			else
+				endDate = formatDate(endDate);
 
-		string endTime = _displayVector->at(i).getEndTime();
+		string endTime = _deadlineVector->at(i).getEndTime();
 			endTime = formatTime(endTime);
 
 		string status = _displayVector->at(i).getCompletionStatusAsString();
@@ -257,7 +272,7 @@ void TextUI::unparseDeadlineVector() {
 			displayDeadline = displayDeadline + taskName + "]" + endDate + "]" + endTime + "]";
 	}
 }
-*/
+
 
 string TextUI::formatDate(string date) {
 

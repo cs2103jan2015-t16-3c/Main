@@ -78,6 +78,7 @@ public:
 	string feedback;
 	string display;
 	string displayDeadline;
+	string todayDate;
 	int noOfTask;
 	int noOfDeadline;
 
@@ -93,6 +94,7 @@ public:
 
 	void setDisplay();
 	void getDisplayVector();
+	void getTodayDateString();
 	void unparseDisplayVector();
 //	void getDeadlineVector();
 //	void unparseDeadlineVector();
@@ -105,6 +107,7 @@ public:
 	string showFeedback();
 	string showDisplay();
 	string showDeadline();
+//	string showTodayDate();
 	int getNoOfTask();
 	int getNoOfDeadline();
     void processUserInput(string command);
