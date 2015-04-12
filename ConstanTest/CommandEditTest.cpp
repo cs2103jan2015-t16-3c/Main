@@ -13,7 +13,8 @@ namespace ConstanTest
 		TEST_METHOD(InverseCommandEdit)
 		{
 			vector<Task>* _currentDisplay = new vector<Task>;
-			Command* cmd = new CommandEdit (1, "dinner", "11042015", "1000", "11042015", "1100", _currentDisplay);
+			string _currentDisplayIndicator;
+			Command* cmd = new CommandEdit (1, "dinner", "11042015", "1000", "11042015", "1100", _currentDisplay, _currentDisplayIndicator);
 			Command* invCommand = cmd->getInverseCommand();
 			CommandInverseEdit* inv2 = dynamic_cast<CommandInverseEdit*>(invCommand);
 			Assert::IsNotNull(inv2);// assert that invCommand is of type CommandInverseEdit

@@ -13,7 +13,8 @@ namespace ConstanTest
 		TEST_METHOD(InverseCommandMark)
 		{
 			vector<Task>* _currentDisplay = new vector<Task>;
-			Command* cmd = new CommandMark (1, _currentDisplay);
+			string _currentDisplayIndicator;
+			Command* cmd = new CommandMark (1, _currentDisplay, _currentDisplayIndicator);
 			Command* invCommand = cmd->getInverseCommand();
 			CommandUnmark* inv2 = dynamic_cast<CommandUnmark*>(invCommand);
 			Assert::IsNotNull(inv2);// assert that invCommand is of type CommandUnmark
