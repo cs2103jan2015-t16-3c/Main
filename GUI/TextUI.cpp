@@ -168,7 +168,7 @@ string TextUI::getFeedbackResult() {
 	string feedbackResult;
 	string commandType = _feedback->at(0);
 
-	if (commandType == "display" || commandType == "search" || commandType == "undo" ) {
+	if (commandType == "display" || commandType == "search" || commandType == "undo" || commandType == "invalid_command") {
 		feedbackResult = _feedback->at(2);
 	
 	} else {
@@ -197,7 +197,7 @@ string TextUI::getFeedbackResult() {
 		}
 
 		if (startDate != "NULL")
-			feedbackResult = taskName + " starts from" + startDate + " " + startTime + " to " + endDate + " " + endTime;
+			feedbackResult = taskName + " starts from " + startDate + " " + startTime + " to " + endDate + " " + endTime;
 		else if (endDate != "NULL")
 			feedbackResult = taskName + " due " + endDate + " " + endTime;
 		else

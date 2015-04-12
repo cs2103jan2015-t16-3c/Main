@@ -208,6 +208,7 @@ namespace GUIProject {
 			this->InputTextBox->TextChanged += gcnew System::EventHandler(this, &ConstanGUI::InputTextBox_TextChanged);
 			this->InputTextBox->DoubleClick += gcnew System::EventHandler(this, &ConstanGUI::InputTextBox_DoubleClick);
 			this->InputTextBox->Enter += gcnew System::EventHandler(this, &ConstanGUI::InputTextBox_Enter);
+			this->InputTextBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &ConstanGUI::InputTextBox_KeyDown);
 			this->InputTextBox->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &ConstanGUI::InputTextBox_KeyPress_1);
 			// 
 			// listViewDisplay
@@ -398,10 +399,10 @@ namespace GUIProject {
 			this->displayTypeTexbox->Font = (gcnew System::Drawing::Font(L"Calibri Light", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->displayTypeTexbox->ForeColor = System::Drawing::Color::White;
-			this->displayTypeTexbox->Location = System::Drawing::Point(306, 36);
+			this->displayTypeTexbox->Location = System::Drawing::Point(304, 34);
 			this->displayTypeTexbox->Name = L"displayTypeTexbox";
 			this->displayTypeTexbox->ReadOnly = true;
-			this->displayTypeTexbox->Size = System::Drawing::Size(671, 49);
+			this->displayTypeTexbox->Size = System::Drawing::Size(676, 49);
 			this->displayTypeTexbox->TabIndex = 23;
 			// 
 			// TodayIsLabel
@@ -744,9 +745,10 @@ namespace GUIProject {
 			this->helpLabel6->ForeColor = System::Drawing::Color::White;
 			this->helpLabel6->Location = System::Drawing::Point(514, 414);
 			this->helpLabel6->Name = L"helpLabel6";
-			this->helpLabel6->Size = System::Drawing::Size(187, 18);
+			this->helpLabel6->Size = System::Drawing::Size(193, 54);
 			this->helpLabel6->TabIndex = 55;
-			this->helpLabel6->Text = L"Enter command (CTRL+Enter)\r\n";
+			this->helpLabel6->Text = L"Enter command (CTRL + Enter)\r\nscroll up task list (pgup)\r\nscroll down task list (" 
+				L"pgdn)";
 			// 
 			// ConstanGUI
 			// 
@@ -774,9 +776,9 @@ namespace GUIProject {
 			this->Controls->Add(this->deadlineListView);
 			this->Controls->Add(this->deadlineBG);
 			this->Controls->Add(this->label3);
+			this->Controls->Add(this->displayTypeTexbox);
 			this->Controls->Add(this->headerLabel);
 			this->Controls->Add(this->listViewDisplay);
-			this->Controls->Add(this->displayTypeTexbox);
 			this->Controls->Add(this->helpLabel6);
 			this->Controls->Add(this->helpLabel16);
 			this->Controls->Add(this->helpLabel15);
@@ -899,8 +901,8 @@ private: System::Void searchTextBox_KeyPress(System::Object^  sender, System::Wi
 
 					  userInterface.processUserInput(command);
 					  Print();
-					  PrintDisplayType();
 					  PrintFeedback();
+					  PrintDisplayType();				  
 
 					  searchTextBox->Text = "";
 
@@ -1583,6 +1585,21 @@ private: System::Void ConstanGUI_KeyDown(System::Object^  sender, System::Window
 		 }
 
 
+
+private: System::Void InputTextBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+			 if (e->KeyCode == Keys::PageDown) {
+				 listViewDisplay->Focus();
+				 SendKeys::SendWait("{PGDN}");
+				 InputTextBox->Focus();
+			 }
+
+			 else if (e->KeyCode == Keys::PageUp) {
+				 listViewDisplay->Focus();
+				 SendKeys::SendWait("{PGUP}");
+				 InputTextBox->Focus();
+			 }
+			 
+		 }
 
 };
 }
