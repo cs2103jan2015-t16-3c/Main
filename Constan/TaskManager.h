@@ -2,6 +2,7 @@
 #define TASKMANAGER_H_
 
 #include "Task.h"
+#include "Logger.h"
 #include <vector>
 #include <fstream>
 #include <algorithm>
@@ -19,9 +20,18 @@ static const string FILE_NAME_KEEPER = "filename.txt";
 static const string DISPLAY_TODAY = "today";
 static const string DISPLAY_TOMORROW = "tomorrow";
 static const string DISPLAY_ALL = "all";
+static const string TASK_ADDED = "Task added";
+static const string TASK_MARKED_DONE = "Task marked as done";
+static const string TASK_MARKED_UNDONE = "Task marked as undone";
+static const string TASK_EDITED = "Task edited";
+static const string TASK_DELETED = "Task deleted";
+static const string TASK_DELETED_ALL = "All tasks deleted";
+static const string TASKS_SORTED_ALPHABETICALLY = "Tasks sorted alphabetically";
+static const string TASKS_SORTED_BY_DEADLINE = "Tasks sorted by deadline";
 
 class TaskManager {
 private:
+	Logger logger;
 	vector<Task> _tasks;
 //	static TaskManager* _instance;
 	TaskManager();
@@ -76,11 +86,14 @@ public:
 	static bool TaskManager::keyLowestAlphabet(Task& a, Task& b);
 	static bool TaskManager::keyNearestDeadline(Task& a, Task& b);
 
+	string TaskManager::processCurrentTime();
 	string processToday();
 	string processTomorrow();
 	string intToString(int);
 	int stringToInt(string);
 	string retrieveTodayDate();
+	string convertDate(string date);
+	bool checkEndOfMonth(int day, string month);
 };
 
 #endif

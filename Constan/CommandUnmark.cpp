@@ -31,16 +31,7 @@ void CommandUnmark::execute() {
 	_executionStatus = STATUS_SUCCESSFUL;
 
 }
-/*
-void CommandUnmark::updateDisplay(vector<Task>* currentDisplay) {
-	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask("02042015");
-	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline("02042015");
-	_mergedDisplay = _deadlineVector;
-	_mergedDisplay->insert (_mergedDisplay->end(), _timedTaskVector->begin(), _timedTaskVector->end());
-	//merge (_timedTaskVector.begin(), _timedTaskVector.end(), _deadlineVector.begin(), _deadlineVector.end(), _mergedDisplay.begin(), Compare_Task());
-	currentDisplay = _mergedDisplay;
-}
-*/
+
 vector<string>* CommandUnmark::updateFeedback() {
 	_feedback = new vector<string>;
 	_feedback->push_back (COMMAND_UNMARK);
@@ -54,7 +45,6 @@ vector<string>* CommandUnmark::updateFeedback() {
 }
 
 Command* CommandUnmark::getInverseCommand() {
-	//get info;
 	CommandMark* invUnmark = new CommandMark ( _currentDisplay, _index);
 	return invUnmark;
 }

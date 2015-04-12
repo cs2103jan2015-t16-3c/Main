@@ -2,10 +2,10 @@
 
 
 CommandInvalid::CommandInvalid(string report, string currentDisplayIndicator) {
-_report = report;
-_executionStatus = STATUS_UNSUCCESSFUL;
+	_report = report;
+	_executionStatus = STATUS_UNSUCCESSFUL;
+	_currentDisplayIndicator = currentDisplayIndicator;
 }
-
 
 CommandInvalid::~CommandInvalid(void)
 {

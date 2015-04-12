@@ -39,16 +39,6 @@ void CommandDelete::getTaskDetails() {
 	_endTime = _currentDisplay->at(_index-1).getEndTime();
 }
 
-
-/*vector<Task>* CommandDelete::updateDisplay() {
-	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask("02042015");
-	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline("02042015");
-	_mergedDisplay = _deadlineVector;
-	_mergedDisplay->insert (_mergedDisplay->end(), _timedTaskVector->begin(), _timedTaskVector->end());
-	//merge (_timedTaskVector.begin(), _timedTaskVector.end(), _deadlineVector.begin(), _deadlineVector.end(), _mergedDisplay.begin(), Compare_Task());
-	return _mergedDisplay;
-}*/
-
 vector<string>* CommandDelete::updateFeedback() {
 	_feedback = new vector<string>;
 	_feedback->push_back (COMMAND_DELETE);
@@ -70,7 +60,6 @@ void CommandDelete::insertTaskDetails() {
 }
 
 Command* CommandDelete::getInverseCommand() {
-	//get info;
 	CommandAdd* invDelete = new CommandAdd (_taskName, _startDate, _startTime, _endDate, _endTime, _taskID, _currentDisplay);
 	return invDelete;
 }

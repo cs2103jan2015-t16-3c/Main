@@ -13,9 +13,6 @@ TaskManager::~TaskManager() {
 }
 
 TaskManager* TaskManager::getInstance() {
-//	if (_instance == NULL) {
-//		_instance = new TaskManager();
-//	}
 	static TaskManager _instance;
 	return &_instance;
 }
@@ -124,6 +121,7 @@ void TaskManager::addTask(string taskName, string startDate, string startTime, s
 	_tasks.push_back(*_newTask);
 	
 	save();
+	logger.log(TASK_ADDED);
 }
 
 void TaskManager::markTask(int taskID) {
@@ -131,6 +129,7 @@ void TaskManager::markTask(int taskID) {
 	taskToMark->setCompletionStatus(true);
 
 	save();
+	logger.log(TASK_MARKED_DONE);
 }
 
 void TaskManager::unmarkTask(int taskID) {
@@ -138,6 +137,7 @@ void TaskManager::unmarkTask(int taskID) {
 	taskToMark->setCompletionStatus(false);
 
 	save();
+	logger.log(TASK_MARKED_UNDONE);
 }
 
 void TaskManager::getTaskDetails(int taskID, string &prevTaskName, string &prevStartDate, string &prevStartTime, string &prevEndDate, string &prevEndTime, bool &isPrevComplete) {
@@ -173,6 +173,7 @@ void TaskManager::editTask(int taskID, string taskName, string startDate, string
 	save();
 }
 
+//completely overwrites a task
 void TaskManager::overwriteTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime, bool isComplete) {
 	Task* taskToEdit = findTask(taskID);	
 	taskToEdit->setTaskName(taskName);	
@@ -185,8 +186,10 @@ void TaskManager::overwriteTask(int taskID, string taskName, string startDate, s
 	taskToEdit->setCompletionStatus(isComplete);
 
 	save();
+	logger.log(TASK_EDITED);
 }
 
+//returns type of task depending on task information
 string TaskManager::getType(string taskName, string startDate, string startTime, string endDate, string endTime) {
 	if (startTime != DEFAULT_START_TIME && endTime != DEFAULT_END_TIME) {
 		return TASK_TYPE_TIMED;
@@ -243,6 +246,7 @@ void TaskManager::updateTaskIDOnLoad() {
 	_taskID = maxTaskID + 1;
 }
 
+//deletes task with the matching task ID
 void TaskManager::deleteTask(int taskID) {
 	for (unsigned int i = 0; i < _tasks.size(); i++) {
 		if (_tasks[i].getTaskID() == taskID) {
@@ -250,11 +254,13 @@ void TaskManager::deleteTask(int taskID) {
 		}
 	}
 	save();
+	logger.log(TASK_DELETED);
 }
 
 void TaskManager::clearAllTasks() {
 	_tasks.clear();
 	save();
+	logger.log(TASK_DELETED_ALL);
 }
 
 string TaskManager::retrieveTodayDate() {
@@ -377,14 +383,22 @@ void TaskManager::getDeadlineVector(vector<Task>* deadlineVector) {
 	}
 }
 
-/*
 vector<Task>* TaskManager::retrieveOverdueTasks() {
 	vector<Task>* overdueTasks;
+	string todaysDate = convertDate(retrieveTodayDate());
+	string now = processCurrentTime();
+
 	for (unsigned int i = 0; i < _tasks.size(); i++) {
-		if (_tasks[i].getEndDate() > 
+		if (todaysDate > convertDate(_tasks[i].getEndDate())) {
+			overdueTasks->push_back(_tasks.at(i));	
+		}
+		else if (todaysDate == convertDate(_tasks[i].getEndDate()) && now > _tasks[i].getEndTime()) {
+			overdueTasks->push_back(_tasks.at(i));  
+		}
 	}
+
+	return overdueTasks;
 }
-*/
 
 void TaskManager::setCompletionStatus(int index, bool isComplete) {
 	_tasks[index - 1].setCompletionStatus(isComplete);
@@ -394,11 +408,13 @@ void TaskManager::setCompletionStatus(int index, bool isComplete) {
 void TaskManager::sortTasksByAscendingAlphabet() {
 	sort(_tasks.begin(), _tasks.end(), keyLowestAlphabet);
 	save();
+	logger.log(TASKS_SORTED_ALPHABETICALLY);
 }
 
 void TaskManager::sortTasksByNearestDeadline() {
 	sort(_tasks.begin(), _tasks.end(), keyNearestDeadline);
 	save();
+	logger.log(TASKS_SORTED_BY_DEADLINE);
 }
 
 //takes in a string with all task info concatenated with whitespace between words
@@ -480,6 +496,22 @@ bool TaskManager::keyNearestDeadline(Task& a, Task& b) {
    }
 } 
 
+string TaskManager::processCurrentTime() {
+	time_t t = time(0); 
+	char tmp[64]; 
+	strftime( tmp, sizeof(tmp), "%H%M",localtime(&t) );  
+	string now(tmp);
+
+	return now;
+}
+
+string TaskManager::convertDate(string date) {
+	string yearMonthDayFormat;
+	yearMonthDayFormat = date.substr(4,4) + date.substr(2,2) + date.substr(0,2);
+
+	return yearMonthDayFormat;
+}
+
 string TaskManager::processToday(){
 	time_t t = time(0); 
 	char tmp[64]; 
@@ -492,20 +524,72 @@ string TaskManager::processToday(){
 string TaskManager::processTomorrow(){
 	time_t t = time(0); 
 	char tmp[64]; 
-	strftime( tmp, sizeof(tmp), "%d%m%Y",localtime(&t) );  
+	strftime(tmp, sizeof(tmp), "%d%m%Y",localtime(&t));  
 	string today(tmp);
 
 	string day = today.substr(0,2);
+	string month = today.substr(2,2);
+	string year = today.substr(4,4);
 	string monthYear = today.substr(2,6);
-
 	int intDay = stringToInt(day);
 	intDay++;
-	day = intToString(intDay);
+	if(checkEndOfMonth(intDay, month) == true){
+		int intMonth = stringToInt(month);
+		intMonth++;
+		intDay = 1;
+		day = intToString(intDay);
+		month = intToString(intMonth);
+		return day + month + year;
+	}
+	else{
+		day = intToString(intDay);
+		return day + monthYear;
+	}
+}
 
-	return day + monthYear;
+bool TaskManager::checkEndOfMonth(int day, string month){
+	if(month == "01" && day == 32){
+		return true;
+	}
+	if(month == "02" && day == 29){
+		return true;
+	}
+	if(month == "03" && day == 32){
+		return true;
+	}
+	if(month == "04" && day == 31){
+		return true;
+	}
+	if(month == "05" && day == 32){
+		return true;
+	}
+	if(month == "06" && day == 31){
+		return true;
+	}
+	if(month == "07" && day == 32){
+		return true;
+	}
+	if(month == "08" && day == 32){
+		return true;
+	}
+	if(month == "09" && day == 31){
+		return true;
+	}
+	if(month == "10" && day == 32){
+		return true;
+	}
+	if(month == "11" && day == 31){
+		return true;
+	}
+	if(month == "12" && day == 32){
+		return true;
+	}
+
+	return false;
 }
 
 string TaskManager::intToString(int inputInt){
+
 	stringstream outputStream;
 
 	if(inputInt < 10){
@@ -520,6 +604,7 @@ string TaskManager::intToString(int inputInt){
 int TaskManager::stringToInt(string inputString){
 	int outputInt;
 	istringstream outputStream(inputString);
+
 	outputStream >> outputInt;
 
 	return outputInt;

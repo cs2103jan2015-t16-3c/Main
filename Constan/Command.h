@@ -64,7 +64,6 @@ public:
 	virtual vector<string>* updateFeedback();
 	vector<Task>* updateDeadline();
 	string updateTodayDate();
-	bool operator==(const Command &anotherCommand);
 	virtual string updateDisplayIndicator();
 	
 	void insertTaskDetails();

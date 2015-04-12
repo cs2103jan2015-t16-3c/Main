@@ -44,7 +44,6 @@ vector<string>* CommandMark::updateFeedback() {
 }
 
 Command* CommandMark::getInverseCommand() {
-	//get info;
 	CommandUnmark* invMark = new CommandUnmark( _currentDisplay, _taskID);
 	return invMark;
 }

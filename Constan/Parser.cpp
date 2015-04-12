@@ -377,21 +377,71 @@ string Parser::processToday(){
 	return today;
 }
 
-//added tomorrow 
 string Parser::processTomorrow(){
 	time_t t = time(0); 
 	char tmp[64]; 
-	strftime( tmp, sizeof(tmp), "%d%m%Y",localtime(&t) );  
+	strftime(tmp, sizeof(tmp), "%d%m%Y",localtime(&t));  
 	string today(tmp);
 
 	string day = today.substr(0,2);
+	string month = today.substr(2,2);
+	string year = today.substr(4,4);
 	string monthYear = today.substr(2,6);
-
 	int intDay = stringToInt(day);
 	intDay++;
-	day = intToString(intDay);
+	if(checkEndOfMonth(intDay, month) == true){
+		int intMonth = stringToInt(month);
+		intMonth++;
+		intDay = 1;
+		day = intToString(intDay);
+		month = intToString(intMonth);
+		return day + month + year;
+	}
+	else{
+		day = intToString(intDay);
+		return day + monthYear;
+	}
+}
 
-	return day + monthYear;
+bool Parser::checkEndOfMonth(int day, string month){
+	if(month == "01" && day == 32){
+		return true;
+	}
+	if(month == "02" && day == 29){
+		return true;
+	}
+	if(month == "03" && day == 32){
+		return true;
+	}
+	if(month == "04" && day == 31){
+		return true;
+	}
+	if(month == "05" && day == 32){
+		return true;
+	}
+	if(month == "06" && day == 31){
+		return true;
+	}
+	if(month == "07" && day == 32){
+		return true;
+	}
+	if(month == "08" && day == 32){
+		return true;
+	}
+	if(month == "09" && day == 31){
+		return true;
+	}
+	if(month == "10" && day == 32){
+		return true;
+	}
+	if(month == "11" && day == 31){
+		return true;
+	}
+	if(month == "12" && day == 32){
+		return true;
+	}
+
+	return false;
 }
 
 string Parser::intToString(int inputInt){

@@ -53,7 +53,7 @@ static const string INVALID_COMMAND_SEARCH = "invalid_search";
 static const string INVALID_COMMAND_UNDO = "invalid_undo";
 static const string INVALID_COMMAND_UNMARK = "invalid_unmark";
 
-static const string DEFAULT_REPORT_STRING = "invalidCommand";
+static const string DEFAULT_REPORT_STRING = "invalid_command";
 
 static const int INDEX_NOT_FOUND = -1;
 static const int ZERO = 0;
@@ -137,6 +137,7 @@ public:
 
 	int stringToInt(string);
 	int findFirstDelimiter(vector<string> &inputVector);
+	bool checkEndOfMonth(int day, string month);
 
 	MONTH_NAME determineMonthName(string month);
 //	vector<string>* unparse(vector<Task>* vectorTask);
