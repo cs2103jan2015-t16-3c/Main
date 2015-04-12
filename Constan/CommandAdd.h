@@ -12,23 +12,22 @@ using namespace std;
 class CommandAdd :
 	public Command {
 private:
-	string _taskName;
-	string _startDate;
-	string _startTime;
-	string _endDate;
-	string _endTime;
-	int _taskID;
-//	Task* _newTask;
+
+
 
 public:
-	CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, int taskID, vector<Task>* currentDisplay);
-	
+	CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, int taskID, vector<Task>* currentDisplay, string currentDisplayIndicator);
+	CommandAdd (string taskName, string startDate, string startTime, string endDate, string endTime, int taskID, vector<Task>* currentDisplay);
 	void execute();
 //	vector<Task>* updateDisplay();
 	vector<string>* updateFeedback();
 	Command* getInverseCommand();
 //	vector<Task> getTaskToDisplay();
 	//~CommandAdd(void);
+	bool isAddValid();
+	string updateDisplayIndicator();
+	bool isStartAndEndTimeValid();
+	void insertTaskDetails();
 };
 
 #endif

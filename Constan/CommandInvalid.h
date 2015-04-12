@@ -6,7 +6,7 @@ class CommandInvalid :
 private:
 	string _report;
 public:
-	CommandInvalid(string report);
+	CommandInvalid(string report,  string currentDisplayIndicator);
 	~CommandInvalid(void);
 
 	void execute();

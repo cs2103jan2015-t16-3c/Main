@@ -26,11 +26,21 @@ vector<Task>* CommandSearch::updateDisplay() {
 vector<string>* CommandSearch::updateFeedback() {
 	_feedback = new vector<string>; 
 	_feedback->push_back (COMMAND_SEARCH);
-	_feedback->push_back (_keyword);
 	_feedback->push_back (_executionStatus);
+	_feedback->push_back (_keyword);
 	return _feedback;
 }
 
 Command* CommandSearch::getInverseCommand() {
 	return NULL;
 }
+
+/*string CommandSearch::updateDisplayIndicator() {
+	if (_type == "timed") {
+		return _startDate;
+	} else if (_type == "deadline") {
+		return _endDate;
+	} else {
+		return DISPLAY_ALL;
+	}
+}*/

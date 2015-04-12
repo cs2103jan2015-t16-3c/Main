@@ -15,7 +15,7 @@ private:
 	stack<Command*>* _inverseCommandStack;
 	Command* recentCommand;
 public:
-	CommandUndo(stack<Command*>* inverseCommandStack);
+	CommandUndo(stack<Command*>* inverseCommandStack,  string currentDisplayIndicator);
 	void execute();
 	Command* getInverseCommand();
 	vector<string>* updateFeedback();

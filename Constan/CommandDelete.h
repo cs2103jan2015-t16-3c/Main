@@ -13,16 +13,10 @@ class CommandDelete :
 	public Command {
 
 private:
-	int _index;
-	int _taskID;
-	string _taskName;
-	string _startDate;
-	string _startTime;
-	string _endDate;
-	string _endTime;
-	string _type;
+	
+
 public:
-	CommandDelete(int index, vector<Task>* currentDisplay);
+	CommandDelete(int index, vector<Task>* currentDisplay,  string currentDisplayIndicator);
 	CommandDelete(vector<Task>* currentDisplay, int taskID);
 	void getTaskDetails();
 //	~CommandDelete(void);
@@ -31,6 +25,7 @@ public:
 //	vector<Task>* updateDisplay();
 	vector<string>* updateFeedback();
 	Command* getInverseCommand();
+	void insertTaskDetails();
 };
 
 #endif

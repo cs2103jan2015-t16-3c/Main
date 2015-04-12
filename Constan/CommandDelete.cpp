@@ -1,9 +1,10 @@
 #include "CommandDelete.h"
 
-CommandDelete::CommandDelete(int index, vector<Task>* currentDisplay) {
+CommandDelete::CommandDelete(int index, vector<Task>* currentDisplay, string currentDisplayIndicator) {
 	_index = index;
 	_currentDisplay = currentDisplay;
 	_taskID = EMPTY_NUMBER;
+	_currentDisplayIndicator = currentDisplayIndicator;
 }
 
 CommandDelete::CommandDelete(vector<Task>* currentDisplay, int taskID) {
@@ -17,9 +18,16 @@ CommandDelete::CommandDelete(vector<Task>* currentDisplay, int taskID) {
 
 void CommandDelete::execute() {
 	if (_taskID == EMPTY_NUMBER) {
-		getTaskDetails();
+		if (isIndexValid()) {
+			getTaskDetails();
+		} else {
+			_errorType = ERROR_TYPE_6;
+			_executionStatus = STATUS_UNSUCCESSFUL;
+			return;
+		}
 	}
-	TaskManager::getInstance()->deleteTask(_taskID);   
+	TaskManager::getInstance()->deleteTask(_taskID);
+	_executionStatus = STATUS_SUCCESSFUL;
 }
 
 void CommandDelete::getTaskDetails() {
@@ -31,6 +39,7 @@ void CommandDelete::getTaskDetails() {
 	_endTime = _currentDisplay->at(_index-1).getEndTime();
 }
 
+
 /*vector<Task>* CommandDelete::updateDisplay() {
 	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask("02042015");
 	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline("02042015");
@@ -41,10 +50,23 @@ void CommandDelete::getTaskDetails() {
 }*/
 
 vector<string>* CommandDelete::updateFeedback() {
-	_feedback = new vector<string>; 
+	_feedback = new vector<string>;
 	_feedback->push_back (COMMAND_DELETE);
-	_feedback->push_back (_taskName);
+	_feedback->push_back (_executionStatus);
+	if (_executionStatus == STATUS_SUCCESSFUL) {
+		insertTaskDetails();
+	} else {
+		_feedback->push_back (_errorType);
+	}
 	return _feedback;
+}
+
+void CommandDelete::insertTaskDetails() {
+	_feedback->push_back(_taskName);
+	_feedback->push_back(_startDate);
+	_feedback->push_back(_startTime);
+	_feedback->push_back(_endDate);
+	_feedback->push_back(_endTime);
 }
 
 Command* CommandDelete::getInverseCommand() {
