@@ -13,6 +13,7 @@ class CommandSearch:
 
 private:
 	string _keyword;
+	int _numberOfResults;
 
 public:
 	CommandSearch(string keyword);

@@ -863,9 +863,7 @@ private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::W
 
 					  //pass command to TextUI.h class to be passed to logic and then processed
 					  userInterface.processUserInput(command);
-
-					  
-
+					 
 					  Print();
 					  PrintDisplayType();
 					  PrintFeedback();
@@ -910,6 +908,7 @@ private: System::Void searchTextBox_KeyPress(System::Object^  sender, System::Wi
 			 }
 		 }
 
+/*PRINT THE CURRENT DISPLAY TYPE*/
 private: System::Void PrintDisplayType() {
 
 			 string commandDisplay = userInterface.showCurrentDisplayIndicator();
@@ -1069,7 +1068,7 @@ private: System::Void Print() {
 						InputTextBox->Clear();
 		 }
 
-/*DISPLAY FEEDBACK TO USER AFTER EACH COMMAND*/
+/*DISPLAY FEEDBACK/ERROR MESSAGE TO USER AFTER EACH COMMAND*/
 private: System::Void PrintFeedback() {
 
 			 String^ feedbackStr;

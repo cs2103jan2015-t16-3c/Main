@@ -63,7 +63,7 @@ string TextUI::TWELFTH = "12";
 /*RECEIVE USER INPUT FROM GUI AND PASS IT TO LOGIC*/
 //set the feedback and display
 void TextUI::processUserInput(string userCommand) {
-
+//	string cmd = userCommand;
 	toLogic.processCommand(userCommand);
 
 	setFeedback(userCommand);
@@ -166,35 +166,43 @@ void TextUI::displayedFeedback() {
 string TextUI::getFeedbackResult() {
 
 	string feedbackResult;
-	string taskName = _feedback->at(2);
-	feedbackResult = taskName;
+	string commandType = _feedback->at(0);
 
-	string startDate = _feedback->at(3);
-	if (startDate != "NULL") {
-		startDate = formatDate(startDate);
-	}
+	if (commandType == "display" || commandType == "search" || commandType == "undo" ) {
+		feedbackResult = _feedback->at(2);
+	
+	} else {
 
-	string startTime = _feedback->at(4);
-	if (startTime != "NULL") {
-		startTime = formatDate(startTime);
-	}
-
-	string endDate = _feedback->at(5);
-	if (endDate != "NULL") {
-		endDate = formatDate(endDate);
-	}
-
-	string endTime = _feedback->at(6);
-	if (endTime != "NULL") {
-		endTime = formatDate(endTime);
-	}
-
-	if (startDate != "NULL")
-		feedbackResult = taskName + " starts from" + startDate + " " + startTime + " to " + endDate + " " + endTime;
-	else if (endDate != "NULL")
-		feedbackResult = taskName + " due " + endDate + " " + endTime;
-	else
+		string taskName = _feedback->at(2);
 		feedbackResult = taskName;
+
+		string startDate = _feedback->at(3);
+		if (startDate != "NULL") {
+			startDate = formatDate(startDate);
+		}
+
+		string startTime = _feedback->at(4);
+		if (startTime != "NULL") {
+			startTime = formatDate(startTime);
+		}
+
+		string endDate = _feedback->at(5);
+		if (endDate != "NULL") {
+			endDate = formatDate(endDate);
+		}
+
+		string endTime = _feedback->at(6);
+		if (endTime != "NULL") {
+			endTime = formatDate(endTime);
+		}
+
+		if (startDate != "NULL")
+			feedbackResult = taskName + " starts from" + startDate + " " + startTime + " to " + endDate + " " + endTime;
+		else if (endDate != "NULL")
+			feedbackResult = taskName + " due " + endDate + " " + endTime;
+		else
+			feedbackResult = taskName;
+	}
 
 	return feedbackResult;
 }
@@ -215,19 +223,19 @@ void TextUI::processErrorFeedback() {
 		feedback = ERROR1_MESSAGE;
 	else if (_errorType == ERROR_TYPE_7)
 		feedback = ERROR1_MESSAGE;
-	else if (_errorType == INVALID_ADD)
+	else if (_errorType == INVALID_COMMAND_ADD)
 		feedback = ERROR_ADD_MESSAGE;
-	else if (_errorType == INVALID_DELETE)
+	else if (_errorType == INVALID_COMMAND_DELETE)
 		feedback = ERROR_DELETE_MESSAGE;
-	else if (_errorType == INVALID_EDIT)
+	else if (_errorType == INVALID_COMMAND_EDIT)
 		feedback = ERROR_EDIT_MESSAGE;
-	else if (_errorType == INVALID_DISPLAY)
+	else if (_errorType == INVALID_COMMAND_DISPLAY)
 		feedback = ERROR_DISPLAY_MESSAGE;
-	else if (_errorType == INVALID_SEARCH)
+	else if (_errorType == INVALID_COMMAND_SEARCH)
 		feedback = ERROR_SEARCH_MESSAGE;
-	else if (_errorType == INVALID_MARK)
+	else if (_errorType == INVALID_COMMAND_MARK)
 		feedback = ERROR_MARK_MESSAGE;
-	else if (_errorType == INVALID_UNMARK)
+	else if (_errorType == INVALID_COMMAND_UNMARK)
 		feedback = ERROR_UNMARK_MESSAGE;
 	else 
 		feedback == ERROR_OTHERS;
@@ -272,14 +280,21 @@ void TextUI::unparseCurrentDisplayType() {
 
 	if (_displayType == "all")
 		_displayType = "All task:";
+
 	else if (_displayType == "today") 
 		_displayType = "Today's task:";
+
 	else if (_displayType == "tomorrow")
 		_displayType = "Tomorrow's task:";
+
 	else if (_displayType == "search")
 		_displayType = "Search result(s):";
+
 	else {
 		_displayType = formatDate(_displayType);
+		if(_displayType == todayDate)
+			_displayType = "Today's task:";
+		else
 		_displayType = "Task on " + _displayType + ":";
 	}
 
@@ -311,16 +326,22 @@ void TextUI::unparseDisplayVector() {
 		//taskName = convertToCorrectFormat(taskName);
 
 		string startDate = _displayVector->at(i).getStartDate();
-		if (startDate != "NULL")
+		if (startDate != "NULL") {
 			startDate = formatDate(startDate);
+			if (startDate == todayDate)
+				startDate = "today";
+		}
 
 		string startTime = _displayVector->at(i).getStartTime();
 		if (startTime != "NULL")
 			startTime = formatTime(startTime);
 
 		string endDate = _displayVector->at(i).getEndDate();
-		if (endDate != "NULL")
+		if (endDate != "NULL") {
 			endDate = formatDate(endDate);
+			if (startDate == todayDate)
+				startDate = "today";
+		}
 
 		string endTime = _displayVector->at(i).getEndTime();
 		if (endTime != "NULL")
@@ -347,10 +368,9 @@ void TextUI::unparseDeadlineVector() {
 		string taskName = _deadlineVector->at(i).getTaskName();
 
 		string endDate = _deadlineVector->at(i).getEndDate();
+		endDate = formatDate(endDate);
 			if (endDate == todayDate)
-				endDate = "today";
-			else
-				endDate = formatDate(endDate);
+				endDate = "today";			
 
 		string endTime = _deadlineVector->at(i).getEndTime();
 			endTime = formatTime(endTime);

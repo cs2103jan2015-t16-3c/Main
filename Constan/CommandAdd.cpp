@@ -59,7 +59,7 @@ bool CommandAdd::isAddValid() {
 			return false;
 		}
 	}
-	if (!isStartAndEndTimeValid()) {
+	if (_startDate != NULL_STRING && _startTime == NULL_STRING && !isStartAndEndTimeValid()) {
 		_errorType = ERROR_TYPE_5;
 		return false;
 	}

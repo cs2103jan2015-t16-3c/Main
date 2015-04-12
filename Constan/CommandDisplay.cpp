@@ -62,6 +62,11 @@ vector<Task>* CommandDisplay::generateDisplay() {
 }
 
 string CommandDisplay::updateDisplayIndicator() {
+	if (_displayType != DISPLAY_INVALID) {
+		_executionStatus = STATUS_SUCCESSFUL;
+	} else {
+		_executionStatus = STATUS_UNSUCCESSFUL;
+	}
 	if (_executionStatus == STATUS_SUCCESSFUL) {
 		_currentDisplayIndicator = _displayType;
 	} 
