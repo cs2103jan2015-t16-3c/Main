@@ -15,8 +15,8 @@ namespace GUIProject {
 
 	unsigned int MEDIUM_SIZE_STRING = 25;
 	unsigned int SMALL_SIZE_STRING = 5;
-	string LONG_BLANK_SPACE = "                ";
-	string SMALL_BLANK_SPACE = "                                      ";
+	string SMALL_BLANK_SPACE = "                ";
+	string LONG_BLANK_SPACE = "                                      ";
 	string command, feedback, stdDisplayResult, stdTaskComponent;
 	bool helpDisplayed = false;
 	TextUI userInterface;
