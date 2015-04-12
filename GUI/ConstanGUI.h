@@ -812,7 +812,6 @@ namespace GUIProject {
 //set initial display -> Today's task and deadline due
 private: System::Void ConstanGUI_Load(System::Object^  sender, System::EventArgs^  e) {
 			
-			 feedbackLabel->Text = "";
 			 listViewDisplay->Items->Clear(); 
 			 deadlineListView->Items->Clear();
 					  
@@ -820,8 +819,6 @@ private: System::Void ConstanGUI_Load(System::Object^  sender, System::EventArgs
 			 command = initialDisplay;
 			 userInterface.processUserInput(command);
 			 Print();
-
-			 feedbackLabel->Text = "Enter Command";
 
 			 string todayDate = userInterface.showTodayDate();
 			 String^ showDate = gcnew String(todayDate.c_str());
@@ -864,16 +861,13 @@ private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::W
 						  return;
 					  }
 
-					  if (command == "display today")
-						  displayTypeTexbox->Text = "Today's task:";
-					  if (command == "display all")
-						  displayTypeTexbox->Text = "All task:";
-					  if (command == "display tomorrow")
-						  displayTypeTexbox->Text = "Tomorrow's task:";
-
 					  //pass command to TextUI.h class to be passed to logic and then processed
 					  userInterface.processUserInput(command);
+
+					  
+
 					  Print();
+					  PrintDisplayType();
 					  PrintFeedback();
 					  PrintDeadline();
 					  
@@ -907,6 +901,7 @@ private: System::Void searchTextBox_KeyPress(System::Object^  sender, System::Wi
 
 					  userInterface.processUserInput(command);
 					  Print();
+					  PrintDisplayType();
 					  PrintFeedback();
 
 					  searchTextBox->Text = "";
@@ -915,9 +910,18 @@ private: System::Void searchTextBox_KeyPress(System::Object^  sender, System::Wi
 			 }
 		 }
 
+private: System::Void PrintDisplayType() {
+
+			 string commandDisplay = userInterface.showCurrentDisplayIndicator();
+			 String^ displayType = gcnew String(commandDisplay.c_str());
+			 
+			 displayTypeTexbox->Text = displayType;
+
+		 }
+
 /*DISPLAY THE TASK TO USER IN TABLE FORM*/
 //differentiate the task based on their type and give them unique indexes
-private: System::Void Print(){
+private: System::Void Print() {
 
 			 System::Windows::Forms::ListViewGroup^  listViewGroup1 = (gcnew System::Windows::Forms::ListViewGroup(L"Scheduled Tasks", System::Windows::Forms::HorizontalAlignment::Left));
 			 System::Windows::Forms::ListViewGroup^  listViewGroup2 = (gcnew System::Windows::Forms::ListViewGroup(L"Deadlines", System::Windows::Forms::HorizontalAlignment::Left));
@@ -1566,6 +1570,7 @@ private: System::Void ConstanGUI_KeyDown(System::Object^  sender, System::Window
 					  command = undo;
 					  userInterface.processUserInput(command);
 					  Print();
+					  PrintDisplayType();
 					  PrintFeedback();
 			}
 

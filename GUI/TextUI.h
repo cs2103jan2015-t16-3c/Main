@@ -38,6 +38,21 @@ public:
     static string MESSAGE_MARKED;
 	static string MESSAGE_UNMARKED;
 
+	static string ERROR1_MESSAGE;
+	static string ERROR2_MESSAGE;
+	static string ERROR3_MESSAGE;
+	static string ERROR4_MESSAGE;
+	static string ERROR5_MESSAGE;
+	static string ERROR6_MESSAGE;
+	static string ERROR7_MESSAGE;
+	static string ERROR_ADD_MESSAGE;
+	static string ERROR_DELETE_MESSAGE;
+	static string ERROR_EDIT_MESSAGE;
+	static string ERROR_DISPLAY_MESSAGE;
+	static string ERROR_SEARCH_MESSAGE;
+	static string ERROR_MARK_MESSAGE;
+	static string ERROR_UNMARK_MESSAGE;
+
 
     static string ERROR_UNRECOGNISED_COMMAND_TYPE;
     static string ERROR_INVALID_FORMAT;
@@ -79,10 +94,11 @@ public:
 	string display;
 	string displayDeadline;
 	string todayDate;
+	string _displayType;
+	string _errorType;
 	int noOfTask;
 	int noOfDeadline;
 
-    //string getFirstWord(string userCommand);
     COMMAND_TYPE_FEEDBACK determineCommandType(string commandTypeString);
     void displayResult();
     void displayTaskList();
@@ -91,6 +107,7 @@ public:
     //void showToUser(string text);
 	void displayedFeedback(string message);
 	void displayedFeedback();
+	void processErrorFeedback();
 
 	void setDisplay();
 	void getDisplayVector();
@@ -98,6 +115,8 @@ public:
 	void unparseDisplayVector();
 	void getDeadlineVector();
 	void unparseDeadlineVector();
+	void getCurrentDisplayType();
+	void unparseCurrentDisplayType();
 	string formatDate(string date);
 	string formatTime(string time);
 
@@ -108,6 +127,7 @@ public:
 	string showDisplay();
 	string showDeadline();
 	string showTodayDate();
+	string showCurrentDisplayIndicator();
 	int getNoOfTask();
 	int getNoOfDeadline();
     void processUserInput(string command);

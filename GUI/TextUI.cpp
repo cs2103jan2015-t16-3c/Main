@@ -12,6 +12,21 @@ string TextUI::MESSAGE_UNDONE = "Command undone.";
 string TextUI::MESSAGE_MARKED = "Task marked: ";
 string TextUI::MESSAGE_UNMARKED = "Task unmarked: ";
 
+string TextUI::ERROR1_MESSAGE = "Error: Please enter task name e.g. add -t My task ..";
+string TextUI::ERROR2_MESSAGE = "Error: Please specify when do you want to end this task";
+string TextUI::ERROR3_MESSAGE = "Error: Please enter start date";
+string TextUI::ERROR4_MESSAGE = "Error: Please specify the task's date";
+string TextUI::ERROR5_MESSAGE = "Error: Your end date/time must be later than your start date/time";
+string TextUI::ERROR6_MESSAGE = "Error: Invalid index. Please enter the index of the task displayed";
+string TextUI::ERROR7_MESSAGE = "Error: Invalid display type.";
+string TextUI::ERROR_ADD_MESSAGE = "Error: Please give the details of the task you want to add. ";
+string TextUI::ERROR_DELETE_MESSAGE = "Error: Please enter the index of the task you want to delete e.g. delete 1";
+string TextUI::ERROR_EDIT_MESSAGE = "Error: Please give the details of the task you want to edit.";
+string TextUI::ERROR_DISPLAY_MESSAGE = "Error: Please specify the task you wish to display.";
+string TextUI::ERROR_SEARCH_MESSAGE = "Error: Please specify the keywords of the task you want to search";
+string TextUI::ERROR_MARK_MESSAGE = "Error: Specify the index of task you wish to mark or tick the checkbox";
+string TextUI::ERROR_UNMARK_MESSAGE = "Error: Specify the index of task you wish to unmark or untick the checkbox";
+
 string TextUI::ERROR_UNRECOGNISED_COMMAND_TYPE = "ERROR: Unrecognised command type.\nEnter \"help\" for list of valid command type in CONSTAN!";
 string TextUI::ERROR_INVALID_FORMAT = "ERROR: Invalid format.\nEnter \"help\" for list of valid formatting in CONSTAN!";
 string TextUI::ERROR_INVALID_DATE_TIME = "ERROR: Invalid date or time.";
@@ -45,23 +60,65 @@ string TextUI::TENTH = "10";
 string TextUI::ELEVENTH = "11";
 string TextUI::TWELFTH = "12";
 
-
+/*RECEIVE USER INPUT FROM GUI AND PASS IT TO LOGIC*/
+//set the feedback and display
 void TextUI::processUserInput(string userCommand) {
 
-	//pass user input as a string to Logic
 	toLogic.processCommand(userCommand);
-		/*
-		if(TRUE //valid formatting, command succesfully executed) 
-			printCommand();
-		else 
-			showToUser(ERROR_INVALID_FORMAT);	
-		*/
+
 	setFeedback(userCommand);
 	setDisplay();
 
 }
 
+/*GET FEEDBACK FROM LOGIC THEN DIFFERENTIATE FEEDBACK TYPE OR ERROR TYPE*/
+void TextUI::setFeedback(string userCommand) {
 
+	_feedback = toLogic.getFeedback();
+
+	if ( _feedback->at(1) == "successful" ) {
+
+		string commandTypeString = _feedback->front();
+
+		COMMAND_TYPE_FEEDBACK commandType = determineCommandType(commandTypeString);
+
+		switch (commandType) {
+		case ADD_TASK: 
+			displayedFeedback(MESSAGE_ADDED);
+			return;
+		case DELETE_TASK:
+			displayedFeedback(MESSAGE_DELETED);
+			return;
+		case EDIT_TASK:
+			displayedFeedback(MESSAGE_EDITED);
+			return;
+		case DISPLAY_TASK:
+			displayedFeedback(MESSAGE_DISPLAYED);
+			return;
+		case UNDO_TASK:
+			displayedFeedback(MESSAGE_UNDONE);
+			return;
+		case MARK_TASK:
+			displayedFeedback(MESSAGE_MARKED);
+			return;
+		case UNMARK_TASK:
+			displayedFeedback(MESSAGE_UNMARKED);
+			return;
+		default:
+			displayedFeedback();
+			return;
+		}
+
+	} else if ( _feedback->at(1) == "unsuccessful" ) {
+
+		_errorType = _feedback->at(2);
+		processErrorFeedback();
+
+	}
+
+}
+
+/*CHANGE COMMAND TYPE FROM STRING TO ENUM*/
 TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeString) {
 
 	if(commandTypeString == "add")
@@ -85,7 +142,6 @@ TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeStr
 	if (commandTypeString == "unmark")
 		return COMMAND_TYPE_FEEDBACK::UNMARK_TASK;
 
-
 	if (commandTypeString == "search")
 		return COMMAND_TYPE_FEEDBACK::SEARCH_TASK;
 
@@ -94,74 +150,89 @@ TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeStr
 	}
 }
 
-void TextUI::setFeedback(string userCommand) {
-	/*if(userCommand == "") {                                      
-		showToUser(ERROR_UNRECOGNISED_COMMAND_TYPE);
-	}*/
-
-	_feedback = toLogic.getFeedback();
-	string commandTypeString = _feedback->front();
-		
-	COMMAND_TYPE_FEEDBACK commandType = determineCommandType(commandTypeString);
-
-	switch (commandType) {
-	case ADD_TASK: 
-		displayedFeedback(MESSAGE_ADDED);
-		return;
-	case DELETE_TASK:
-		displayedFeedback(MESSAGE_DELETED);
-		return;
-	case EDIT_TASK:
-		displayedFeedback(MESSAGE_EDITED);
-		return;
-	case DISPLAY_TASK:
-		displayedFeedback(MESSAGE_DISPLAYED);
-		return;
-	case UNDO_TASK:
-		displayedFeedback(MESSAGE_UNDONE);
-		return;
-	case MARK_TASK:
-		displayedFeedback(MESSAGE_MARKED);
-		return;
-	case UNMARK_TASK:
-		displayedFeedback(MESSAGE_UNMARKED);
-		return;
-//	case OTHERS:
-//		displayedFeedback();
-//		return;
-	case INVALID_TASK:             
-		//showToUser(ERROR_UNRECOGNISED_COMMAND_TYPE);
-		return;
-	default:
-		return;
-	}
-
-}
-
-/*
-string TextUI::getFirstWord(string userCommand){
-
-	userCommandTemp = userCommand;
-	string commandTypeString = userCommandTemp.substr(0, userCommand.find(' '));
-	//string commandTypeString = toLogic.getCommandType();
-
-	return commandTypeString;
-}
-*/
-
-
-//combine feedback message with feedback result
+/*COMBINE FEEDBACK MESSAGE AND THE FEEDBACK FROM LOGIC*/
 void TextUI::displayedFeedback(string message) {
 
 	feedback = message + getFeedbackResult();
 }
 
-//create feedback for commands who don't require messages
+/*CREATE FEEDBACK FOR ERROR INPUTS*/
 void TextUI::displayedFeedback() {
 
 	feedback = getFeedbackResult();
 }
 
+/*GET FEEDBACK RESULT FROM LOGIC*/
+string TextUI::getFeedbackResult() {
+
+	string feedbackResult;
+	string taskName = _feedback->at(2);
+	feedbackResult = taskName;
+
+	string startDate = _feedback->at(3);
+	if (startDate != "NULL") {
+		startDate = formatDate(startDate);
+	}
+
+	string startTime = _feedback->at(4);
+	if (startTime != "NULL") {
+		startTime = formatDate(startTime);
+	}
+
+	string endDate = _feedback->at(5);
+	if (endDate != "NULL") {
+		endDate = formatDate(endDate);
+	}
+
+	string endTime = _feedback->at(6);
+	if (endTime != "NULL") {
+		endTime = formatDate(endTime);
+	}
+
+	if (startDate != "NULL")
+		feedbackResult = taskName + " starts from" + startDate + " " + startTime + " to " + endDate + " " + endTime;
+	else if (endDate != "NULL")
+		feedbackResult = taskName + " due " + endDate + " " + endTime;
+	else
+		feedbackResult = taskName;
+
+	return feedbackResult;
+}
+
+void TextUI::processErrorFeedback() {
+
+	if (_errorType == ERROR_TYPE_1)
+		feedback = ERROR1_MESSAGE;
+	else if (_errorType == ERROR_TYPE_2)
+		feedback = ERROR1_MESSAGE;
+	else if (_errorType == ERROR_TYPE_3)
+		feedback = ERROR1_MESSAGE;
+	else if (_errorType == ERROR_TYPE_4)
+		feedback = ERROR1_MESSAGE;
+	else if (_errorType == ERROR_TYPE_5)
+		feedback = ERROR1_MESSAGE;
+	else if (_errorType == ERROR_TYPE_6)
+		feedback = ERROR1_MESSAGE;
+	else if (_errorType == ERROR_TYPE_7)
+		feedback = ERROR1_MESSAGE;
+	else if (_errorType == INVALID_ADD)
+		feedback = ERROR_ADD_MESSAGE;
+	else if (_errorType == INVALID_DELETE)
+		feedback = ERROR_DELETE_MESSAGE;
+	else if (_errorType == INVALID_EDIT)
+		feedback = ERROR_EDIT_MESSAGE;
+	else if (_errorType == INVALID_DISPLAY)
+		feedback = ERROR_DISPLAY_MESSAGE;
+	else if (_errorType == INVALID_SEARCH)
+		feedback = ERROR_SEARCH_MESSAGE;
+	else if (_errorType == INVALID_MARK)
+		feedback = ERROR_MARK_MESSAGE;
+	else if (_errorType == INVALID_UNMARK)
+		feedback = ERROR_UNMARK_MESSAGE;
+	else 
+		feedback == ERROR_OTHERS;
+
+}
 
 string TextUI::showTodayDate() {
 	
@@ -175,18 +246,43 @@ void TextUI::getTodayDateString() {
 	todayDate = formatDate(todayDate);
 }
 
-//get feedback result from Logic CLASS
-string TextUI::getFeedbackResult() {
-	if (_feedback->size() > 1) {
-		return _feedback->at(1);
-	}
-	return EMPTY_STRING;
-}
+
 
 //pass the string of feedback to GUI
 string TextUI::showFeedback() {
 
 	return feedback;
+}
+
+string TextUI::showCurrentDisplayIndicator() {
+
+	getCurrentDisplayType();
+	unparseCurrentDisplayType();
+
+	return _displayType;
+}
+
+void TextUI::getCurrentDisplayType() {
+
+	_displayType = toLogic.getCurrentDisplayIndicator();
+
+}
+
+void TextUI::unparseCurrentDisplayType() {
+
+	if (_displayType == "all")
+		_displayType = "All task:";
+	else if (_displayType == "today") 
+		_displayType = "Today's task:";
+	else if (_displayType == "tomorrow")
+		_displayType = "Tomorrow's task:";
+	else if (_displayType == "search")
+		_displayType = "Search result(s):";
+	else {
+		_displayType = formatDate(_displayType);
+		_displayType = "Task on " + _displayType + ":";
+	}
+
 }
 
 //set the content of the display going to be printed 
