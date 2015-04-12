@@ -23,6 +23,10 @@ void Parser::updateDisplay (vector<Task>* currentDisplay) {
 	_currentDisplay = currentDisplay;
 }
 
+void Parser::updateCurrentDisplayIndicator(string currentDisplayIndicator) {
+	_currentDisplayIndicator = currentDisplayIndicator;
+}
+
 void Parser::updateInverseCommandStack(stack<Command*> *inverseCommandStack) {
 	_inverseCommandStack = inverseCommandStack;
 }
@@ -33,37 +37,37 @@ Command* Parser::translateInput(vector<string>& inputVector) {
 	getReportType(inputVector);
 	if (commandType == ADD) {	
 			if(_report != DEFAULT_REPORT_STRING){
-				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
 			    return invalidEntry;
 			} else {
 				getTaskName(inputVector);	
 				getStartingTime(inputVector);
 				getEndingTime(inputVector);
 				generateTaskID();
-				CommandAdd* addTask = new CommandAdd (_taskName, _startDate, _startTime, _endDate, _endTime, _taskID, _currentDisplay);
+				CommandAdd* addTask = new CommandAdd (_taskName, _startDate, _startTime, _endDate, _endTime, _taskID, _currentDisplay, _currentDisplayIndicator);
 				return addTask;
 			}
 	} else if (commandType == DELETE_IT) {
 			if(_report != DEFAULT_REPORT_STRING){
-				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
 				return invalidEntry;
 			} else {
 				getIndex(inputVector);
-				CommandDelete* deleteTask = new CommandDelete (_index, _currentDisplay);
+				CommandDelete* deleteTask = new CommandDelete (_index, _currentDisplay, _currentDisplayIndicator);
 				return deleteTask;
 			}
 	} else if (commandType == DISPLAY) {			
 			if(_report != DEFAULT_REPORT_STRING){
-				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
 			    return invalidEntry;
 			} else {
 				getDisplayType(inputVector);
-				CommandDisplay* displayTask = new CommandDisplay (_displayType, _currentDisplay);
+				CommandDisplay* displayTask = new CommandDisplay (_displayType);
 				return displayTask;
 			}
 	} else if (commandType == SEARCH) {
 			if(_report != DEFAULT_REPORT_STRING){
-				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
 			    return invalidEntry;
 			} else {
 				getKeyword(inputVector);
@@ -72,39 +76,39 @@ Command* Parser::translateInput(vector<string>& inputVector) {
 			}
 	} else if (commandType == EDIT) {
 			if(_report != DEFAULT_REPORT_STRING){
-				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
 			    return invalidEntry;
 			} else {
 				getIndex(inputVector);
 				getTaskName(inputVector);
 				getStartingTime(inputVector);
 				getEndingTime(inputVector);
-				CommandEdit* editTask = new CommandEdit (_index, _taskName, _startDate, _startTime, _endDate, _endTime, _currentDisplay);
+				CommandEdit* editTask = new CommandEdit (_index, _taskName, _startDate, _startTime, _endDate, _endTime, _currentDisplay, _currentDisplayIndicator);
 				return editTask;
 			}
 	} else if (commandType == MARK) {
 			if(_report != DEFAULT_REPORT_STRING){
-				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
 				return invalidEntry;
 			} else {
 				getIndex(inputVector);
-				CommandMark* markTask = new CommandMark (_index, _currentDisplay);
+				CommandMark* markTask = new CommandMark (_index, _currentDisplay, _currentDisplayIndicator);
 				return markTask;
 			}
 	} else if (commandType == UNMARK) {
 			if(_report != DEFAULT_REPORT_STRING){
-				CommandInvalid* invalidEntry = new CommandInvalid (_report);
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
 				return invalidEntry;
 			} else {
 				getIndex(inputVector);
-				CommandUnmark* unmarkTask = new CommandUnmark (_index, _currentDisplay);
+				CommandUnmark* unmarkTask = new CommandUnmark (_index, _currentDisplay, _currentDisplayIndicator);
 				return unmarkTask;
 			}
 	} else if (commandType == UNDO) {
-			CommandUndo* undoTask = new CommandUndo (_inverseCommandStack); 
+			CommandUndo* undoTask = new CommandUndo (_inverseCommandStack, _currentDisplayIndicator); 
 			return undoTask;
 	} else if (commandType == INVALID) {
-			CommandInvalid* invalidEntry = new CommandInvalid (_report);
+			CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
 			return invalidEntry;
 	}
 }
@@ -113,21 +117,21 @@ void Parser::getReportType(vector<string> &inputVector){
 	string input = inputVector[0];
 	toStringLower(input);
 	if(input == COMMAND_ADD && inputVector.size() == 1){
-		_report = "invalidAdd";
+		_report = INVALID_COMMAND_ADD;
 	} else if(input == COMMAND_DELETE && inputVector.size() == 1){
-		_report = "invalidDelete";
+		_report = INVALID_COMMAND_DELETE;
 	} else if(input == COMMAND_EDIT && inputVector.size() == 1){
-		_report = "invalidEdit";
+		_report = "invalid_edit";
 	} else if(input == COMMAND_DISPLAY && inputVector.size() != 2){
-		_report = "invalidDisplay";
+		_report = "invalid_display";
 //	} else if (input =="display" && !correctDisplay(inputVector[1])){
 //		_report = "invalidDisplay";
 	} else if (input == COMMAND_SEARCH && inputVector.size() == 1){
-		_report = "invalidSearch";
+		_report = "invalid_search";
 	} else if (input == COMMAND_MARK && inputVector.size() == 1){
-		_report = "invalidMark";
+		_report = "invalid_mark";
 	} else if (input == COMMAND_UNMARK && inputVector.size() == 1){
-		_report = "invalidUnmark";
+		_report = "invalid_unmark";
 	}
 }
 
@@ -138,7 +142,7 @@ void Parser::getKeyword(vector<string> &inputVector) {
 void Parser::getIndex(vector<string> &inputVector) {
 	int indexLimit = findFirstDelimiter(inputVector);
 	if (indexLimit > 1 || indexLimit == INDEX_NOT_FOUND) {
-		_index = std::stoi(inputVector[1]);
+		_index = stoi(inputVector[1]);
 	} else {
 		_index = INDEX_NOT_FOUND;
 	}

@@ -10,10 +10,11 @@ namespace ConstanTest
 	{
 	public:
 		
-		TEST_METHOD(InverseCommandTest)
+		TEST_METHOD(InverseCommandDelete)
 		{
 			vector<Task>* _currentDisplay = new vector<Task>;
-			Command* cmd = new CommandDelete (1, _currentDisplay);
+			string _currentDisplayIndicator;
+			Command* cmd = new CommandDelete (1, _currentDisplay,_currentDisplayIndicator);
 			Command* invCommand = cmd->getInverseCommand();
 			CommandAdd* inv2 = dynamic_cast<CommandAdd*>(invCommand);
 			Assert::IsNotNull(inv2);// assert that invCommand is of type CommandAdd

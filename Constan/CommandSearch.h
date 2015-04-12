@@ -12,7 +12,6 @@ class CommandSearch:
 	public Command {
 
 private:
-	string _isFound;
 	string _keyword;
 
 public:
@@ -23,6 +22,7 @@ public:
 	vector<Task>* updateDisplay();
 	vector<string>* updateFeedback();
 	Command* getInverseCommand();
+//	string updateDisplayIndicator();
 };
 
 #endif

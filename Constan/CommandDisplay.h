@@ -12,7 +12,7 @@ class CommandDisplay :
 private:
 	string _displayType;
 public:
-	CommandDisplay(string displayType, vector<Task>* currentDisplay);
+	CommandDisplay(string displayType);
 	~CommandDisplay(void);
 
 	void execute();
@@ -20,5 +20,8 @@ public:
 	vector<string>* updateFeedback();
 	Command* getInverseCommand();
 	vector<Task>* generateDisplay();
+	void toStringLower(string& input);
+	string updateDisplayIndicator();
+	bool isNumberFound(string input);
 };
 #endif

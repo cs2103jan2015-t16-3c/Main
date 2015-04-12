@@ -13,12 +13,9 @@ class CommandUnmark :
 	public Command {
 
 private:
-	int _index;
-	int _taskID;
-	string _taskName;
 
 public:
-	CommandUnmark(int index, vector<Task>* currentDisplay);
+	CommandUnmark(int index, vector<Task>* currentDisplay,  string currentDisplayIndicator);
 	CommandUnmark(vector<Task>* currentDisplay, int taskID);
 //	~CommandUnmark(void);
 	

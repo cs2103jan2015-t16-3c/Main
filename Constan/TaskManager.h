@@ -55,10 +55,12 @@ public:
 	void getFloatingTaskVector(vector<Task>* floatingTaskVector);
 	vector<Task>* retrieveDeadline(string timeIndicator);
 	void getDeadlineVector(vector<Task>* deadlineVector);
+	vector<Task>* retrieveOverdueTasks();
 	void setCompletionStatus(int index, bool isComplete);
 	void incrementTaskID();
 	void updateTaskIDOnLoad();
 	string getTaskName(int taskID);
+	string getTaskType(int taskID);
 	string processTimeIndicator(string input);
 	Task* findTask(int taskID);
 	string getType (string taskName, string startDate, string startTime, string endDate, string endTime);

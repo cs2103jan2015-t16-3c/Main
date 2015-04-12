@@ -10,10 +10,9 @@ namespace ConstanTest
 	{
 	public:
 		
-		TEST_METHOD(InverseCommandTest)
+		TEST_METHOD(InverseCommandDisplay)
 		{
-			vector<Task>* _currentDisplay = new vector<Task>;
-			Command* cmd = new CommandDisplay ("deadline" , _currentDisplay);
+			Command* cmd = new CommandDisplay ("deadline");
 			Command* invCommand = cmd->getInverseCommand();
 			CommandDisplay* invCommand2 = dynamic_cast<CommandDisplay*>(invCommand);
 			Assert::IsNull(invCommand2);// assert that invCommand is Null for type of CommandDisplay

@@ -10,7 +10,7 @@ namespace ConstanTest
 	{
 	public:
 		
-		TEST_METHOD(InveseCommandTest)
+		TEST_METHOD(InveseCommandAdd)
 		{
 			vector<Task>* _currentDisplay = new vector<Task>;
 			Command* cmd = new CommandAdd ("dinner", "11042015", "1000", "11042015", "1100", 1, _currentDisplay);

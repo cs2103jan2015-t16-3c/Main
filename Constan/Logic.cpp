@@ -4,15 +4,18 @@ Logic::~Logic(void){
 }
 
 Logic::Logic(): parser (&inverseCommandStack) {
+	_currentDisplayIndicator = DISPLAY_TODAY;
 }
 
 void Logic::processCommand(string input) {
+	parser.updateCurrentDisplayIndicator(_currentDisplayIndicator);
 	Command* cmd = parser.parse(input);
 	cmd->execute();
 	Command* invCommand = cmd->getInverseCommand();
 	if (invCommand != NULL) {
 		inverseCommandStack.push(invCommand);
 	}
+	_currentDisplayIndicator = cmd->updateDisplayIndicator();
 	_currentDisplay = cmd->updateDisplay();
 	_feedbackLogic = cmd->updateFeedback();
 	_deadlineVector = cmd->updateDeadline();
@@ -34,6 +37,11 @@ vector<string>* Logic::getFeedback() {
 
 vector<Task>* Logic::getDisplayVector() {
 	return _currentDisplay;
+}
+
+string Logic::getCurrentDisplayIndicator() {
+	return _currentDisplayIndicator;
+
 }
 
 vector<Task>* Logic::getDeadlineVector() {
