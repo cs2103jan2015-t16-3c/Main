@@ -10,7 +10,7 @@ namespace ConstanTest
 	{
 	public:
 		
-		TEST_METHOD(InverseCommandTest)
+		TEST_METHOD(InverseCommandUnmark)
 		{
 			vector<Task>* _currentDisplay = new vector<Task>;
 			Command* cmd = new CommandUnmark (1, _currentDisplay);

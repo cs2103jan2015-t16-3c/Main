@@ -10,7 +10,7 @@ namespace ConstanTest
 	{
 	public:
 		
-		TEST_METHOD(InverseCommandTest)
+		TEST_METHOD(InverseCommandEdit)
 		{
 			vector<Task>* _currentDisplay = new vector<Task>;
 			Command* cmd = new CommandEdit (1, "dinner", "11042015", "1000", "11042015", "1100", _currentDisplay);
