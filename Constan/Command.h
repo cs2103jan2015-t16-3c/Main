@@ -40,6 +40,8 @@ public:
 	virtual Command* getInverseCommand();
 	virtual vector<Task>* updateDisplay();
 	virtual vector<string>* updateFeedback();
+	vector<Task>* updateDeadline();
+	string updateTodayDate();
 	bool operator==(const Command &anotherCommand);
 
 /*	struct Compare_Task {

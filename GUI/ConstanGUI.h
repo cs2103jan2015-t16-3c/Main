@@ -13,6 +13,10 @@ namespace GUIProject {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
+	unsigned int MEDIUM_SIZE_STRING = 25;
+	unsigned int SMALL_SIZE_STRING = 5;
+	string LONG_BLANK_SPACE = "                ";
+	string SMALL_BLANK_SPACE = "                                      ";
 	string command, feedback, stdDisplayResult, stdTaskComponent;
 	bool helpDisplayed = false;
 	TextUI userInterface;
@@ -142,11 +146,6 @@ namespace GUIProject {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::ListViewItem^  listViewItem1 = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::Windows::Forms::ListViewItem::ListViewSubItem^  >(2) {(gcnew System::Windows::Forms::ListViewItem::ListViewSubItem(nullptr, 
-				L"tutorial", System::Drawing::Color::DimGray, System::Drawing::Color::WhiteSmoke, (gcnew System::Drawing::Font(L"Calibri", 
-				9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0))))), (gcnew System::Windows::Forms::ListViewItem::ListViewSubItem(nullptr, 
-				L"today", System::Drawing::Color::Gray, System::Drawing::Color::WhiteSmoke, (gcnew System::Drawing::Font(L"Calibri", 
-				9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)))))}, -1));
 			this->InputTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->listViewDisplay = (gcnew System::Windows::Forms::ListView());
 			this->taskHeader = (gcnew System::Windows::Forms::ColumnHeader());
@@ -198,12 +197,13 @@ namespace GUIProject {
 			// InputTextBox
 			// 
 			this->InputTextBox->BackColor = System::Drawing::Color::WhiteSmoke;
-			this->InputTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
+			this->InputTextBox->BorderStyle = System::Windows::Forms::BorderStyle::FixedSingle;
+			this->InputTextBox->Font = (gcnew System::Drawing::Font(L"Calibri", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->InputTextBox->ForeColor = System::Drawing::Color::Black;
 			this->InputTextBox->Location = System::Drawing::Point(509, 508);
 			this->InputTextBox->Name = L"InputTextBox";
-			this->InputTextBox->Size = System::Drawing::Size(468, 19);
+			this->InputTextBox->Size = System::Drawing::Size(468, 26);
 			this->InputTextBox->TabIndex = 7;
 			this->InputTextBox->TextChanged += gcnew System::EventHandler(this, &ConstanGUI::InputTextBox_TextChanged);
 			this->InputTextBox->DoubleClick += gcnew System::EventHandler(this, &ConstanGUI::InputTextBox_DoubleClick);
@@ -280,6 +280,7 @@ namespace GUIProject {
 			this->feedbackLabel->Name = L"feedbackLabel";
 			this->feedbackLabel->Size = System::Drawing::Size(471, 23);
 			this->feedbackLabel->TabIndex = 8;
+			this->feedbackLabel->Text = L"Press F1 for Help";
 			this->feedbackLabel->UseMnemonic = false;
 			// 
 			// label1
@@ -288,11 +289,11 @@ namespace GUIProject {
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->label1->ForeColor = System::Drawing::SystemColors::ControlDark;
-			this->label1->Location = System::Drawing::Point(517, 536);
+			this->label1->Location = System::Drawing::Point(511, 536);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(244, 13);
+			this->label1->Size = System::Drawing::Size(309, 15);
 			this->label1->TabIndex = 9;
-			this->label1->Text = L"add / display / edit / delete / mark / unmark / search";
+			this->label1->Text = L"add / display / edit / delete / mark / unmark / search / exit";
 			// 
 			// label2
 			// 
@@ -302,7 +303,7 @@ namespace GUIProject {
 			this->label2->ForeColor = System::Drawing::Color::White;
 			this->label2->Location = System::Drawing::Point(304, 508);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(196, 25);
+			this->label2->Size = System::Drawing::Size(196, 26);
 			this->label2->TabIndex = 10;
 			this->label2->Text = L"ENTER COMMAND:";
 			this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -329,7 +330,7 @@ namespace GUIProject {
 			this->welcomeMsgLabel->ForeColor = System::Drawing::Color::White;
 			this->welcomeMsgLabel->Location = System::Drawing::Point(53, 102);
 			this->welcomeMsgLabel->Name = L"welcomeMsgLabel";
-			this->welcomeMsgLabel->Size = System::Drawing::Size(132, 17);
+			this->welcomeMsgLabel->Size = System::Drawing::Size(164, 21);
 			this->welcomeMsgLabel->TabIndex = 12;
 			this->welcomeMsgLabel->Text = L"Welcome to CONSTAN";
 			// 
@@ -359,7 +360,7 @@ namespace GUIProject {
 				static_cast<System::Byte>(0)));
 			this->headerLabel->ForeColor = System::Drawing::Color::White;
 			this->headerLabel->ImageAlign = System::Drawing::ContentAlignment::BottomCenter;
-			this->headerLabel->Location = System::Drawing::Point(304, 79);
+			this->headerLabel->Location = System::Drawing::Point(304, 81);
 			this->headerLabel->Name = L"headerLabel";
 			this->headerLabel->RightToLeft = System::Windows::Forms::RightToLeft::No;
 			this->headerLabel->Size = System::Drawing::Size(673, 40);
@@ -397,11 +398,11 @@ namespace GUIProject {
 			this->displayTypeTexbox->Font = (gcnew System::Drawing::Font(L"Calibri Light", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(0)));
 			this->displayTypeTexbox->ForeColor = System::Drawing::Color::White;
-			this->displayTypeTexbox->Location = System::Drawing::Point(306, 37);
+			this->displayTypeTexbox->Location = System::Drawing::Point(306, 36);
 			this->displayTypeTexbox->Name = L"displayTypeTexbox";
-			this->displayTypeTexbox->Size = System::Drawing::Size(671, 40);
+			this->displayTypeTexbox->ReadOnly = true;
+			this->displayTypeTexbox->Size = System::Drawing::Size(671, 49);
 			this->displayTypeTexbox->TabIndex = 23;
-			this->displayTypeTexbox->Text = L"Today\'s task:";
 			// 
 			// TodayIsLabel
 			// 
@@ -412,7 +413,7 @@ namespace GUIProject {
 			this->TodayIsLabel->ForeColor = System::Drawing::Color::White;
 			this->TodayIsLabel->Location = System::Drawing::Point(53, 144);
 			this->TodayIsLabel->Name = L"TodayIsLabel";
-			this->TodayIsLabel->Size = System::Drawing::Size(52, 17);
+			this->TodayIsLabel->Size = System::Drawing::Size(65, 21);
 			this->TodayIsLabel->TabIndex = 24;
 			this->TodayIsLabel->Text = L"Today is";
 			// 
@@ -425,9 +426,9 @@ namespace GUIProject {
 			this->TodayDateTextbox->ForeColor = System::Drawing::Color::White;
 			this->TodayDateTextbox->Location = System::Drawing::Point(57, 165);
 			this->TodayDateTextbox->Name = L"TodayDateTextbox";
-			this->TodayDateTextbox->Size = System::Drawing::Size(188, 20);
+			this->TodayDateTextbox->ReadOnly = true;
+			this->TodayDateTextbox->Size = System::Drawing::Size(188, 25);
 			this->TodayDateTextbox->TabIndex = 25;
-			this->TodayDateTextbox->Text = L"12 March 2015";
 			// 
 			// deadlineListView
 			// 
@@ -440,12 +441,9 @@ namespace GUIProject {
 				static_cast<System::Byte>(0)));
 			this->deadlineListView->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(64)));
-			listViewItem1->UseItemStyleForSubItems = false;
-			this->deadlineListView->Items->AddRange(gcnew cli::array< System::Windows::Forms::ListViewItem^  >(1) {listViewItem1});
 			this->deadlineListView->Location = System::Drawing::Point(53, 258);
 			this->deadlineListView->Name = L"deadlineListView";
-			this->deadlineListView->Scrollable = false;
-			this->deadlineListView->Size = System::Drawing::Size(202, 217);
+			this->deadlineListView->Size = System::Drawing::Size(214, 217);
 			this->deadlineListView->TabIndex = 26;
 			this->deadlineListView->TileSize = System::Drawing::Size(248, 56);
 			this->deadlineListView->UseCompatibleStateImageBehavior = false;
@@ -471,7 +469,7 @@ namespace GUIProject {
 			this->searchTextBox->ForeColor = System::Drawing::Color::White;
 			this->searchTextBox->Location = System::Drawing::Point(642, 8);
 			this->searchTextBox->Name = L"searchTextBox";
-			this->searchTextBox->Size = System::Drawing::Size(258, 24);
+			this->searchTextBox->Size = System::Drawing::Size(258, 28);
 			this->searchTextBox->TabIndex = 28;
 			this->searchTextBox->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &ConstanGUI::searchTextBox_KeyPress);
 			// 
@@ -484,7 +482,7 @@ namespace GUIProject {
 			this->label4->ForeColor = System::Drawing::Color::White;
 			this->label4->Location = System::Drawing::Point(879, 14);
 			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(14, 17);
+			this->label4->Size = System::Drawing::Size(17, 21);
 			this->label4->TabIndex = 29;
 			this->label4->Text = L"/";
 			// 
@@ -497,7 +495,7 @@ namespace GUIProject {
 			this->label5->ImageAlign = System::Drawing::ContentAlignment::BottomLeft;
 			this->label5->Location = System::Drawing::Point(879, 9);
 			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(16, 16);
+			this->label5->Size = System::Drawing::Size(17, 18);
 			this->label5->TabIndex = 30;
 			this->label5->Text = L"O";
 			this->label5->TextAlign = System::Drawing::ContentAlignment::BottomLeft;
@@ -540,7 +538,7 @@ namespace GUIProject {
 			this->label3->ForeColor = System::Drawing::Color::White;
 			this->label3->Location = System::Drawing::Point(34, 226);
 			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(110, 23);
+			this->label3->Size = System::Drawing::Size(138, 29);
 			this->label3->TabIndex = 34;
 			this->label3->Text = L"Deadline due";
 			// 
@@ -562,7 +560,7 @@ namespace GUIProject {
 			this->helpButton->ForeColor = System::Drawing::Color::White;
 			this->helpButton->Location = System::Drawing::Point(612, 9);
 			this->helpButton->Name = L"helpButton";
-			this->helpButton->Size = System::Drawing::Size(16, 19);
+			this->helpButton->Size = System::Drawing::Size(19, 24);
 			this->helpButton->TabIndex = 36;
 			this->helpButton->Text = L"\?";
 			this->helpButton->Click += gcnew System::EventHandler(this, &ConstanGUI::helpButton_Click);
@@ -589,7 +587,7 @@ namespace GUIProject {
 			this->helpLabel1->ForeColor = System::Drawing::Color::White;
 			this->helpLabel1->Location = System::Drawing::Point(313, 95);
 			this->helpLabel1->Name = L"helpLabel1";
-			this->helpLabel1->Size = System::Drawing::Size(171, 18);
+			this->helpLabel1->Size = System::Drawing::Size(217, 23);
 			this->helpLabel1->TabIndex = 38;
 			this->helpLabel1->Text = L"General command format:";
 			// 
@@ -626,7 +624,7 @@ namespace GUIProject {
 			this->helpLabel4->ForeColor = System::Drawing::Color::White;
 			this->helpLabel4->Location = System::Drawing::Point(313, 387);
 			this->helpLabel4->Name = L"helpLabel4";
-			this->helpLabel4->Size = System::Drawing::Size(66, 18);
+			this->helpLabel4->Size = System::Drawing::Size(85, 23);
 			this->helpLabel4->TabIndex = 41;
 			this->helpLabel4->Text = L"Hot Keys:";
 			// 
@@ -638,7 +636,7 @@ namespace GUIProject {
 			this->helpPageClose->ForeColor = System::Drawing::Color::White;
 			this->helpPageClose->Location = System::Drawing::Point(849, 451);
 			this->helpPageClose->Name = L"helpPageClose";
-			this->helpPageClose->Size = System::Drawing::Size(110, 14);
+			this->helpPageClose->Size = System::Drawing::Size(125, 18);
 			this->helpPageClose->TabIndex = 47;
 			this->helpPageClose->Text = L"close Help Page [x]";
 			this->helpPageClose->Click += gcnew System::EventHandler(this, &ConstanGUI::helpPageClose_Click);
@@ -651,7 +649,7 @@ namespace GUIProject {
 			this->helpLabel11->ForeColor = System::Drawing::Color::White;
 			this->helpLabel11->Location = System::Drawing::Point(313, 313);
 			this->helpLabel11->Name = L"helpLabel11";
-			this->helpLabel11->Size = System::Drawing::Size(181, 18);
+			this->helpLabel11->Size = System::Drawing::Size(232, 23);
 			this->helpLabel11->TabIndex = 48;
 			this->helpLabel11->Text = L"Accepted date/time format:";
 			// 
@@ -663,7 +661,7 @@ namespace GUIProject {
 			this->helpLabel12->ForeColor = System::Drawing::Color::White;
 			this->helpLabel12->Location = System::Drawing::Point(334, 341);
 			this->helpLabel12->Name = L"helpLabel12";
-			this->helpLabel12->Size = System::Drawing::Size(40, 17);
+			this->helpLabel12->Size = System::Drawing::Size(47, 21);
 			this->helpLabel12->TabIndex = 49;
 			this->helpLabel12->Text = L"Date:\r";
 			// 
@@ -675,7 +673,7 @@ namespace GUIProject {
 			this->helpLabel13->ForeColor = System::Drawing::Color::White;
 			this->helpLabel13->Location = System::Drawing::Point(381, 343);
 			this->helpLabel13->Name = L"helpLabel13";
-			this->helpLabel13->Size = System::Drawing::Size(166, 28);
+			this->helpLabel13->Size = System::Drawing::Size(202, 36);
 			this->helpLabel13->TabIndex = 50;
 			this->helpLabel13->Text = L"DDMMYYYY (eg. 13042015)\r\nDD MMM YYYY (eg 13 Apr 2015)";
 			// 
@@ -687,7 +685,7 @@ namespace GUIProject {
 			this->helpLabel10->ForeColor = System::Drawing::Color::White;
 			this->helpLabel10->Location = System::Drawing::Point(639, 343);
 			this->helpLabel10->Name = L"helpLabel10";
-			this->helpLabel10->Size = System::Drawing::Size(205, 28);
+			this->helpLabel10->Size = System::Drawing::Size(256, 36);
 			this->helpLabel10->TabIndex = 52;
 			this->helpLabel10->Text = L"HHMM (eg. 1200)\r\n0000 = 12:00 a.m.  to  2359 = 11:59 p.m.\r\n";
 			// 
@@ -699,7 +697,7 @@ namespace GUIProject {
 			this->helpLabel14->ForeColor = System::Drawing::Color::White;
 			this->helpLabel14->Location = System::Drawing::Point(592, 341);
 			this->helpLabel14->Name = L"helpLabel14";
-			this->helpLabel14->Size = System::Drawing::Size(40, 17);
+			this->helpLabel14->Size = System::Drawing::Size(49, 21);
 			this->helpLabel14->TabIndex = 51;
 			this->helpLabel14->Text = L"Time:";
 			// 
@@ -734,7 +732,7 @@ namespace GUIProject {
 			this->helpLabel5->ForeColor = System::Drawing::Color::White;
 			this->helpLabel5->Location = System::Drawing::Point(335, 414);
 			this->helpLabel5->Name = L"helpLabel5";
-			this->helpLabel5->Size = System::Drawing::Size(96, 42);
+			this->helpLabel5->Size = System::Drawing::Size(111, 54);
 			this->helpLabel5->TabIndex = 42;
 			this->helpLabel5->Text = L"Help (F1)\r\nSearch (CTRL + F)\r\nUndo (CTRL + Z)";
 			// 
@@ -746,7 +744,7 @@ namespace GUIProject {
 			this->helpLabel6->ForeColor = System::Drawing::Color::White;
 			this->helpLabel6->Location = System::Drawing::Point(514, 414);
 			this->helpLabel6->Name = L"helpLabel6";
-			this->helpLabel6->Size = System::Drawing::Size(160, 14);
+			this->helpLabel6->Size = System::Drawing::Size(187, 18);
 			this->helpLabel6->TabIndex = 55;
 			this->helpLabel6->Text = L"Enter command (CTRL+Enter)\r\n";
 			// 
@@ -800,6 +798,7 @@ namespace GUIProject {
 			this->KeyPreview = true;
 			this->MaximizeBox = false;
 			this->Name = L"ConstanGUI";
+			this->Load += gcnew System::EventHandler(this, &ConstanGUI::ConstanGUI_Load);
 			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &ConstanGUI::ConstanGUI_KeyDown);
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -808,6 +807,34 @@ namespace GUIProject {
 
 #pragma endregion
 
+/*USER OPEN APP*/
+//clear all the display
+//set initial display -> Today's task and deadline due
+private: System::Void ConstanGUI_Load(System::Object^  sender, System::EventArgs^  e) {
+			
+			 feedbackLabel->Text = "";
+			 listViewDisplay->Items->Clear(); 
+			 deadlineListView->Items->Clear();
+					  
+			 string initialDisplay = "display today";
+			 command = initialDisplay;
+			 userInterface.processUserInput(command);
+			 Print();
+
+			 feedbackLabel->Text = "Enter Command";
+
+			 string todayDate = userInterface.showTodayDate();
+			 String^ showDate = gcnew String(todayDate.c_str());
+			 TodayDateTextbox->Text = showDate;
+
+			 displayTypeTexbox->Text = "Today's task:";
+
+			 PrintDeadline();
+		 }
+
+/*USER PRESS ENTER ON INPUT TEXTBOX*/
+//get user input and pass it to TextUI class
+//print the display
 private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
 			 
 
@@ -815,6 +842,7 @@ private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::W
 				 feedbackLabel->Text = "";
 				 //clear the display box first
 				 listViewDisplay->Items->Clear(); 
+				 deadlineListView->Items->Clear();
 					  
 					  String^ userInput;
 					  userInput = InputTextBox->Text; //System String
@@ -833,11 +861,21 @@ private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::W
 
 					  if (command == "exit" || command == "Exit") {
 						  Application::Exit();
+						  return;
 					  }
+
+					  if (command == "display today")
+						  displayTypeTexbox->Text = "Today's task:";
+					  if (command == "display all")
+						  displayTypeTexbox->Text = "All task:";
+					  if (command == "display tomorrow")
+						  displayTypeTexbox->Text = "Tomorrow's task:";
+
 					  //pass command to TextUI.h class to be passed to logic and then processed
 					  userInterface.processUserInput(command);
 					  Print();
-//					  PrintDeadline();
+					  PrintFeedback();
+					  PrintDeadline();
 					  
 					  e->Handled = true;
 
@@ -847,7 +885,9 @@ private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::W
 					  //a.userInput = input;
 		 }
 
-
+/*USER PRESS ENTER ON SEARCH TEXTBOX*/
+//pass command search and the keywords to TextUI
+//print the resulted display
 private: System::Void searchTextBox_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
 			
 			 if (e->KeyChar == /*Keys::Enter*/ (char)13){
@@ -867,6 +907,7 @@ private: System::Void searchTextBox_KeyPress(System::Object^  sender, System::Wi
 
 					  userInterface.processUserInput(command);
 					  Print();
+					  PrintFeedback();
 
 					  searchTextBox->Text = "";
 
@@ -874,9 +915,9 @@ private: System::Void searchTextBox_KeyPress(System::Object^  sender, System::Wi
 			 }
 		 }
 
-
+/*DISPLAY THE TASK TO USER IN TABLE FORM*/
+//differentiate the task based on their type and give them unique indexes
 private: System::Void Print(){
-
 
 			 System::Windows::Forms::ListViewGroup^  listViewGroup1 = (gcnew System::Windows::Forms::ListViewGroup(L"Scheduled Tasks", System::Windows::Forms::HorizontalAlignment::Left));
 			 System::Windows::Forms::ListViewGroup^  listViewGroup2 = (gcnew System::Windows::Forms::ListViewGroup(L"Deadlines", System::Windows::Forms::HorizontalAlignment::Left));
@@ -899,22 +940,12 @@ private: System::Void Print(){
 					  String^ taskStartDate;
 					  String^ taskStartTime;
 					  String^ taskEndDate;
-					  String^ taskEndTime;
-					  String^ feedbackStr;
+					  String^ taskEndTime;					  
 					  String^ taskStatus;
 
-					  //get A STRING of feedback message to be displayed from TextUI
-					  feedback = userInterface.showFeedback(); //std string
-					  //convert std string to System string
-
-					  //clear the feedback box first, then display feedback
-					  feedbackLabel->Text = "";
-					  feedbackStr = gcnew String(feedback.c_str());
-					  feedbackLabel->Text = feedbackStr;
-
+					  
 					  //get A STRING of the tasks list and their details to be displayed from TextUI
-					  stdDisplayResult = userInterface.showDisplay(); //std string
-					  //convert std string to System string
+					  stdDisplayResult = userInterface.showDisplay();
 					  displayResult = gcnew String(stdDisplayResult.c_str());
 
 					  int frontTask, endTask = -1, count, index = 1;
@@ -1034,9 +1065,24 @@ private: System::Void Print(){
 						InputTextBox->Clear();
 		 }
 
+/*DISPLAY FEEDBACK TO USER AFTER EACH COMMAND*/
+private: System::Void PrintFeedback() {
 
+			 String^ feedbackStr;
+			 //get A STRING of feedback message to be displayed from TextUI
+			 feedback = userInterface.showFeedback();
+
+			 //clear the feedback box first, then display feedback
+			 feedbackLabel->Text = "";
+			 feedbackStr = gcnew String(feedback.c_str());
+			 feedbackLabel->Text = feedbackStr;
+
+
+		 }
+
+/*DISPLAY DUE DEADLINES IN SIDE BOX*/
+//give different color to the deadlines' titles and due dates based on the color theme
 private: System::Void PrintDeadline() {
-
 
 			 String^ taskComponent;
 			 String^ taskTitle;
@@ -1059,8 +1105,12 @@ private: System::Void PrintDeadline() {
 						  /*TITLE*/
 						  frontTask = endTask + 1;
 						  //extract the task title
-						  endTask = stdDisplayResult.find_first_of("]", frontTask);
-						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+						  endTask = stdDeadline.find_first_of("]", frontTask);
+						  stdTaskComponent = stdDeadline.substr(frontTask, endTask-frontTask);
+						  if (stdTaskComponent.size() < MEDIUM_SIZE_STRING && stdTaskComponent.size() > SMALL_SIZE_STRING)
+							  stdTaskComponent = stdTaskComponent + SMALL_BLANK_SPACE;
+						  if (stdTaskComponent.size() <= SMALL_SIZE_STRING)
+							  stdTaskComponent = stdTaskComponent + LONG_BLANK_SPACE;
 						  //convert to std string
 						  taskComponent = gcnew String(stdTaskComponent.c_str());
 						  //add into a system string object
@@ -1069,8 +1119,8 @@ private: System::Void PrintDeadline() {
 						  /*END DATE*/
 						  frontTask = endTask + 1;
 						  //extract the task's end date
-						  endTask = stdDisplayResult.find_first_of("]", frontTask);
-						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+						  endTask = stdDeadline.find_first_of("]", frontTask);
+						  stdTaskComponent = stdDeadline.substr(frontTask, endTask-frontTask);
 						  //convert to std string
 						  taskComponent = gcnew String(stdTaskComponent.c_str());
 						  taskEndDate = taskComponent;
@@ -1078,36 +1128,37 @@ private: System::Void PrintDeadline() {
 						  /*END TIME*/
 						  frontTask = endTask + 1;
 						  //extract the task's start time
-						  endTask = stdDisplayResult.find_first_of("]", frontTask);
-						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+						  endTask = stdDeadline.find_first_of("]", frontTask);
+						  stdTaskComponent = stdDeadline.substr(frontTask, endTask-frontTask);
 						  //convert to std string
 						  taskComponent = gcnew String(stdTaskComponent.c_str());
 						  taskEndTime = taskComponent;
 
-						  //CONVERT END DATE TO TODAY OR TOMORROW
+//CONVERT END DATE TO TODAY OR TOMORROW
 						  deadline = taskEndDate + " " + taskEndTime;
 
+						  ListViewItem^ aListViewItem = deadlineListView->Items->Add(taskTitle);
+						  deadlineListView->ForeColor = chosenColor;
+						  deadlineListView->Font = gcnew System::Drawing::Font( L"Calibri",9,System::Drawing::FontStyle::Bold );
+						 
 						  aListViewItem->UseItemStyleForSubItems = false;
-						  aListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::Windows::Forms::ListViewItem::ListViewSubItem^  >(2) {(gcnew System::Windows::Forms::ListViewItem::ListViewSubItem(nullptr, 
-							  taskTitle, chosenColor, chosenBGColor, (gcnew System::Drawing::Font(L"Calibri", 
-							9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0))))), (gcnew System::Windows::Forms::ListViewItem::ListViewSubItem(nullptr, 
-							deadline, chosenColor, chosenBGColor, (gcnew System::Drawing::Font(L"Calibri Light", 
-							9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)))))}, -1));
-
-						  deadlineListView->Items->Add(this->aListViewItem);
-
+						  
+						  ListViewItem::ListViewSubItem ^ deadlineDateTime =  aListViewItem->SubItems->Add(deadline);
+						  deadlineDateTime->ForeColor = System::Drawing::Color::DimGray;
+						  deadlineDateTime->Font = gcnew System::Drawing::Font( L"Calibri Light",9,System::Drawing::FontStyle::Regular );
+						  
 						  count--;
 
 					 }
 		 }
 
-
+/*DISPLAY INPUT GUIDE FOR USER*/
 private: System::Void InputTextBox_TextChanged(System::Object^  sender, System::EventArgs^  e) {
 
 			 if(InputTextBox->Text == "add") {
 				 feedbackLabel->Text = "add  -t [task name]  -s [start date] [start time]  -e [end date] [end time]";
 			 }else if(InputTextBox->Text == "display") {
-				 feedbackLabel->Text = "display today/deadlines/schedules/to do"; 
+				 feedbackLabel->Text = "display today/tomorrow/all"; 
 			 }else if(InputTextBox->Text == "edit") {
 				 feedbackLabel->Text = "edit [index] -t [task name]  -s [start date] [start time]  -e [end date] [end time]"; 
 			 }else if(InputTextBox->Text == "delete") {
@@ -1121,19 +1172,19 @@ private: System::Void InputTextBox_TextChanged(System::Object^  sender, System::
 			 }
 		 }
 
-
 private: System::Void InputTextBox_Enter(System::Object^  sender, System::EventArgs^  e) {
 			 
 		 }
 
+/*USER CAN CLEAR INPUT TEXTBOX BY DOUBLE CLICKING ON THE TEXT BOX*/
 private: System::Void InputTextBox_DoubleClick(System::Object^  sender, System::EventArgs^  e) {
 			 InputTextBox->Clear();
 			 feedbackLabel->Text = "Enter command";
 		 }
 
-
+/*USER CAN TICK/UNTICK CHECKBOX TO MARK/UNMARK TASK*/
 //function run when the user tick/unticked the checkbox
-//take in the index displayed as string and 
+//print the display
 private: System::Void listViewDisplay_ItemCheck(System::Object^  sender, System::Windows::Forms::ItemCheckEventArgs^  e) {
 			
 			 feedbackLabel->Text = "";
@@ -1155,26 +1206,30 @@ private: System::Void listViewDisplay_ItemCheck(System::Object^  sender, System:
 				 item1->ForeColor = System::Drawing::Color::LightGray;
 			 }
 
+			 deadlineListView->Items->Clear();
+			 PrintDeadline();
+
 		 }
 		 
 
-
+/*CUSTOM EXIT BUTTON*/
 private: System::Void ExitButton_Click(System::Object^  sender, System::EventArgs^  e) {
 			  Application::Exit();
 		 }
 
-
+/*CUSTOM MINIMIZE BUTTON*/
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 			 this->WindowState = FormWindowState::Minimized;
-
 		 }
 
+/*CHANGE COLOR THEME TO PINK*/
 private: System::Void pinkTheme_Click(System::Object^  sender, System::EventArgs^  e) {
 				
 				this->chosenColor = System::Drawing::Color::LightCoral;
 				this->chosenBGColor = System::Drawing::Color::White;
 
-//				PrintDeadline();
+				deadlineListView->Items->Clear();
+				PrintDeadline();
 
 				this->feedbackLabel->BackColor = System::Drawing::Color::LightCoral;
 				this->feedbackLabel->ForeColor = System::Drawing::Color::White;
@@ -1242,12 +1297,15 @@ private: System::Void pinkTheme_Click(System::Object^  sender, System::EventArgs
 				helpPageClose->BackColor = System::Drawing::Color::LightCoral;
 
 		 }
+
+/*CHANGE COLOR THEME TO DEFAULT THEME (GREY)*/
 private: System::Void greyTheme_Click(System::Object^  sender, System::EventArgs^  e) {
 				
 				this->chosenColor = System::Drawing::Color::DimGray;
 				this->chosenBGColor = System::Drawing::Color::WhiteSmoke;
 
-				//PrintDeadline();
+				deadlineListView->Items->Clear();
+				PrintDeadline();
 
 				this->feedbackLabel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(64)));
@@ -1338,12 +1396,15 @@ private: System::Void greyTheme_Click(System::Object^  sender, System::EventArgs
 				static_cast<System::Int32>(static_cast<System::Byte>(64)));
 
 		 }
+
+/*CHANGE COLOR THEME TO BLUE*/
 private: System::Void blueTheme_Click(System::Object^  sender, System::EventArgs^  e) {
 
 				this->chosenColor = System::Drawing::Color::Teal;
 				this->chosenBGColor = System::Drawing::Color::WhiteSmoke;
 
-				//PrintDeadline();
+				deadlineListView->Items->Clear();
+				PrintDeadline();
 			 
 				this->feedbackLabel->BackColor = System::Drawing::Color::Teal;
 				this->feedbackLabel->ForeColor = System::Drawing::Color::White;
@@ -1412,6 +1473,7 @@ private: System::Void blueTheme_Click(System::Object^  sender, System::EventArgs
 
 		 }
 
+/*HELP BUTTON -> DISPLAY AND CLOSE HELP PAGE WHEN CLICKED*/
 private: System::Void helpButton_Click(System::Object^  sender, System::EventArgs^  e) {
 			 
 			 if (helpDisplayed == false)
@@ -1421,6 +1483,7 @@ private: System::Void helpButton_Click(System::Object^  sender, System::EventArg
 
 		 }
 
+/*DISPLAY HELP PAGE*/
 private: System::Void displayHelp() {
 
 			 helpPage->BringToFront();
@@ -1443,13 +1506,14 @@ private: System::Void displayHelp() {
 
 		 }
 
-
+/*CLOSE HELP PAGE WHEN CLICKED*/
 private: System::Void helpPageClose_Click(System::Object^  sender, System::EventArgs^  e) {
 			 
 			 closeHelp();
 			 
 		 }
 
+/*CLOSE HELP PAGE*/
 private: System::Void closeHelp() {
 
 			 helpLabel1->SendToBack();
@@ -1502,6 +1566,7 @@ private: System::Void ConstanGUI_KeyDown(System::Object^  sender, System::Window
 					  command = undo;
 					  userInterface.processUserInput(command);
 					  Print();
+					  PrintFeedback();
 			}
 
 			/*CTRL+ENTER to enter command*/
@@ -1512,6 +1577,8 @@ private: System::Void ConstanGUI_KeyDown(System::Object^  sender, System::Window
 			}			
 
 		 }
+
+
 
 };
 }

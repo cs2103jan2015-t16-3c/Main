@@ -248,6 +248,10 @@ void TaskManager::clearAllTasks() {
 	save();
 }
 
+string TaskManager::retrieveTodayDate() {
+	return processToday();
+}
+
 //takes in a word to search for
 //returns a vector of Tasks in whose name the search term appears
 vector<Task>* TaskManager::searchForString(string keyword) {
