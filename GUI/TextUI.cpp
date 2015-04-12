@@ -26,7 +26,7 @@ string TextUI::ERROR_DISPLAY_MESSAGE = "Error: Please specify the task you wish 
 string TextUI::ERROR_SEARCH_MESSAGE = "Error: Please specify the keywords of the task you want to search";
 string TextUI::ERROR_MARK_MESSAGE = "Error: Specify the index of task you wish to mark or tick the checkbox";
 string TextUI::ERROR_UNMARK_MESSAGE = "Error: Specify the index of task you wish to unmark or untick the checkbox";
-
+string TextUI::ERROR_INVALID_COMMAND_MESSAGE = "Error: Invalid command.";
 string TextUI::ERROR_UNRECOGNISED_COMMAND_TYPE = "ERROR: Unrecognised command type.\nEnter \"help\" for list of valid command type in CONSTAN!";
 string TextUI::ERROR_INVALID_FORMAT = "ERROR: Invalid format.\nEnter \"help\" for list of valid formatting in CONSTAN!";
 string TextUI::ERROR_INVALID_DATE_TIME = "ERROR: Invalid date or time.";
@@ -168,7 +168,7 @@ string TextUI::getFeedbackResult() {
 	string feedbackResult;
 	string commandType = _feedback->at(0);
 
-	if (commandType == "display" || commandType == "search" || commandType == "undo" || commandType == "invalid_command") {
+	if (commandType == "display" || commandType == "search" || commandType == "undo") {
 		feedbackResult = _feedback->at(2);
 	
 	} else {
@@ -212,17 +212,17 @@ void TextUI::processErrorFeedback() {
 	if (_errorType == ERROR_TYPE_1)
 		feedback = ERROR1_MESSAGE;
 	else if (_errorType == ERROR_TYPE_2)
-		feedback = ERROR1_MESSAGE;
+		feedback = ERROR2_MESSAGE;
 	else if (_errorType == ERROR_TYPE_3)
-		feedback = ERROR1_MESSAGE;
+		feedback = ERROR3_MESSAGE;
 	else if (_errorType == ERROR_TYPE_4)
-		feedback = ERROR1_MESSAGE;
+		feedback = ERROR4_MESSAGE;
 	else if (_errorType == ERROR_TYPE_5)
-		feedback = ERROR1_MESSAGE;
+		feedback = ERROR5_MESSAGE;
 	else if (_errorType == ERROR_TYPE_6)
-		feedback = ERROR1_MESSAGE;
+		feedback = ERROR6_MESSAGE;
 	else if (_errorType == ERROR_TYPE_7)
-		feedback = ERROR1_MESSAGE;
+		feedback = ERROR7_MESSAGE;
 	else if (_errorType == INVALID_COMMAND_ADD)
 		feedback = ERROR_ADD_MESSAGE;
 	else if (_errorType == INVALID_COMMAND_DELETE)
@@ -237,6 +237,8 @@ void TextUI::processErrorFeedback() {
 		feedback = ERROR_MARK_MESSAGE;
 	else if (_errorType == INVALID_COMMAND_UNMARK)
 		feedback = ERROR_UNMARK_MESSAGE;
+	else if (_errorType == INVALID_COMMAND_DEFAULT)
+		feedback = ERROR_INVALID_COMMAND_MESSAGE;
 	else 
 		feedback == ERROR_OTHERS;
 
