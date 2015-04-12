@@ -3,7 +3,7 @@
 string TextUI::EMPTY_STRING = "";
 string TextUI::SPACE = " ";
 
-string TextUI::MESSAGE_WELCOME = "Hello. Welcome to CONSTAN!";
+//string TextUI::MESSAGE_WELCOME = "Hello. Welcome to CONSTAN!";
 string TextUI::MESSAGE_ADDED = "Task added: ";
 string TextUI::MESSAGE_DELETED = "Task deleted: ";
 string TextUI::MESSAGE_EDITED = "Task edited: ";
@@ -17,7 +17,7 @@ string TextUI::ERROR_INVALID_FORMAT = "ERROR: Invalid format.\nEnter \"help\" fo
 string TextUI::ERROR_INVALID_DATE_TIME = "ERROR: Invalid date or time.";
 string TextUI::ERROR_OTHERS = "ERROR.";
 
-string TextUI::HELP_USER_GUIDE = "General Command: \n1. Undo : \"undo\" \n2. Redo : \"redo\" \n3. Search : \"search [keyword(s)]\" \n\nTask Manipulation Commands: \n1. Creating/Adding task : \"add [task name] -s [start time] -e [end time]\" \n2. Displaying task : \"display\" \n3. Deleting task : \"delete [task index]\" \n4. Editing task : \"edit [task number] [task name] -s [start time] -e [end time]\" \n5. Mark task as done : \"mark [task index]\" \n6. Unmark \'done\' task : \"unmark [task index]\" ";
+//string TextUI::HELP_USER_GUIDE = "General Command: \n1. Undo : \"undo\" \n2. Redo : \"redo\" \n3. Search : \"search [keyword(s)]\" \n\nTask Manipulation Commands: \n1. Creating/Adding task : \"add [task name] -s [start time] -e [end time]\" \n2. Displaying task : \"display\" \n3. Deleting task : \"delete [task index]\" \n4. Editing task : \"edit [task number] [task name] -s [start time] -e [end time]\" \n5. Mark task as done : \"mark [task index]\" \n6. Unmark \'done\' task : \"unmark [task index]\" ";
 
 string TextUI::JANUARY = "Jan";
 string TextUI::FEBRUARY = "Feb";
@@ -48,8 +48,6 @@ string TextUI::TWELFTH = "12";
 
 void TextUI::processUserInput(string userCommand) {
 
-	//showToUser(MESSAGE_WELCOME);
-
 	//pass user input as a string to Logic
 	toLogic.processCommand(userCommand);
 		/*
@@ -74,9 +72,6 @@ TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeStr
 
 	if (commandTypeString == "edit")
 		return COMMAND_TYPE_FEEDBACK::EDIT_TASK;
-
-	if (commandTypeString == "help")
-		return COMMAND_TYPE_FEEDBACK::HELP;
 
 	if (commandTypeString == "display")
 		return COMMAND_TYPE_FEEDBACK::DISPLAY_TASK;
@@ -118,9 +113,6 @@ void TextUI::setFeedback(string userCommand) {
 		return;
 	case EDIT_TASK:
 		displayedFeedback(MESSAGE_EDITED);
-		return;
-	case HELP:
-		//showToUser(HELP_USER_GUIDE);
 		return;
 	case DISPLAY_TASK:
 		displayedFeedback(MESSAGE_DISPLAYED);
@@ -180,6 +172,7 @@ string TextUI::showTodayDate() {
 void TextUI::getTodayDateString() {
 
 	todayDate = toLogic.getTodayDate();
+	todayDate = formatDate(todayDate);
 }
 
 //get feedback result from Logic CLASS
@@ -201,8 +194,8 @@ void TextUI::setDisplay() {
 
 	getDisplayVector();
 	unparseDisplayVector();
-//	getDeadlineVector();
-//	unparseDeadlineVector();
+	getDeadlineVector();
+	unparseDeadlineVector();
 
 }
 
@@ -241,13 +234,13 @@ void TextUI::unparseDisplayVector() {
 		display = display + taskName + "]" + startDate + "]" + startTime + "]" + endDate + "]" + endTime + "]" + status + "]";
 	}
 }
-/*
+
 void TextUI::getDeadlineVector() { 
 
 	_deadlineVector =  toLogic.getDeadlineVector();
 
 }
-*/
+
 
 void TextUI::unparseDeadlineVector() {
 
@@ -266,7 +259,7 @@ void TextUI::unparseDeadlineVector() {
 		string endTime = _deadlineVector->at(i).getEndTime();
 			endTime = formatTime(endTime);
 
-		string status = _displayVector->at(i).getCompletionStatusAsString();
+		string status = _deadlineVector->at(i).getCompletionStatusAsString();
 
 		if (status == "undone")
 			displayDeadline = displayDeadline + taskName + "]" + endDate + "]" + endTime + "]";
