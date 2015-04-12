@@ -13,12 +13,10 @@ class CommandMark:
 	public Command {
 
 private:
-	int _index;
-	int _taskID;
-	string _taskName;
+
 
 public:
-	CommandMark(int index, vector<Task>* currentDisplay);
+	CommandMark(int index, vector<Task>* currentDisplay,  string currentDisplayIndicator);
 	CommandMark(vector<Task>* currentDisplay, int taskID);
 //	~CommandMark(void);
 	

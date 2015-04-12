@@ -11,13 +11,6 @@ class CommandEdit :
 	public Command {
 
 private:
-	int _index;
-	int _taskID;
-	string _taskName;
-	string _startDate;
-	string _startTime;
-	string _endDate;
-	string _endTime;
 	string _prevTaskName;
 	string _prevStartDate;
 	string _prevStartTime;
@@ -25,12 +18,15 @@ private:
 	string _prevEndTime;
 	bool _isPrevComplete;
 public:
-	CommandEdit(int index, string taskName, string startDate, string startTime, string endDate, string endTime, vector<Task>* currentDisplay);
+	CommandEdit(int index, string taskName, string startDate, string startTime, string endDate, string endTime, vector<Task>* currentDisplay,  string currentDisplayIndicator);
 	~CommandEdit(void);
 
 	void execute();
 //	vector<Task>* updateDisplay();
 	vector<string>* updateFeedback();
 	Command* getInverseCommand();
+	bool isIndexValid();
+	bool isStartAndEndTimeValid();
+	bool isEditValid();
 };
 #endif

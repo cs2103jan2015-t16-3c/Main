@@ -1,9 +1,10 @@
 #include "CommandMark.h"
 
-CommandMark::CommandMark(int index, vector<Task>* currentDisplay) {
+CommandMark::CommandMark(int index, vector<Task>* currentDisplay, string currentDisplayIndicator) {
 	_index = index;
 	_currentDisplay = currentDisplay;
 	_taskID = EMPTY_NUMBER;
+	_currentDisplayIndicator = currentDisplayIndicator;
 }
 
 CommandMark::CommandMark(vector<Task>* currentDisplay, int taskID) {
@@ -17,25 +18,28 @@ CommandMark::CommandMark(vector<Task>* currentDisplay, int taskID) {
 */
 void CommandMark::execute() {
 	if (_taskID == EMPTY_NUMBER) {
-		_taskID = _currentDisplay->at(_index-1).getTaskID();
+		if (isIndexValid()) {
+			_taskID = _currentDisplay->at(_index-1).getTaskID();
+		} else {
+			_errorType = ERROR_TYPE_6;
+			_executionStatus = STATUS_UNSUCCESSFUL;
+			return;
+		}
 	}
 	TaskManager::getInstance()->markTask(_taskID);
-	_taskName = TaskManager::getInstance()->getTaskName(_taskID);
+	TaskManager::getInstance()->getTaskDetails(_taskID, _taskName, _startDate, _startTime, _endDate, _endTime, _isComplete);
+	_executionStatus = STATUS_SUCCESSFUL;
 }
 
-/*void CommandMark::updateDisplay(vector<Task>* currentDisplay) {
-	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask("today");
-	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline("today");
-	_mergedDisplay = _deadlineVector;
-	_mergedDisplay->insert (_mergedDisplay->end(), _timedTaskVector->begin(), _timedTaskVector->end());
-	//merge (_timedTaskVector.begin(), _timedTaskVector.end(), _deadlineVector.begin(), _deadlineVector.end(), _mergedDisplay.begin(), Compare_Task());
-	currentDisplay = _mergedDisplay;
-}*/
-
 vector<string>* CommandMark::updateFeedback() {
-	_feedback = new vector<string>; 
+	_feedback = new vector<string>;
 	_feedback->push_back (COMMAND_MARK);
-	_feedback->push_back (_taskName);
+	_feedback->push_back (_executionStatus);
+	if (_executionStatus == STATUS_SUCCESSFUL) {
+		insertTaskDetails();
+	} else {
+		_feedback->push_back (_errorType);
+	}
 	return _feedback;
 }
 

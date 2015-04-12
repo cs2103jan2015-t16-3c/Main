@@ -1,8 +1,9 @@
 #include "CommandUndo.h"
 #include <algorithm>
 
-CommandUndo::CommandUndo(stack<Command*>* inverseCommandStack) {
+CommandUndo::CommandUndo(stack<Command*>* inverseCommandStack, string currentDisplayIndicator) {
 	_inverseCommandStack = inverseCommandStack;
+	_currentDisplayIndicator = currentDisplayIndicator;
 }
 
 void CommandUndo::execute() {

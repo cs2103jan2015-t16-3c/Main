@@ -20,6 +20,7 @@ private:
 	stack<Command*> inverseCommandStack;
 	Parser parser;
 	string _todayDate;
+	 string _currentDisplayIndicator;
 
 public:
 	Logic();
@@ -29,6 +30,7 @@ public:
 	vector<string>* getFeedback();
 	vector<Task>* getDeadlineVector();
 	string getTodayDate();
+	string getCurrentDisplayIndicator();
 
 	vector<Task>* getDisplayVector();
 //	string getFeedback();
