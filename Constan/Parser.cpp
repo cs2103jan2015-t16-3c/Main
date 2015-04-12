@@ -117,9 +117,9 @@ void Parser::getReportType(vector<string> &inputVector){
 	string input = inputVector[0];
 	toStringLower(input);
 	if(input == COMMAND_ADD && inputVector.size() == 1){
-		_report = "invalid_add";
+		_report = INVALID_COMMAND_ADD;
 	} else if(input == COMMAND_DELETE && inputVector.size() == 1){
-		_report = "invalid_delete";
+		_report = INVALID_COMMAND_DELETE;
 	} else if(input == COMMAND_EDIT && inputVector.size() == 1){
 		_report = "invalid_edit";
 	} else if(input == COMMAND_DISPLAY && inputVector.size() != 2){

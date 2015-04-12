@@ -44,14 +44,14 @@ static const string DELIMITER_TASKNAME = "-t";
 static const string DELIMITER_STARTTIME = "-s";
 static const string DELIMITER_ENDTIME = "-e";
 
-static const string INVALID_COMMAND_ADD = "invalidAdd";
-static const string INVALID_COMMAND_DELETE = "invalidDelete";
-static const string INVALID_COMMAND_DISPLAY = "display";
-static const string INVALID_COMMAND_MARK = "mark";
-static const string INVALID_COMMAND_EDIT = "edit";
-static const string INVALID_COMMAND_SEARCH = "search";
-static const string INVALID_COMMAND_UNDO = "undo";
-static const string INVALID_COMMAND_UNMARK = "unmark";
+static const string INVALID_COMMAND_ADD = "invalid_add";
+static const string INVALID_COMMAND_DELETE = "invalid_delete";
+static const string INVALID_COMMAND_DISPLAY = "invalid_display";
+static const string INVALID_COMMAND_MARK = "invalid_mark";
+static const string INVALID_COMMAND_EDIT = "invalid_edit";
+static const string INVALID_COMMAND_SEARCH = "invalid_search";
+static const string INVALID_COMMAND_UNDO = "invalid_undo";
+static const string INVALID_COMMAND_UNMARK = "invalid_unmark";
 
 static const string DEFAULT_REPORT_STRING = "invalidCommand";
 
