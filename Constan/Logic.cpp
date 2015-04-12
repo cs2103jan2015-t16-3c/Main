@@ -30,7 +30,6 @@ vector<string>* Logic::getDisplay() {
 }
 */
 
-
 vector<string>* Logic::getFeedback() {
 	return _feedbackLogic;
 }
@@ -51,13 +50,3 @@ vector<Task>* Logic::getDeadlineVector() {
 string Logic::getTodayDate() {
 	return _todayDate;
 }
-
-/*
-string Logic::getTimedTask(vector<Task>* timedTask, string timeIndicator) {
-	timedTask = TaskManager::getInstance()->retrieveTimedTask(timeIndicator);
-}
-
-	void getTimedTask(vector<Task>* timedTask, string timeIndicator);
-	void getDeadlineTask(vector<Task>* timedTask, string timeIndicator);
-	void getFloatingTask(vector<Task>* timedTask, string timeIndicator);
-	*/
