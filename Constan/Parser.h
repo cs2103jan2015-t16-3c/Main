@@ -27,7 +27,7 @@
 
 using namespace std;
 
-static const string NULL_STRING = "NULL";
+//static const string NULL_STRING = "NULL";
 /*static const string COMMAND_ADD = "add";
 static const string COMMAND_DELETE = "delete";
 static const string COMMAND_DISPLAY = "display";
@@ -85,11 +85,13 @@ private:
 	string _displayType;
 	string _keyword;
 	string _report;
+	string _currentDisplayIndicator;
 	int _taskID;
 	int _count;
 	vector<Task>* _currentDisplay;
 	vector<string>* _vectorString;
 	stack<Command*>* _inverseCommandStack;
+
 
 //	string strindex;
 	int _index;
@@ -98,6 +100,7 @@ public:
 	Parser(stack<Command*> *inverseCommandStack);
 	void updateDisplay(vector<Task>* currentDisplay);
 	void updateInverseCommandStack(stack<Command*> *inverseCommandStack);
+	void updateCurrentDisplayIndicator(string currentDisplayIndicator);
 //	Parser(vector<Task>* currentDisplay);
 
 	Command* parse(string input);

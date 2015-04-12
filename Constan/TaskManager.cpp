@@ -69,8 +69,8 @@ void TaskManager::save() {
 //each line representing a task is stored as an individual vector
 //a new task is constructed from this data and saved to _tasks
 void TaskManager::load() {
-	//create a TaskManager
 	TaskManager* getInstance();
+	_tasks.clear();
 
 	string wholeTask;
 	vector<string> splitTask;
@@ -122,17 +122,22 @@ void TaskManager::addTask(string taskName, string startDate, string startTime, s
 //	incrementTaskID();
 	_newTask->setTaskID (taskID);
 	_tasks.push_back(*_newTask);
+	
 	save();
 }
 
 void TaskManager::markTask(int taskID) {
 	Task* taskToMark = findTask(taskID);
 	taskToMark->setCompletionStatus(true);
+
+	save();
 }
 
 void TaskManager::unmarkTask(int taskID) {
 	Task* taskToMark = findTask(taskID);
 	taskToMark->setCompletionStatus(false);
+
+	save();
 }
 
 void TaskManager::getTaskDetails(int taskID, string &prevTaskName, string &prevStartDate, string &prevStartTime, string &prevEndDate, string &prevEndTime, bool &isPrevComplete) {
@@ -150,16 +155,16 @@ void TaskManager::editTask(int taskID, string taskName, string startDate, string
 	if (taskName != DEFAULT_TASK_NAME && taskName != EMPTY_STRING) {
 		taskToEdit->setTaskName(taskName);
 	}
-	if (startDate != DEFAULT_START_DATE && taskName != EMPTY_STRING) {
+	if (startDate != DEFAULT_START_DATE && startDate != EMPTY_STRING) {
 		taskToEdit->setStartDate(startDate);
 	}
-	if (startTime != DEFAULT_START_TIME && taskName != EMPTY_STRING) {
+	if (startTime != DEFAULT_START_TIME && startTime != EMPTY_STRING) {
 		taskToEdit->setStartTime(startTime);
 	}
-	if (endDate != DEFAULT_END_DATE && taskName != EMPTY_STRING) {
+	if (endDate != DEFAULT_END_DATE && endDate != EMPTY_STRING) {
 		taskToEdit->setEndDate(endDate);
 	}
-	if (endTime != DEFAULT_END_TIME && taskName != EMPTY_STRING) {
+	if (endTime != DEFAULT_END_TIME && endTime != EMPTY_STRING) {
 		taskToEdit->setEndTime(endTime);
 	}
 	_type = getType(taskToEdit->getTaskName(), taskToEdit->getStartDate(), taskToEdit->getStartTime(), taskToEdit->getEndDate(), taskToEdit->getEndTime());
@@ -214,6 +219,16 @@ string TaskManager::getTaskName(int taskID) {
 	return CANNOT_FIND_TASK;
 }
 
+string TaskManager::getTaskType(int taskID) {
+	vector<Task>::iterator taskIter;
+	for (taskIter= _tasks.begin(); taskIter != _tasks.end(); taskIter++) {
+		if (taskIter->getTaskID() == taskID) {
+			return taskIter->getType();
+		}
+	}
+	return CANNOT_FIND_TASK;
+}
+
 void TaskManager::incrementTaskID() {
 	_taskID++;
 }
@@ -229,12 +244,6 @@ void TaskManager::updateTaskIDOnLoad() {
 }
 
 void TaskManager::deleteTask(int taskID) {
-/*	vector<Task>::iterator taskIter;
-	for (taskIter = _tasks.begin(); taskIter != _tasks.end(); taskIter++) {
-		if (taskIter->getTaskID() == taskID) {
-			_tasks.erase(taskIter);
-		}
-	}*/
 	for (unsigned int i = 0; i < _tasks.size(); i++) {
 		if (_tasks[i].getTaskID() == taskID) {
 			_tasks.erase(_tasks.begin() + i);
@@ -284,8 +293,10 @@ string TaskManager::processTimeIndicator(string input) {
 		return processToday();
 	} else if (input == DISPLAY_TOMORROW) {
 		return processTomorrow();
-	} else {
+	} else if (input == DISPLAY_ALL){
 		return DISPLAY_ALL;
+	} else {
+		return input;
 	}
 }
 
@@ -365,6 +376,15 @@ void TaskManager::getDeadlineVector(vector<Task>* deadlineVector) {
 		}
 	}
 }
+
+/*
+vector<Task>* TaskManager::retrieveOverdueTasks() {
+	vector<Task>* overdueTasks;
+	for (unsigned int i = 0; i < _tasks.size(); i++) {
+		if (_tasks[i].getEndDate() > 
+	}
+}
+*/
 
 void TaskManager::setCompletionStatus(int index, bool isComplete) {
 	_tasks[index - 1].setCompletionStatus(isComplete);
@@ -460,9 +480,6 @@ bool TaskManager::keyNearestDeadline(Task& a, Task& b) {
    }
 } 
 
-
-
-
 string TaskManager::processToday(){
 	time_t t = time(0); 
 	char tmp[64]; 
@@ -472,7 +489,6 @@ string TaskManager::processToday(){
 	return today;
 }
 
-//added tomorrow 
 string TaskManager::processTomorrow(){
 	time_t t = time(0); 
 	char tmp[64]; 
@@ -490,7 +506,6 @@ string TaskManager::processTomorrow(){
 }
 
 string TaskManager::intToString(int inputInt){
-
 	stringstream outputStream;
 
 	if(inputInt < 10){
@@ -505,7 +520,6 @@ string TaskManager::intToString(int inputInt){
 int TaskManager::stringToInt(string inputString){
 	int outputInt;
 	istringstream outputStream(inputString);
-
 	outputStream >> outputInt;
 
 	return outputInt;
