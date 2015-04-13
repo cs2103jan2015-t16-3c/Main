@@ -1,0 +1,927 @@
+//@author: a0114148m
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Command.cpp
+	 */
+
+#include "Command.h"
+
+Command::Command() {
+}
+
+Command::~Command() {
+}
+
+void Command::execute(){
+}
+
+Command* Command::getInverseCommand() {
+	return NULL;
+}
+
+vector<Task>* Command::updateDisplay(){
+	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask(_currentDisplayIndicator);
+	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline(_currentDisplayIndicator);
+	_floatingTaskVector  = TaskManager::getInstance()->retrieveFloatingTask(DISPLAY_ALL);
+	_mergedDisplay = _timedTaskVector;
+	_mergedDisplay->insert (_mergedDisplay->end(), _deadlineVector->begin(), _deadlineVector->end());
+	_mergedDisplay->insert (_mergedDisplay->end(), _floatingTaskVector->begin(), _floatingTaskVector->end());
+	return _mergedDisplay;
+}
+
+vector<string>* Command::updateFeedback(){
+	return _feedback;
+}
+
+string Command::updateDisplayIndicator() {
+	return _currentDisplayIndicator;
+}
+
+vector<Task>* Command::updateDeadline() {
+	_deadlineVector = TaskManager::getInstance()->retrieveDeadline(DISPLAY_ALL);
+	return _deadlineVector;
+}
+
+string Command::updateTodayDate() {
+	return TaskManager::getInstance()->retrieveTodayDate();
+}
+
+void Command::insertTaskDetails() {
+	_feedback->push_back(_taskName);
+	_feedback->push_back(_startDate);
+	_feedback->push_back(_startTime);
+	_feedback->push_back(_endDate);
+	_feedback->push_back(_endTime);
+}
+
+bool Command::isIndexValid() {
+	return _index > 0 && _index <= _currentDisplay->size();
+}
+
+void Command::getTaskID() {
+
+	assert(_taskID == EMPTY_NUMBER);
+
+	if (isIndexValid()) {
+			_taskID = _currentDisplay->at(_index-1).getTaskID();
+	} else {
+		_errorType = ERROR_TYPE_6;
+		_executionStatus = STATUS_UNSUCCESSFUL;
+		return;
+	}
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Command.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Command.h
+	 */
+
+#pragma once
+
+#ifndef COMMAND_H_
+#define COMMAND_H_
+
+#include <string>
+#include <assert.h>
+#include "Task.h"
+#include "TaskManager.h"
+
+static const string DISPLAY_INVALID = "invalid";
+static const string COMMAND_ADD = "add";
+static const string COMMAND_DELETE = "delete";
+static const string COMMAND_DISPLAY = "display";
+static const string COMMAND_MARK = "mark";
+static const string COMMAND_EDIT = "edit";
+static const string COMMAND_SEARCH = "search";
+static const string COMMAND_UNDO = "undo";
+static const string COMMAND_UNMARK = "unmark";
+static const string COMMAND_INVALID = "invalid";
+static const string COMMAND_SAVE = "save";
+static const string STATUS_SUCCESSFUL = "successful";
+static const string STATUS_UNSUCCESSFUL = "unsuccessful";
+static const string NULL_STRING = "NULL";
+static const string ERROR_TYPE_1 = "error1";
+static const string ERROR_TYPE_2 = "error2";
+static const string ERROR_TYPE_3 = "error3";
+static const string ERROR_TYPE_4 = "error4";
+static const string ERROR_TYPE_5 = "error5";
+static const string ERROR_TYPE_6 = "error6";
+static const string ERROR_TYPE_7 = "error7";
+static const string BEGINNING_OF_THE_DAY = "0000";
+static const string END_OF_THE_DAY = "2359";
+
+static const int EMPTY_NUMBER = -1;
+
+class Command {
+
+protected:
+	vector<Task>* _mergedDisplay;
+	vector<Task>* _timedTaskVector;
+	vector<Task>* _floatingTaskVector;
+	vector<Task>* _deadlineVector;
+	vector<string>* _feedback;
+	vector<Task>* _currentDisplay;
+	string _executionStatus;
+	string _currentDisplayIndicator;
+	string _errorType;
+	string _taskName;
+	string _startDate;
+	string _startTime;
+	string _endDate;
+	string _endTime;
+	string _type;
+	int _taskID;
+	int _index;
+	bool _isComplete;
+
+public:
+	//Constructor for Command
+	Command();
+
+	~Command();
+	virtual void execute();
+	virtual Command* getInverseCommand();
+	virtual vector<Task>* updateDisplay();
+	virtual vector<string>* updateFeedback();
+	virtual string updateDisplayIndicator();
+	vector<Task>* updateDeadline();
+	string updateTodayDate();
+	void insertTaskDetails();
+	bool isIndexValid();
+	void getTaskID();
+};
+
+#endif
+
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Command.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandDelete.cpp
+	 */
+
+#include "CommandDelete.h"
+
+CommandDelete::CommandDelete(int index, vector<Task>* currentDisplay, string currentDisplayIndicator) {
+	_index = index;
+	_currentDisplay = currentDisplay;
+	_taskID = EMPTY_NUMBER;
+	_currentDisplayIndicator = currentDisplayIndicator;
+}
+
+CommandDelete::CommandDelete(vector<Task>* currentDisplay, int taskID) {
+
+	assert(_taskID != EMPTY_NUMBER);
+
+	_taskID = taskID;
+	_currentDisplay = currentDisplay;
+}
+
+CommandDelete::~CommandDelete() {
+}
+
+void CommandDelete::execute() {
+	if (_taskID == EMPTY_NUMBER) {
+		if (isIndexValid()) {
+			getTaskDetails();
+		} else {
+			_errorType = ERROR_TYPE_6;
+			_executionStatus = STATUS_UNSUCCESSFUL;
+			return;
+		}
+	}
+	TaskManager::getInstance()->deleteTask(_taskID);
+	_executionStatus = STATUS_SUCCESSFUL;
+}
+
+void CommandDelete::getTaskDetails() {
+	_taskID = _currentDisplay->at(_index-1).getTaskID();
+	_taskName = _currentDisplay->at(_index-1).getTaskName();
+	_startDate = _currentDisplay->at(_index-1).getStartDate();
+	_startTime = _currentDisplay->at(_index-1).getStartTime();
+	_endDate = _currentDisplay->at(_index-1).getEndDate();
+	_endTime = _currentDisplay->at(_index-1).getEndTime();
+}
+
+vector<string>* CommandDelete::updateFeedback() {
+	_feedback = new vector<string>;
+	_feedback->push_back (COMMAND_DELETE);
+	_feedback->push_back (_executionStatus);
+	if (_executionStatus == STATUS_SUCCESSFUL) {
+		insertTaskDetails();
+	} else {
+		_feedback->push_back (_errorType);
+	}
+	return _feedback;
+}
+
+void CommandDelete::insertTaskDetails() {
+	_feedback->push_back(_taskName);
+	_feedback->push_back(_startDate);
+	_feedback->push_back(_startTime);
+	_feedback->push_back(_endDate);
+	_feedback->push_back(_endTime);
+}
+
+Command* CommandDelete::getInverseCommand() {
+	CommandAdd* invDelete = new CommandAdd (_taskName, _startDate, _startTime, _endDate, _endTime, _taskID, _currentDisplay);
+	return invDelete;
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandDelete.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandDelete.h
+	 */
+
+#pragma once
+
+#ifndef COMMANDDELETE_H_
+#define COMMANDDELETE_H_
+
+#include "Command.h"
+#include "CommandAdd.h"
+#include "Task.h"
+#include "TaskManager.h"
+
+using namespace std;
+
+class CommandDelete :
+	public Command {
+
+private:
+	
+
+public:
+	//Main Constructor for CommandDelete
+	CommandDelete(int index, vector<Task>* currentDisplay,  string currentDisplayIndicator);
+	
+	//Constructor for CommandDelete as inverse Command object of CommandAdd
+	CommandDelete(vector<Task>* currentDisplay, int taskID);
+	
+	~CommandDelete();
+	void getTaskDetails();
+	void execute();
+	vector<string>* updateFeedback();
+
+	//returns CommandAdd object to support undo function
+	Command* getInverseCommand();
+
+	//packages the details of a Task into vector<string> to be passed to Logic as the feedback
+	void insertTaskDetails();
+};
+
+#endif
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandDelete.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandEdit.cpp
+	 */
+
+#include "CommandEdit.h"
+
+CommandEdit::CommandEdit(int index, string taskName, string startDate, string startTime, string endDate, string endTime, vector<Task>* currentDisplay, string currentDisplayIndicator) {
+	_index = index;
+	_taskName = taskName;
+	_startDate = startDate;
+	_startTime = startTime;
+	_endDate = endDate;
+	_endTime = endTime;
+	_currentDisplay = currentDisplay;
+	_currentDisplayIndicator = currentDisplayIndicator;
+}
+
+CommandEdit::~CommandEdit() {
+}
+
+bool CommandEdit::isIndexValid() {
+	return _index > 0 && _index <= _currentDisplay->size();
+}
+
+void CommandEdit::execute() {
+	if (isIndexValid()) {
+		_taskID = _currentDisplay->at(_index-1).getTaskID();
+		TaskManager::getInstance()->getTaskDetails(_taskID, _prevTaskName, _prevStartDate, _prevStartTime, _prevEndDate, _prevEndTime, _isPrevComplete);
+		processEdit();
+	} else {
+		_errorType = ERROR_TYPE_6;
+		_executionStatus = STATUS_UNSUCCESSFUL;
+	}
+}
+
+void CommandEdit::processEdit() {
+	if (isEditValid()) {
+		TaskManager::getInstance()->editTask(_taskID, _taskName, _startDate, _startTime, _endDate, _endTime);
+		TaskManager::getInstance()->getTaskDetails(_taskID, _taskName, _startDate, _startTime, _endDate, _endTime, _isComplete);
+		_type = TaskManager::getInstance()->getTaskType(_taskID);
+		_executionStatus = STATUS_SUCCESSFUL;
+	 } else {
+		_errorType = ERROR_TYPE_5;
+		_executionStatus = STATUS_UNSUCCESSFUL;
+	 }
+}
+
+bool CommandEdit::isEditValid() {
+	if (_startDate == NULL_STRING) {
+		_startDate = _prevStartDate;
+	}
+	if (_startTime == NULL_STRING) {
+		 _startTime = _prevStartTime;
+	}
+	if (_endDate == NULL_STRING) {
+		_endDate = _prevEndDate;
+	}
+	if (_endTime == NULL_STRING) {
+		_endTime = _prevEndTime;
+	}
+	if (isStartAndEndTimeValid()){
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool CommandEdit::isStartAndEndTimeValid() {
+	string modifiedStartingTime = _startDate.substr(4,4) + _startDate.substr(2,2) + _startDate.substr(0,2) + _startTime;
+	string modifiedEndingTime = _endDate.substr(4,4) + _endDate.substr(2,2) + _endDate.substr(0,2) + _endTime;
+	if (stoll(modifiedStartingTime) < stoll(modifiedEndingTime)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+vector<string>* CommandEdit::updateFeedback() {
+	_feedback = new vector<string>;
+	_feedback->push_back (COMMAND_EDIT);
+	_feedback->push_back (_executionStatus);
+	if (_executionStatus == STATUS_SUCCESSFUL) {
+		insertTaskDetails();
+	} else {
+		_feedback->push_back (_errorType);
+	}
+	return _feedback;
+}
+
+
+Command* CommandEdit::getInverseCommand() {
+	CommandInverseEdit* invEdit = new CommandInverseEdit (_taskID, _prevTaskName, _prevStartDate, _prevStartTime, _prevEndDate, _prevEndTime, _isPrevComplete);
+	return invEdit;
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandEdit.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandEdit.h
+	 */
+
+#pragma once
+
+#ifndef COMMANDEDIT_H_
+#define COMMANDEDIT_H_
+
+#include "Command.h"
+#include "CommandInverseEdit.h"
+#include "Task.h"
+#include "TaskManager.h"
+
+class CommandEdit : 
+	public Command {
+
+private:
+	string _prevTaskName;
+	string _prevStartDate;
+	string _prevStartTime;
+	string _prevEndDate;
+	string _prevEndTime;
+	bool _isPrevComplete;
+public:
+	//Constructor for CommandDisplay
+	CommandEdit(int index, string taskName, string startDate, string startTime, string endDate, string endTime, vector<Task>* currentDisplay,  string currentDisplayIndicator);
+	
+	~CommandEdit();
+	void execute();
+	vector<string>* updateFeedback();
+
+	//returns CommandInverseEdit object to support undo function
+	Command* getInverseCommand();
+
+	void processEdit();
+	bool isIndexValid();
+	bool isStartAndEndTimeValid();
+	bool isEditValid();
+};
+
+#endif
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandEdit.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandInverseEdit.cpp
+	 */
+
+#include "CommandInverseEdit.h"
+
+CommandInverseEdit::CommandInverseEdit(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime, bool isComplete) {
+	_taskID = taskID;
+	_taskName = taskName;
+	_startDate = startDate;
+	_startTime = startTime;
+	_endDate = endDate;
+	_endTime = endTime;
+	_isComplete = isComplete;
+}
+
+CommandInverseEdit::~CommandInverseEdit() {
+}
+
+void CommandInverseEdit::execute() {
+	TaskManager::getInstance()->overwriteTask(_taskID, _taskName, _startDate, _startTime, _endDate, _endTime, _isComplete);
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandInverseEdit.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandInverseEdit.h
+	 */
+
+#pragma once
+
+#ifndef COMMANDINVERSEEDIT_H_
+#define COMMANDINVERSEEDIT_H_
+
+#include "Command.h"
+#include "Task.h"
+#include "TaskManager.h"
+
+//CommandInverseEdit is specifically used as as the inverse Command object of CommandEdit
+class CommandInverseEdit : 
+	public Command {
+
+public:
+	//Constructor for CommandInverseEdit
+	CommandInverseEdit(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime, bool isComplete);
+	
+	~CommandInverseEdit();
+	void execute();
+};
+
+#endif
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandInverseEdit.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandSave.cpp
+	 */
+
+#include "CommandSave.h"
+
+CommandSave::CommandSave(string fileName, vector<Task>* currentDisplay,  string currentDisplayIndicator) {
+	_fileName = fileName;
+	_currentDisplay = currentDisplay;
+	_currentDisplayIndicator = currentDisplayIndicator;
+}
+
+
+CommandSave::~CommandSave() {
+}
+
+void CommandSave::execute() {
+	TaskManager::getInstance()->setFileName(_fileName);
+	_executionStatus = STATUS_SUCCESSFUL;
+}
+
+vector<string>* CommandSave::updateFeedback() {
+	_feedback = new vector<string>;
+	_feedback->push_back (COMMAND_SAVE);
+	_feedback->push_back (_executionStatus);
+	_feedback->push_back (_fileName);
+	return _feedback;
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandSave.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandSave.h
+	 */
+
+#pragma once
+
+#ifndef COMMANDSAVE_H_
+#define COMMANDSAVE_H_
+
+#include "Command.h"
+#include "Task.h"
+#include "TaskManager.h"
+
+using namespace std;
+
+class CommandSave :
+	public Command
+{
+private:
+	string _fileName;
+public:
+	//Constructor for CommandSave
+	CommandSave(string fileName, vector<Task>* currentDisplay,  string currentDisplayIndicator);
+
+	~CommandSave();
+	void execute();
+	vector<string>* updateFeedback();
+};
+
+#endif
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandSave.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandUndo.cpp
+	 */
+
+#include "CommandUndo.h"
+#include <algorithm>
+
+CommandUndo::CommandUndo(stack<Command*>* inverseCommandStack, string currentDisplayIndicator) {
+	_inverseCommandStack = inverseCommandStack;
+	_currentDisplayIndicator = currentDisplayIndicator;
+}
+
+CommandUndo::~CommandUndo() {
+}
+
+void CommandUndo::execute() {
+	if (_inverseCommandStack->size()>0) {
+		recentCommand = _inverseCommandStack->top();
+		_inverseCommandStack->pop();
+		recentCommand->execute();
+	}
+	_executionStatus = STATUS_SUCCESSFUL;
+}
+
+vector<string>* CommandUndo::updateFeedback() {
+	_feedback = new vector<string>;
+	_feedback->push_back (COMMAND_UNDO);
+	_feedback->push_back (_executionStatus);
+	_feedback->push_back (EMPTY_STRING);
+	return _feedback;
+}
+
+Command* CommandUndo::getInverseCommand() {
+	return NULL;
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandUndo.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandUndo.h
+	 */
+
+#pragma once
+
+#ifndef COMMANDUNDO_H_
+#define COMMANDUNDO_H_
+
+#include "Command.h"
+#include "TaskManager.h"
+#include "Task.h"
+#include <stack>
+
+using namespace std;
+
+class CommandUndo :
+	public Command {
+
+private:
+	stack<Command*>* _inverseCommandStack;
+	Command* recentCommand;
+
+public:
+	//Constructor for CommandUndo
+	CommandUndo(stack<Command*>* inverseCommandStack,  string currentDisplayIndicator);
+	
+	~CommandUndo();
+	void execute();
+	Command* getInverseCommand();
+	vector<string>* updateFeedback();
+};
+
+#endif
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandUndo.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandUnmark.cpp
+	 */
+
+#include "CommandUnmark.h"
+
+CommandUnmark::CommandUnmark(int index, vector<Task>* currentDisplay, string currentDisplayIndicator) {
+	_index = index;
+	_currentDisplay = currentDisplay;
+	_taskID = EMPTY_NUMBER;
+	_currentDisplayIndicator = currentDisplayIndicator;
+}
+
+CommandUnmark::CommandUnmark(vector<Task>* currentDisplay, int taskID) {
+	
+	assert(_taskID != EMPTY_NUMBER);
+
+	_taskID = taskID;
+	_currentDisplay = currentDisplay;
+}
+
+CommandUnmark::~CommandUnmark() {
+}
+
+void CommandUnmark::execute() {
+	if (_taskID == EMPTY_NUMBER) {
+		getTaskID();
+	}
+	TaskManager::getInstance()->unmarkTask(_taskID);
+	TaskManager::getInstance()->getTaskDetails(_taskID, _taskName, _startDate, _startTime, _endDate, _endTime, _isComplete);
+	_executionStatus = STATUS_SUCCESSFUL;
+
+}
+
+vector<string>* CommandUnmark::updateFeedback() {
+	_feedback = new vector<string>;
+	_feedback->push_back (COMMAND_UNMARK);
+	_feedback->push_back (_executionStatus);
+	if (_executionStatus == STATUS_SUCCESSFUL) {
+		insertTaskDetails();
+	} else {
+		_feedback->push_back (_errorType);
+	}
+	return _feedback;
+}
+
+Command* CommandUnmark::getInverseCommand() {
+	CommandMark* invUnmark = new CommandMark ( _currentDisplay, _taskID);
+	return invUnmark;
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandUnmark.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandUnmark.h
+	 */
+
+#pragma once
+
+#ifndef COMMANDUNMARK_H_
+#define COMMANDUNMARK_H_
+
+#include "Command.h"
+#include "CommandMark.h"
+#include "Task.h"
+#include "TaskManager.h"
+
+using namespace std;
+
+class CommandUnmark :
+	public Command {
+
+public:
+	//Main constructor for CommandUnmark
+	CommandUnmark(int index, vector<Task>* currentDisplay,  string currentDisplayIndicator);
+
+	//Constructor for CommandUnmark as inverse Command object of CommandMark
+	CommandUnmark(vector<Task>* currentDisplay, int taskID);
+	
+	~CommandUnmark();
+	void execute();
+	vector<string>* updateFeedback();
+
+	////returns CommandMark object to support undo function
+	Command* getInverseCommand();
+};
+
+#endif
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandUnmark.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandAddTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+#include "CommandAdd.h"
+#include "Logic.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace ConstanTest
+{
+	TEST_CLASS(CommandAddTest)
+	{
+	public:
+		
+		TEST_METHOD(CommandAdd_GetInverseCommand)
+		{
+			vector<Task>* _currentDisplay = new vector<Task>;
+			string _currentDisplayIndicator;
+			Command* cmd = new CommandAdd ("dinner", "11042015", "1000", "11042015", "1100", _currentDisplay, _currentDisplayIndicator);
+			Command* invCommand = cmd->getInverseCommand();
+			CommandDelete* inv2 = dynamic_cast<CommandDelete*>(invCommand);
+			Assert::IsNotNull(inv2);// assert that invCommand is of type CommandDelete
+			
+		}
+
+		TEST_METHOD(CommandAdd_GetFeedback)
+		{
+			Logic logic;
+			vector<string>* feedback;
+			logic.processCommand("add -t meeting -s 13042015 1000 -e 13042015 1100");
+			feedback = logic.getFeedback();
+			Assert::AreEqual(string("add"), feedback->at(0));
+			Assert::AreEqual(string("successful"), feedback->at(1));
+			Assert::AreEqual(string("meeting"), feedback->at(2));
+			Assert::AreEqual(string("13042015"), feedback->at(3));
+			Assert::AreEqual(string("1000"), feedback->at(4));
+			Assert::AreEqual(string("13042015"), feedback->at(5));
+			Assert::AreEqual(string("1100"), feedback->at(6));
+		}
+
+		TEST_METHOD(CommandAdd_GetDisplayVector)
+		{
+			Logic logic;
+			vector<Task>* displayVector;
+			logic.processCommand("add -t meeting -s 13042015 1000 -e 13042015 1100");
+			displayVector = logic.getDisplayVector();
+			Assert::AreEqual(string("meeting"), displayVector->at(0).getTaskName());
+			Assert::AreEqual(string("13042015"), displayVector->at(0).getStartDate());
+			Assert::AreEqual(string("1000"), displayVector->at(0).getStartTime());
+			Assert::AreEqual(string("13042015"), displayVector->at(0).getEndDate());
+			Assert::AreEqual(string("1100"), displayVector->at(0).getEndTime());
+		}
+		
+		TEST_METHOD(CommandAdd_UpdateDisplayIndicator)
+		{
+			Logic logic;
+			string displayIndicator;
+			logic.processCommand("add -t task1 -s 13042015 1000 -e 13042015 1100");
+			displayIndicator = logic.getCurrentDisplayIndicator();
+			Assert::AreEqual(string("13042015"), displayIndicator);
+		}
+
+	};
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandAddTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandDisplayTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+#include "CommandDisplay.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace ConstanTest
+{
+	TEST_CLASS(CommandDisplayTest)
+	{
+	public:
+		
+		TEST_METHOD(InverseCommandDisplay)
+		{
+			vector<Task>* _currentDisplay = new vector<Task>;
+			string _currentDisplayIndicator;
+			Command* cmd = new CommandDisplay ("deadline", _currentDisplay, _currentDisplayIndicator);
+			Command* invCommand = cmd->getInverseCommand();
+			CommandDisplay* invCommand2 = dynamic_cast<CommandDisplay*>(invCommand);
+			Assert::IsNull(invCommand2);// assert that invCommand is Null for type of CommandDisplay
+		}
+
+	};
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandDisplayTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandMarkTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+#include "CommandMark.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace ConstanTest
+{
+	TEST_CLASS(CommandMarkTest)
+	{
+	public:
+		
+		TEST_METHOD(InverseCommandMark)
+		{
+			vector<Task>* _currentDisplay = new vector<Task>;
+			string _currentDisplayIndicator;
+			Command* cmd = new CommandMark (1, _currentDisplay, _currentDisplayIndicator);
+			Command* invCommand = cmd->getInverseCommand();
+			CommandUnmark* inv2 = dynamic_cast<CommandUnmark*>(invCommand);
+			Assert::IsNotNull(inv2);// assert that invCommand is of type CommandUnmark
+		}
+
+	};
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandMarkTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandUnmarkTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+#include "CommandUnmark.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace ConstanTest
+{
+	TEST_CLASS(CommandUnmarkTest)
+	{
+	public:
+		
+		TEST_METHOD(InverseCommandUnmark)
+		{
+			vector<Task>* _currentDisplay = new vector<Task>;
+			string _currentDisplayIndicator;
+			Command* cmd = new CommandUnmark (1, _currentDisplay, _currentDisplayIndicator);
+			Command* invCommand = cmd->getInverseCommand();
+			CommandMark* inv2 = dynamic_cast<CommandMark*>(invCommand);
+			Assert::IsNotNull(inv2);// assert that invCommand is of type CommandMark
+		}
+
+	};
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandUnmarkTest.cpp
+
+
+
+
+

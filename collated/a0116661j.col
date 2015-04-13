@@ -1,0 +1,1684 @@
+//@author: a0116661j
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandAdd.cpp
+	 */
+
+#include "CommandAdd.h"
+#include <algorithm>
+
+CommandAdd::CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, vector<Task>* currentDisplay, string currentDisplayIndicator) {
+	_taskName = taskName;
+	_startDate = startDate;
+	_startTime = startTime;
+	_endDate = endDate;
+	_endTime = endTime;
+	_currentDisplay = currentDisplay;
+	_currentDisplayIndicator = currentDisplayIndicator;
+}
+
+CommandAdd::CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, int taskID, vector<Task>* currentDisplay) {
+	_taskName = taskName;
+	_startDate = startDate;
+	_startTime = startTime;
+	_endDate = endDate;
+	_endTime = endTime;
+	_taskID = taskID;
+	_currentDisplay = currentDisplay;
+}
+
+CommandAdd::~CommandAdd() {
+}
+
+void CommandAdd::execute() {
+	if (isAddValid()) {
+		_taskID = TaskManager::getInstance()->addTask(_taskName, _startDate, _startTime, _endDate, _endTime);
+		_executionStatus = STATUS_SUCCESSFUL;
+		_type = TaskManager::getInstance()->getTaskType(_taskID);
+	} else {
+		_executionStatus = STATUS_UNSUCCESSFUL;
+	}
+}
+
+bool CommandAdd::isAddValid() {
+	if (_taskName == NULL_STRING) {
+		_errorType = ERROR_TYPE_1;
+		return false;
+	}
+
+	//returns false when a task has a start date or time without end date and end time
+	if ((_startDate != NULL_STRING || _startTime != NULL_STRING) && _endDate == NULL_STRING && _endTime == NULL_STRING) {
+		_errorType = ERROR_TYPE_2;
+		return false;
+	}
+
+	//returns false when a task has a start time without a start date
+	if (_startDate != NULL_STRING && _startTime == NULL_STRING) {
+		_startTime == BEGINNING_OF_THE_DAY;
+	} else if (_startDate == NULL_STRING && _startTime != NULL_STRING) {
+		_errorType = ERROR_TYPE_3;
+		return false;
+	}
+
+	//returns false whe a task has a end date without a start date or end date 
+	if (_endDate != NULL_STRING && _endTime == NULL_STRING) {
+		_endTime == END_OF_THE_DAY;
+	} else if (_endDate == NULL_STRING && _endTime != NULL_STRING) {
+		if (_startDate != NULL_STRING) {
+			_endDate = _startDate;
+		} else {
+			_errorType = ERROR_TYPE_4;
+			return false;
+		}
+	}
+
+	//returns false if the start date and time of a task is later than its end date and time
+	if (_startDate != NULL_STRING && _startTime != NULL_STRING && !isStartAndEndTimeValid()) {
+		_errorType = ERROR_TYPE_5;
+		return false;
+	}
+
+	return true;
+}
+bool CommandAdd::isStartAndEndTimeValid() {
+	string modifiedStartingTime = _startDate.substr(4,4) + _startDate.substr(2,2) + _startDate.substr(0,2) + _startTime;
+	string modifiedEndingTime = _endDate.substr(4,4) + _endDate.substr(2,2) + _endDate.substr(0,2) + _endTime;
+	if (stoll(modifiedStartingTime) < stoll(modifiedEndingTime)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+vector<string>* CommandAdd::updateFeedback() {
+	_feedback = new vector<string>;
+	_feedback->push_back (COMMAND_ADD);
+	_feedback->push_back (_executionStatus);
+	if (_executionStatus == STATUS_SUCCESSFUL) {
+		insertTaskDetails();
+	} else {
+		_feedback->push_back (_errorType);
+	}
+	return _feedback;
+}
+
+void CommandAdd::insertTaskDetails() {
+	_feedback->push_back(_taskName);
+	_feedback->push_back(_startDate);
+	_feedback->push_back(_startTime);
+	_feedback->push_back(_endDate);
+	_feedback->push_back(_endTime);
+}
+
+Command* CommandAdd::getInverseCommand() {
+	CommandDelete* invAdd = new CommandDelete ( _currentDisplay, _taskID);
+	return invAdd;
+}
+
+string CommandAdd::updateDisplayIndicator() {
+	if (_executionStatus == STATUS_SUCCESSFUL) {
+		if (_type == TASK_TYPE_TIMED) {
+			_currentDisplayIndicator = _startDate;
+		} else if (_type == TASK_TYPE_DEADLINE) {
+			_currentDisplayIndicator = _endDate;
+		} else {
+			_currentDisplayIndicator = DISPLAY_ALL;
+		}
+	}
+	return _currentDisplayIndicator;
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandAdd.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandAdd.h
+	 */
+
+#pragma once
+
+#ifndef COMMANDADD_H_
+#define COMMANDADD_H_
+
+#include "Command.h"
+#include "CommandDelete.h"
+#include "TaskManager.h"
+#include "Task.h"
+
+using namespace std;
+
+class CommandAdd :
+	public Command {
+
+public:
+	//Main Constructor for CommandAdd
+	CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, vector<Task>* currentDisplay, string currentDisplayIndicator);
+	
+	//Constructor for CommandAdd as inverse Command object of CommandDelete
+	CommandAdd (string taskName, string startDate, string startTime, string endDate, string endTime, int taskID, vector<Task>* currentDisplay);
+	
+	~CommandAdd();
+	void execute();
+	vector<string>* updateFeedback();
+	
+	//returns CommandDelete object to support undo function
+	Command* getInverseCommand();
+	
+	//checks the Task member fields received from Parser.
+	//returns false there are insufficient information or the start date and time are later than its end date and end time
+	bool isAddValid();
+
+	//returns false if the start date and time are later than the end date and end time
+	bool isStartAndEndTimeValid();
+	
+	//returns the start date of the newly added Task
+	string updateDisplayIndicator();
+	void insertTaskDetails();
+};
+
+#endif
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandAdd.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandDisplay.cpp
+	 */
+
+#include "CommandDisplay.h"
+
+CommandDisplay::CommandDisplay(string displayType, vector<Task>* currentDisplay, string currentDisplayIndicator) {
+	_currentDisplayIndicator = currentDisplayIndicator;
+	 _currentDisplay = currentDisplay;
+	_displayType = displayType;
+}
+
+CommandDisplay::~CommandDisplay() {
+}
+
+void CommandDisplay::execute() {
+}
+
+bool CommandDisplay::isNumberFound(string input) {
+	for (unsigned int i =0; i < input.size(); i++) {
+		if (isdigit(input.at(i))) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void CommandDisplay::toStringLower(string& input) {
+	for (unsigned int i = 0; i < input.size(); i++) {
+		input[i] = tolower(input[i]);
+	}
+}
+
+vector<Task>* CommandDisplay::updateDisplay() {
+	if (_displayType != NULL_STRING) {
+		_executionStatus = STATUS_SUCCESSFUL;
+		return generateDisplay();
+	} else {
+		_executionStatus = STATUS_UNSUCCESSFUL;
+		_errorType = ERROR_TYPE_7;
+		return _currentDisplay;
+	}
+} 
+
+vector<Task>* CommandDisplay::generateDisplay() {
+	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask(_displayType);
+	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline(_displayType);
+	_floatingTaskVector  = TaskManager::getInstance()->retrieveFloatingTask(DISPLAY_ALL);
+	_mergedDisplay = _timedTaskVector;
+	_mergedDisplay->insert (_mergedDisplay->end(), _deadlineVector->begin(), _deadlineVector->end());
+	_mergedDisplay->insert (_mergedDisplay->end(), _floatingTaskVector->begin(), _floatingTaskVector->end());
+	return _mergedDisplay;
+}
+
+string CommandDisplay::updateDisplayIndicator() {
+	if (_displayType != NULL_STRING) {
+		_executionStatus = STATUS_SUCCESSFUL;
+	} else {
+		_executionStatus = STATUS_UNSUCCESSFUL;
+	}
+	if (_executionStatus == STATUS_SUCCESSFUL) {
+		_currentDisplayIndicator = _displayType;
+	} 
+	return  _currentDisplayIndicator;
+}
+
+vector<string>* CommandDisplay::updateFeedback() {
+	_feedback = new vector<string>;
+	_feedback->push_back (COMMAND_DISPLAY);
+	_feedback->push_back (_executionStatus);
+	if (_executionStatus == STATUS_SUCCESSFUL) {
+		_feedback->push_back (_displayType);
+	} else {
+		_feedback->push_back (_errorType);
+	}
+	return _feedback;
+}
+
+Command* CommandDisplay::getInverseCommand() {
+	return NULL;
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandDisplay.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandDisplay.h
+	 */
+
+#pragma once
+
+#ifndef COMMANDDISPLAY_H_
+#define COMMANDDISPLAY_H_
+
+#include "Command.h"
+#include "Task.h"
+#include "TaskManager.h"
+
+class CommandDisplay :
+	public Command {
+
+private:
+	string _displayType;
+public:
+	//Constructor for CommandDisplay
+	CommandDisplay(string displayType, vector<Task>* currentDisplay, string currentDisplayIndicator);
+
+	~CommandDisplay();
+	void execute();
+	vector<Task>* updateDisplay();
+	vector<string>* updateFeedback();
+	Command* getInverseCommand();
+	vector<Task>* generateDisplay();
+	string updateDisplayIndicator();
+
+	//converts input to lower case
+	void toStringLower(string& input);
+	
+	//check if input contains a number
+	bool isNumberFound(string input);
+};
+#endif
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandDisplay.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandInvalid.cpp
+	 */
+
+#include "CommandInvalid.h"
+
+CommandInvalid::CommandInvalid(string report, string currentDisplayIndicator) {
+	_report = report;
+	_executionStatus = STATUS_UNSUCCESSFUL;
+	_currentDisplayIndicator = currentDisplayIndicator;
+}
+
+CommandInvalid::~CommandInvalid() {
+}
+
+void CommandInvalid::execute() {
+}
+	
+vector<string>* CommandInvalid::updateFeedback() {
+	_feedback = new vector<string>;
+	_feedback->push_back (COMMAND_INVALID);
+	_feedback->push_back (_executionStatus);
+	_feedback->push_back (_report);
+	_feedback->push_back (NULL_STRING);
+	_feedback->push_back (NULL_STRING);
+	_feedback->push_back (NULL_STRING);
+	_feedback->push_back (NULL_STRING);
+	return _feedback;
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandInvalid.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandInvalid.h
+	 */
+
+#pragma once
+
+#ifndef COMMANDINVALID_H_
+#define COMMANDINVALID_H_
+
+#include "command.h"
+class CommandInvalid :
+	public Command
+{
+private:
+	string _report;
+public:
+	//Constructor for CommandInvalid
+	CommandInvalid(string report,  string currentDisplayIndicator);
+	
+	~CommandInvalid();
+	void execute();
+	vector<string>* updateFeedback();
+};
+
+#endif
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandInvalid.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandMark.cpp
+	 */
+
+#include "CommandMark.h"
+
+CommandMark::CommandMark(int index, vector<Task>* currentDisplay, string currentDisplayIndicator) {
+	_index = index;
+	_currentDisplay = currentDisplay;
+	_taskID = EMPTY_NUMBER;
+	_currentDisplayIndicator = currentDisplayIndicator;
+}
+
+CommandMark::CommandMark(vector<Task>* currentDisplay, int taskID) {
+	
+	assert(_taskID != EMPTY_NUMBER);
+
+	_taskID = taskID;
+	_currentDisplay = currentDisplay;
+}
+
+CommandMark::~CommandMark() {
+}
+
+void CommandMark::execute() {
+	if (_taskID == EMPTY_NUMBER) {
+		getTaskID();
+	}
+	TaskManager::getInstance()->markTask(_taskID);
+	TaskManager::getInstance()->getTaskDetails(_taskID, _taskName, _startDate, _startTime, _endDate, _endTime, _isComplete);
+	_executionStatus = STATUS_SUCCESSFUL;
+}
+
+vector<string>* CommandMark::updateFeedback() {
+	_feedback = new vector<string>;
+	_feedback->push_back (COMMAND_MARK);
+	_feedback->push_back (_executionStatus);
+	if (_executionStatus == STATUS_SUCCESSFUL) {
+		insertTaskDetails();
+	} else {
+		_feedback->push_back (_errorType);
+	}
+	return _feedback;
+}
+
+Command* CommandMark::getInverseCommand() {
+	CommandUnmark* invMark = new CommandUnmark( _currentDisplay, _taskID);
+	return invMark;
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandMark.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandMark.h
+	 */
+
+#pragma once
+
+#ifndef COMMANDMARK_H_
+#define COMMANDMARK_H_
+
+#include "Command.h"
+#include "CommandUnmark.h"
+#include "Task.h"
+#include "TaskManager.h"
+
+using namespace std;
+
+class CommandMark:
+	public Command {
+
+public:
+	//Main constructor for CommandMark
+	CommandMark(int index, vector<Task>* currentDisplay,  string currentDisplayIndicator);
+	
+	//Constructor for CommandMark as inverse Command object of CommandUnmark
+	CommandMark(vector<Task>* currentDisplay, int taskID);
+	
+	~CommandMark();
+	void execute();
+	vector<string>* updateFeedback();
+
+	//returns CommandUnmark object to support undo function
+	Command* getInverseCommand();
+};
+
+#endif
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandMark.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandSearch.cpp
+	 */
+
+#include "CommandSearch.h"
+
+CommandSearch::CommandSearch(string keyword, string currentDisplayIndicator) {
+	_keyword = keyword;
+	_currentDisplayIndicator = currentDisplayIndicator;
+}
+
+
+CommandSearch::~CommandSearch(void) {
+}
+
+void CommandSearch::execute() {
+}
+
+vector<Task>* CommandSearch::updateDisplay() {
+	_mergedDisplay = TaskManager::getInstance()->searchForString(_keyword);
+	_numberOfResults = _mergedDisplay->size();
+	_executionStatus = STATUS_SUCCESSFUL;
+	return _mergedDisplay;
+}
+
+vector<string>* CommandSearch::updateFeedback() {
+	_feedback = new vector<string>; 
+	_feedback->push_back (COMMAND_SEARCH);
+	_feedback->push_back (_executionStatus);
+	_feedback->push_back (to_string(_numberOfResults) + " task(s) found.");
+	return _feedback;
+}
+
+Command* CommandSearch::getInverseCommand() {
+	return NULL;
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandSearch.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandSearch.h
+	 */
+
+#pragma once
+
+#ifndef COMMANDSEARCH_H_
+#define COMMANDSEARCH_H_
+
+#include "Command.h"
+#include "Task.h"
+#include "TaskManager.h"
+
+using namespace std;
+
+class CommandSearch:
+	public Command {
+
+private:
+	string _keyword;
+	int _numberOfResults;
+
+public:
+	////Constructor for CommandSearch
+	CommandSearch(string keyword, string currentDisplayIndicator);
+	
+	~CommandSearch();
+	void execute();
+	vector<Task>* updateDisplay();
+	vector<string>* updateFeedback();
+	Command* getInverseCommand();
+};
+
+#endif
+
+
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\CommandSearch.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Logic.cpp
+	 */
+
+#include "Logic.h"
+
+Logic::Logic(): parser (&inverseCommandStack) {
+	_currentDisplayIndicator = DISPLAY_TODAY;
+}
+
+Logic::~Logic(){
+}
+
+void Logic::processCommand(string input) {
+	parser.updateCurrentDisplayIndicator(_currentDisplayIndicator);
+
+	Command* cmd = parser.parse(input);
+	cmd->execute();
+	Command* invCommand = cmd->getInverseCommand();
+	if (invCommand != NULL) {
+		inverseCommandStack.push(invCommand);
+	}
+	updateLogicAttributes(cmd);
+
+	parser.updateDisplay(_currentDisplay);
+	parser.updateInverseCommandStack(&inverseCommandStack);
+}
+
+
+void Logic::updateLogicAttributes(Command* cmd) {
+	_currentDisplayIndicator = cmd->updateDisplayIndicator();
+	_currentDisplay = cmd->updateDisplay();
+	_feedback = cmd->updateFeedback();
+	_deadlineVector = cmd->updateDeadline();
+	_todayDate = cmd->updateTodayDate();
+}
+
+vector<string>* Logic::getFeedback() {
+	return _feedback;
+}
+
+vector<Task>* Logic::getDisplayVector() {
+	return _currentDisplay;
+}
+
+vector<Task>* Logic::getDeadlineVector() {
+	return _deadlineVector;
+}
+
+string Logic::getTodayDate() {
+	return _todayDate;
+}
+
+string Logic::getCurrentDisplayIndicator() {
+	return _currentDisplayIndicator;
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Logic.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Logic.h
+	 */
+
+#pragma once
+
+#ifndef LOGIC_H_
+#define LOGIC_H_
+
+#include <string>
+#include <vector>
+#include <stack>
+#include "Task.h"
+#include "Command.h"
+#include "Parser.h"
+
+using namespace std;
+
+class Logic {
+
+private:
+	Parser parser;	
+	vector<Task>* _currentDisplay;
+	vector<Task>* _deadlineVector;
+	vector<string>* _feedback;
+	stack<Command*> inverseCommandStack;
+	string _todayDate;
+	string _currentDisplayIndicator;
+
+	void updateLogicAttributes(Command* cmd);
+
+public:
+	//Constructor for Logic
+	Logic();
+
+	~Logic();
+	void processCommand(string input);	
+	vector<string>* getFeedback();
+	vector<Task>* getDisplayVector();
+	vector<Task>* getDeadlineVector();
+	string getTodayDate();
+	string getCurrentDisplayIndicator();
+};
+
+#endif
+
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Logic.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+	 */
+
+#include "Parser.h"
+
+Parser::Parser () {
+}
+
+//This constructor takes inverseCommandStack and initialise Parser's own _inverseCommandStack to it.
+Parser::Parser(stack<Command*>* inverseCommandStack){
+	_inverseCommandStack = inverseCommandStack;
+}
+
+//takes in user input and returns Command object pointer
+Command* Parser::parse(string input) {
+	vector<string> inputVector;
+	splitInput(&inputVector, input);
+	return translateInput(inputVector);
+}
+
+void Parser::updateDisplay (vector<Task>* currentDisplay) {
+	_currentDisplay = currentDisplay;
+}
+
+void Parser::updateCurrentDisplayIndicator(string currentDisplayIndicator) {
+	_currentDisplayIndicator = currentDisplayIndicator;
+}
+
+void Parser::updateInverseCommandStack(stack<Command*> *inverseCommandStack) {
+	_inverseCommandStack = inverseCommandStack;
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+	 */
+
+void Parser::getFileName(vector<string> &inputVector) {
+	_fileName = inputVector[1];
+}
+
+void Parser::getKeyword(vector<string> &inputVector) {
+	_keyword = inputVector[1];	
+}
+
+//takes in user input index and returns it as int
+//returns false if the input has alphabet in it
+void Parser::getIndex(vector<string> &inputVector) {
+	if (isAlphabetFound(inputVector[1])){
+		_index = INDEX_NOT_FOUND;
+	} else {
+		int indexLimit = findFirstDelimiter(inputVector);
+		if (indexLimit > 1 || indexLimit == INDEX_NOT_FOUND) {
+			_index = stoi(inputVector[1]);
+		} else {
+			_index = INDEX_NOT_FOUND;
+		}
+	}
+}
+
+//returns the location of the first delimiter (-t or -s or -e) found
+int Parser::findFirstDelimiter(vector<string> &inputVector) {
+	for (unsigned int i = 0; i < inputVector.size(); i++){
+		if (isDelimiter(inputVector[i])){
+			return i;
+		}
+	}
+	return INDEX_NOT_FOUND;
+}
+
+//takes in input as a string and returns it in the DDMMYYYY format
+void Parser::getDisplayType(vector<string> &inputVector) {
+	string tempString = EMPTY_STRING;	
+	unsigned int index = 1;
+	while (index < inputVector.size() && !isDelimiter(inputVector[index])){
+		tempString = tempString + WHITE_SPACE + inputVector[index];
+		index++;
+	}
+	unsigned int startIndex = 1;
+	_displayType = tempString.substr(startIndex);
+	if (_displayType != DISPLAY_ALL){
+		_displayType = readDate(_displayType);
+	}
+}
+
+//returns the type of the task
+void Parser::getType() {
+	if (_startTime != NULL_STRING && _endTime != NULL_STRING) {
+		_type = TASK_TYPE_TIMED;
+	} else if (_startTime == NULL_STRING && _endTime != NULL_STRING) {
+		_type = TASK_TYPE_DEADLINE;
+	} else {
+		_type = TASK_TYPE_FLOATING;
+	}
+}
+
+//returns true if "-s" is found
+//if found, it assigns index to the location of "-s"
+bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, size_t &index) {
+	for (unsigned int i = 0; i<inputVector.size(); i++){
+		if (inputVector[i] == DELIMITER_STARTTIME){
+			index = i;
+			return true;
+		}
+	}
+	return false;
+}
+
+//returns true if "-e" is found
+//if found, it assigns index to the location of "-e"
+bool Parser::isEndTimeDelimiterFound(vector<string> &inputVector, size_t &index) {
+	for (unsigned int i = 0; i<inputVector.size(); i++){
+		if (inputVector[i] == DELIMITER_ENDTIME){
+			index = i;
+			return true;
+		}
+	}
+	return false;
+}
+
+//returns true if "-t" is found
+//if found, it assigns index to the location of "-t"
+bool Parser::isTaskNameDelimiterFound(vector<string> &inputVector, size_t &index) {
+	for (unsigned int i = 0; i<inputVector.size(); i++){
+		if (inputVector[i] == DELIMITER_TASKNAME){
+			index = i;
+			return true;
+		}
+	}
+	return false;
+}
+
+//returns true if input is one of the delimiters (-t or -s or -e)
+bool Parser::isDelimiter (string input) {
+	if (input == DELIMITER_TASKNAME || input == DELIMITER_STARTTIME || input == DELIMITER_ENDTIME) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+void Parser::getEndingTime(vector<string> &inputVector) {
+	string tempString = EMPTY_STRING;
+	size_t index;
+	if(isEndTimeDelimiterFound(inputVector, index)) {
+		index++;
+		while (index < inputVector.size() && !isDelimiter(inputVector[index])){
+			tempString = tempString + WHITE_SPACE + inputVector[index];
+			index++;
+		}
+		if (tempString.size() == ZERO) {
+			_endDate = NULL_STRING;
+			_endTime = NULL_STRING;		
+		} else {
+			unsigned int startIndex = 1;
+			unsigned int partitionIndex = tempString.find_last_of(WHITE_SPACE);
+			_endDate = tempString.substr(startIndex, partitionIndex-startIndex);
+			_endDate = readDate(_endDate);
+			_endTime = tempString.substr(partitionIndex+1);
+			_endTime = verifyTime(_endTime);
+		}
+	} else {
+		_endDate = NULL_STRING;
+		_endTime = NULL_STRING;
+
+	}
+}
+
+void Parser::getStartingTime(vector<string> &inputVector) {
+	string tempString = EMPTY_STRING;
+	size_t index;
+	if(isStartTimeDelimiterFound(inputVector, index)) {
+		index++;
+		while (index < inputVector.size() && !isDelimiter(inputVector[index])){
+			tempString = tempString + WHITE_SPACE + inputVector[index];
+			index++;
+		}
+		if (tempString.size() == ZERO) {
+			_startDate = NULL_STRING;
+			_startTime = NULL_STRING;
+		} else {
+			unsigned int startIndex = 1;
+			unsigned int partitionIndex = tempString.find_last_of(WHITE_SPACE);
+			_startDate = tempString.substr(startIndex, partitionIndex-startIndex);
+			_startDate = readDate(_startDate);
+			_startTime = tempString.substr(partitionIndex+1);
+			_startTime = verifyTime(_startTime);
+		}
+	} else {
+		_startDate = NULL_STRING;
+		_startTime = NULL_STRING;
+	}
+}
+
+string Parser::verifyTime(string input) {
+	if (input.size() == SIZE_TIME_STRING) {
+		return input;
+	}
+	return NULL_STRING;
+}
+
+string Parser::readDate(string input) {
+	if (isNumberFound(input)) {
+		if (input.size() > 4) {
+			return processDate(input);
+		} else
+			return NULL_STRING;
+	} else {
+		switch (determineAlphabeticalDate(input)){
+			case TODAY:
+				return processToday();
+				break;
+			case TOMORROW:
+				return processTomorrow();
+				break;
+			case UNDEFINED:
+				return NULL_STRING;
+				break;
+			default:
+				return NULL_STRING;
+		}
+	}
+}
+
+ALPHABETICAL_DATE Parser::determineAlphabeticalDate(string input) {
+	toStringLower(input);
+	if (input == DISPLAY_TODAY){
+		return TODAY;
+	} else if (input == DISPLAY_TOMORROW) {
+		return TOMORROW;
+	} else {
+		return UNDEFINED;
+	}
+}
+
+bool Parser::isNumberFound(string input) {
+	for (unsigned int i =0; i < input.size(); i++) {
+		if (isdigit(input.at(i))) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Parser::isAlphabetFound(string input) {
+	for (unsigned int i =0; i < input.size(); i++) {
+		if (isalpha(input.at(i))) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void Parser::getTaskName(vector<string> &inputVector) {
+	string tempString = EMPTY_STRING;
+	size_t index;
+	if(isTaskNameDelimiterFound(inputVector, index)) {
+		index++;
+		while (index < inputVector.size() && !isDelimiter(inputVector[index])){
+			tempString = tempString + WHITE_SPACE + inputVector[index];
+			index++;
+		}
+		if (tempString.size() == ZERO) {
+			_taskName = NULL_STRING;
+		} else {
+			_taskName = tempString.substr(1);
+		}
+	} else {
+		_taskName = NULL_STRING;
+	}
+}
+
+void Parser::toStringLower(string& input) {
+	for (unsigned int i = 0; i < input.size(); i++) {
+		input[i] = tolower(input[i]);
+	}
+}
+
+COMMAND_TYPE Parser::determineCommandType(string command) {
+	toStringLower(command);
+	if (command == COMMAND_ADD){
+		return ADD;
+	} else if (command == COMMAND_DISPLAY) {
+		return DISPLAY;
+	} else if (command == COMMAND_DELETE) {
+		return DELETE_IT;
+	} else if (command == COMMAND_MARK) {
+		return MARK;
+	} else if (command == COMMAND_UNMARK) {
+		return UNMARK;
+	} else if (command == COMMAND_EXIT) {
+		return EXIT;
+	} else if (command == COMMAND_EDIT) {
+		return EDIT;
+	} else if (command == COMMAND_SEARCH) {
+		return SEARCH;
+	} else if (command == COMMAND_SAVE) {
+		return SAVE;
+	} else if (command == COMMAND_UNDO) {
+		return UNDO;
+	} else {
+		return INVALID;
+	}
+}
+
+void Parser::splitInput(vector<string>* inputVector, string input) {
+	istringstream read(input);
+	string temporaryString;
+	
+	while(read >> temporaryString) {
+		inputVector->push_back(temporaryString);
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.h
+	 */
+
+#pragma once
+
+#ifndef PARSER_H_
+#define PARSER_H_
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include <stdio.h>
+#include <iterator>
+#include <vector>
+#include <list>
+#include <stdio.h>
+#include <time.h>
+#include <sstream>
+#include "Command.h"
+#include "CommandAdd.h"
+#include "CommandDelete.h"
+#include "CommandUndo.h"
+#include "CommandEdit.h"
+#include "CommandDisplay.h"
+#include "CommandSearch.h"
+#include "CommandInvalid.h"
+#include "CommandMark.h"
+#include "CommandUnmark.h"
+#include "CommandSave.h"
+
+using namespace std;
+
+static const string COMMAND_EXIT = "exit"; 
+static const string DELIMITER_TASKNAME = "-t";
+static const string DELIMITER_STARTTIME = "-s";
+static const string DELIMITER_ENDTIME = "-e";
+static const string INVALID_COMMAND_ADD = "invalid_add";
+static const string INVALID_COMMAND_DELETE = "invalid_delete";
+static const string INVALID_COMMAND_DISPLAY = "invalid_display";
+static const string INVALID_COMMAND_MARK = "invalid_mark";
+static const string INVALID_COMMAND_EDIT = "invalid_edit";
+static const string INVALID_COMMAND_SEARCH = "invalid_search";
+static const string INVALID_COMMAND_UNDO = "invalid_undo";
+static const string INVALID_COMMAND_UNMARK = "invalid_unmark";
+static const string INVALID_COMMAND_SAVE = "invalid_save";
+static const string INVALID_COMMAND_DEFAULT = "invalid_command";
+
+static const int INDEX_NOT_FOUND = -1;
+static const int ZERO = 0;
+static const int SIZE_TIME_STRING = 4;
+
+
+enum MONTH_NAME {
+	JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC
+};
+
+enum ALPHABETICAL_DATE {
+	TODAY, TOMORROW, UNDEFINED
+};
+	
+enum COMMAND_TYPE {
+	ADD, DISPLAY, DELETE_IT, INVALID, EDIT, SEARCH, EXIT, UNDO, MARK, UNMARK, SAVE
+};
+	
+class Parser {
+
+private:
+
+	string _taskName;
+	string _startDate;
+	string _startTime;
+	string _endDate;
+	string _endTime;
+	string _type;
+	string _displayType;
+	string _keyword;
+	string _report;
+	string _currentDisplayIndicator;
+	string _fileName;
+	int _taskID;
+	int _index;
+	vector<Task>* _currentDisplay;
+	vector<string>* _vectorString;
+	stack<Command*>* _inverseCommandStack;
+
+public:
+	Parser();
+	Parser(stack<Command*> *inverseCommandStack);
+	void updateDisplay(vector<Task>* currentDisplay);
+	void updateInverseCommandStack(stack<Command*> *inverseCommandStack);
+	void updateCurrentDisplayIndicator(string currentDisplayIndicator);
+
+	Command* parse(string input);
+	Command* translateInput(vector<string>& inputVector);
+	
+	void getKeyword(vector<string> &inputVector);
+	void getIndex(vector<string> &inputVector);
+	void getDisplayType(vector<string> &inputVector);
+	void getType();
+	void getEndingTime(vector<string> &inputVector);
+	void getStartingTime(vector<string> &inputVector);
+	void getTaskName(vector<string> &inputVector);
+	void splitInput(vector<string>* inputVector, string input);
+	void toStringLower(string& input);
+	void getReportType(vector<string> &inputVector);
+	void getFileName(vector<string> &inputVector);
+
+	bool isStartTimeDelimiterFound(vector<string> &inputVector, size_t &index);
+	bool isEndTimeDelimiterFound(vector<string> &inputVector, size_t &index);
+	bool isTaskNameDelimiterFound(vector<string> &inputVector, size_t &index);
+	bool isDelimiter (string input);
+	bool isNumberFound (string input);
+	bool isAlphabetFound(string input);
+	bool correctDisplay(string input);
+	bool checkEndOfMonth(int day, string month);
+
+	COMMAND_TYPE determineCommandType(string command);
+	MONTH_NAME determineMonthName(string month);
+	ALPHABETICAL_DATE determineAlphabeticalDate(string input);
+
+	string processToday();
+	string processTomorrow();
+	string processDate(string input);
+	string readDate(string input);
+	string intToString(int);
+	string verifyTime(string input);
+
+	int stringToInt(string);
+	int findFirstDelimiter(vector<string> &inputVector);
+
+
+};
+
+#endif
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+int TaskManager::addTask(string taskName, string startDate, string startTime, string endDate, string endTime) {
+	string type;
+	type = getType(taskName, startDate, startTime, endDate, endTime);
+	_newTask = new Task(taskName, startDate, startTime, endDate, endTime, type);
+	incrementTaskID();
+	_newTask->setTaskID (_taskID);
+	_tasks.push_back(*_newTask);
+	
+	save();
+	logger.log(TASK_ADDED);
+	return _taskID;
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+void TaskManager::markTask(int taskID) {
+	Task* taskToMark = findTask(taskID);
+	taskToMark->setCompletionStatus(true);
+
+	save();
+	logger.log(TASK_MARKED_DONE);
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+void TaskManager::unmarkTask(int taskID) {
+	Task* taskToMark = findTask(taskID);
+	taskToMark->setCompletionStatus(false);
+
+	save();
+	logger.log(TASK_MARKED_UNDONE);
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+void TaskManager::getTaskDetails(int taskID, string &prevTaskName, string &prevStartDate, string &prevStartTime, string &prevEndDate, string &prevEndTime, bool &isPrevComplete) {
+	Task* taskToInspect = findTask(taskID);
+	prevTaskName = taskToInspect->getTaskName();
+	prevStartDate = taskToInspect->getStartDate();
+	prevStartTime = taskToInspect->getStartTime();
+	prevEndDate = taskToInspect->getEndDate();
+	prevEndTime = taskToInspect->getEndTime();
+	isPrevComplete = taskToInspect->getCompletionStatus();
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+//returns type of task depending on task information
+string TaskManager::getType(string taskName, string startDate, string startTime, string endDate, string endTime) {
+	if (startTime != DEFAULT_START_TIME && endTime != DEFAULT_END_TIME) {
+		return TASK_TYPE_TIMED;
+	} 
+	else if (startTime == DEFAULT_START_TIME && endTime != DEFAULT_END_TIME) {
+		return TASK_TYPE_DEADLINE;
+	} 
+	else {
+		return TASK_TYPE_FLOATING;
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+string TaskManager::getTaskType(int taskID) {
+	vector<Task>::iterator taskIter;
+	for (taskIter= _tasks.begin(); taskIter != _tasks.end(); taskIter++) {
+		if (taskIter->getTaskID() == taskID) {
+			return taskIter->getType();
+		}
+	}
+	return CANNOT_FIND_TASK;
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+string TaskManager::retrieveTodayDate() {
+	return processToday();
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+string TaskManager::processTimeIndicator(string input) {
+	if (input == DISPLAY_TODAY) {
+		return processToday();
+	} else if (input == DISPLAY_TOMORROW) {
+		return processTomorrow();
+	} else if (input == DISPLAY_ALL){
+		return DISPLAY_ALL;
+	} else {
+		return input;
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+vector<Task>* TaskManager::retrieveTimedTask(string timeIndicator) {
+	vector<Task>* timedTaskVector = new vector<Task>;
+	_timeIndicator = processTimeIndicator(timeIndicator);
+	getTimedTaskVector(timedTaskVector);
+	if (_timeIndicator != TASK_TYPE_ALL) {
+		vector<Task>* newVector = new vector<Task>;	
+		for (unsigned int i = 0; i < timedTaskVector->size(); i++) {
+			if (isTaskStillOngoing(timedTaskVector->at(i), _timeIndicator)) {
+				newVector->push_back(timedTaskVector->at(i));
+			}
+		}
+		return newVector;
+	} 
+	else {
+		return timedTaskVector;
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+bool TaskManager::isTaskStillOngoing(Task taskInput, string timeIndicator) {
+	if (isDate1BeforeDate2(timeIndicator, taskInput.getStartDate())) {
+		return false;
+	} else if (isDate1BeforeDate2(taskInput.getEndDate(), timeIndicator)) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+bool TaskManager::isDate1BeforeDate2(string date1, string date2) {
+	string modifiedDate1 = date1.substr(4,4) + date1.substr(2,2) + date1.substr(0,2);
+	string modifiedDate2 = date2.substr(4,4) + date2.substr(2,2) + date2.substr(0,2);
+	if (stoi(modifiedDate1) < stoi(modifiedDate2)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+vector<Task>* TaskManager::retrieveFloatingTask(string timeIndicator) {
+	vector<Task>* floatingTaskVector = new vector<Task>;
+	_timeIndicator = processTimeIndicator(timeIndicator);
+	getFloatingTaskVector(floatingTaskVector);
+	if (_timeIndicator != TASK_TYPE_ALL) {
+		vector<Task>* newVector = new vector<Task>;	
+		for (unsigned int i = 0; i < floatingTaskVector->size(); i++) {
+			if (floatingTaskVector->at(i).getStartDate() == _timeIndicator) {
+				newVector->push_back(floatingTaskVector->at(i));
+			}
+		}
+		return newVector;
+	} 
+	else {
+		return floatingTaskVector;
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+vector<Task>* TaskManager::retrieveDeadline(string timeIndicator) {
+	vector<Task>* deadlineVector = new vector<Task>;
+	_timeIndicator = processTimeIndicator(timeIndicator);
+	getDeadlineVector(deadlineVector);
+	if (_timeIndicator != TASK_TYPE_ALL) {
+		vector<Task>* newVector = new vector<Task>;	
+		for (unsigned int i = 0; i < deadlineVector->size(); i++) {
+			if (deadlineVector->at(i).getEndDate() == _timeIndicator) {
+				newVector->push_back(deadlineVector->at(i));
+			}
+		}
+		return newVector;
+	} else {
+		return deadlineVector;
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+void TaskManager::getTimedTaskVector(vector<Task>* timedTaskVector){
+	sortTasksByNearestStartingTime();
+	for (unsigned int i = 0; i < _tasks.size(); i++) {
+		if (_tasks[i].getType() == TASK_TYPE_TIMED) {
+			timedTaskVector->push_back(_tasks[i]);
+		}
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+void TaskManager::getFloatingTaskVector(vector<Task>* floatingTaskVector) {
+	sortTasksByAscendingAlphabet();
+	for (unsigned int i = 0; i < _tasks.size(); i++) {
+		if (_tasks[i].getType() == TASK_TYPE_FLOATING) {
+			floatingTaskVector->push_back(_tasks[i]);
+		}
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+void TaskManager::getDeadlineVector(vector<Task>* deadlineVector) {
+	sortTasksByNearestDeadline();
+	for (unsigned int i = 0; i < _tasks.size(); i++) {
+		if (_tasks[i].getType() == TASK_TYPE_DEADLINE) {
+			deadlineVector->push_back(_tasks[i]);
+		}
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+void TaskManager::sortTasksByNearestStartingTime() {
+	sort(_tasks.begin(), _tasks.end(), keyNearestStartingTime);
+	save();
+	logger.log(TASKS_SORTED_BY_STARTING_TIME);
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+bool TaskManager::keyNearestStartingTime(Task& a, Task& b) { 
+	if (a.getStartDate().substr(4, 4) != b.getStartDate().substr(4, 4)) {
+	   return (a.getStartDate().substr(4, 4) < b.getStartDate().substr(4, 4));
+   }
+   else if (a.getStartDate().substr(2, 2) != b.getStartDate().substr(2, 2)) {
+	   return (a.getStartDate().substr(2, 2) < b.getStartDate().substr(2, 2));
+   }
+   else if (a.getStartDate().substr(0, 2) != b.getStartDate().substr(0, 2)) {
+	   return (a.getStartDate().substr(0, 2) < b.getStartDate().substr(0, 2));
+   }
+   else if (a.getStartTime() != b.getStartTime()) {
+	   return (a.getStartTime() < b.getStartTime());
+   }
+   else {
+	   return false;
+   }
+} 
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandDeleteTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+#include "CommandDelete.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace ConstanTest
+{
+	TEST_CLASS(CommandDeleteTest)
+	{
+	public:
+		
+		TEST_METHOD(InverseCommandDelete)
+		{
+			vector<Task>* _currentDisplay = new vector<Task>;
+			string _currentDisplayIndicator;
+			Command* cmd = new CommandDelete (1, _currentDisplay,_currentDisplayIndicator);
+			Command* invCommand = cmd->getInverseCommand();
+			CommandAdd* inv2 = dynamic_cast<CommandAdd*>(invCommand);
+			Assert::IsNotNull(inv2);// assert that invCommand is of type CommandAdd
+		}
+
+	};
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandDeleteTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandEditTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+#include "CommandEdit.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace ConstanTest
+{
+	TEST_CLASS(CommandEditTest)
+	{
+	public:
+		
+		TEST_METHOD(InverseCommandEdit)
+		{
+			vector<Task>* _currentDisplay = new vector<Task>;
+			string _currentDisplayIndicator;
+			Command* cmd = new CommandEdit (1, "dinner", "11042015", "1000", "11042015", "1100", _currentDisplay, _currentDisplayIndicator);
+			Command* invCommand = cmd->getInverseCommand();
+			CommandInverseEdit* inv2 = dynamic_cast<CommandInverseEdit*>(invCommand);
+			Assert::IsNotNull(inv2);// assert that invCommand is of type CommandInverseEdit
+		}
+
+	};
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandEditTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandSearchTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+#include "CommandSearch.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace ConstanTest
+{
+	TEST_CLASS(CommandSearchTest)
+	{
+	public:
+		
+		TEST_METHOD(InverseCommandSearch)
+		{
+			string _currentDisplayIndicator;
+			Command* cmd = new CommandSearch ("meeting", _currentDisplayIndicator);
+			Command* invCommand = cmd->getInverseCommand();
+			CommandSearch* inv2 = dynamic_cast<CommandSearch*>(invCommand);
+			Assert::IsNull(inv2);// assert that invCommand is Null for type of CommandSearch
+		}
+
+	};
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\CommandSearchTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\LogicTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+#include "Logic.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace ConstanTest
+{
+	TEST_CLASS(LogicTest)
+	{
+	public:
+		
+		TEST_METHOD(GetFeedback)
+		{
+			Logic logic;
+			vector<string>* feedback;
+			logic.processCommand("add -t assignment submission -e 14042015 1200");
+			feedback = logic.getFeedback();
+			Assert::AreEqual(string("add"), feedback->at(0));
+			Assert::AreEqual(string("successful"), feedback->at(1));
+			Assert::AreEqual(string("assignment submission"), feedback->at(2));
+			Assert::AreEqual(string("NULL"), feedback->at(3));
+			Assert::AreEqual(string("NULL"), feedback->at(4));
+			Assert::AreEqual(string("14042015"), feedback->at(5));
+			Assert::AreEqual(string("1200"), feedback->at(6));
+		}
+		
+		TEST_METHOD(UpdateDisplayIndicator)
+		{
+			Logic logic;
+			string displayIndicator;
+			logic.processCommand("add -t task1 -s 20 Mar 2015 1000 -e 20 Mar 2015 1100");
+			displayIndicator = logic.getCurrentDisplayIndicator();
+			Assert::AreEqual(string("20032015"), displayIndicator);
+		}
+
+
+
+	};
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\LogicTest.cpp
+
+
+
+
+

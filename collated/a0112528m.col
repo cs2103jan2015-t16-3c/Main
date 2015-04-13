@@ -1,0 +1,1036 @@
+//@author: a0112528m
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Logger.cpp
+	 */
+
+#include "Logger.h"
+
+Logger::Logger(void) {
+}
+
+Logger::~Logger(void) {
+}
+
+void Logger::log(string logMessage) {
+	ofstream ofs;
+	ofs.open(LOG_FILE_NAME, ofstream::out | ofstream::app);
+	ofs << logMessage << endl;
+	ofs.close();
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Logger.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Logger.h
+	 */
+
+#ifndef LOGGER_H_
+#define LOGGER_H_
+
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+static const string LOG_FILE_NAME = "log.txt";
+
+class Logger {
+private:
+	static Logger* _instance;
+public:
+	Logger();
+	~Logger();
+	void log(string logMessage);
+};
+
+#endif
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Logger.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Task.cpp
+	 */
+
+#include "Task.h"
+
+Task::Task() {
+	//default constructor
+	setTaskName(DEFAULT_TASK_NAME);
+	setStartDate(DEFAULT_START_DATE);
+	setStartTime(DEFAULT_START_TIME);
+	setEndDate(DEFAULT_END_DATE);
+	setEndTime(DEFAULT_END_TIME);
+	setCompletionStatus(false);
+}
+
+Task::Task(string taskName, string startDate, string startTime, string endDate, string endTime, string type) {
+	//constructor
+	setTaskName(taskName);
+	setStartDate(startDate);
+	setStartTime(startTime);
+	setEndDate(endDate);
+	setEndTime(endTime);
+	setType(type);
+	setCompletionStatus(false);
+}
+
+Task::Task(string taskName, int taskID, string type, string startDate, string startTime, string endDate, string endTime, bool isComplete) {
+	//constructor for loading from file
+	setTaskName(taskName);
+	setTaskID(taskID);
+	setType(type);
+	setStartDate(startDate);
+	setStartTime(startTime);
+	setEndDate(endDate);
+	setEndTime(endTime);
+	setCompletionStatus(isComplete);
+}
+
+Task::~Task() {
+	//destructor
+}
+
+void Task::setTaskID (int taskID) {
+	_taskID = taskID;
+}
+
+int Task::getTaskID() {
+	return _taskID;
+}
+
+void Task::setTaskName(string taskName) {
+	_taskName = taskName;
+}
+
+string Task::getTaskName() {
+	return _taskName;
+}
+
+void Task::setType(string type) {
+	_type = type;
+}
+
+string Task::getType() {
+	return _type;
+}
+
+void Task::setStartDate(string startDate) {
+	_startDate = startDate;
+}
+
+string Task::getStartDate() {
+	return _startDate;
+}
+
+void Task::setStartTime(string startTime) {
+	_startTime = startTime;
+}
+
+string Task::getStartTime() {
+	return _startTime;
+}
+
+void Task::setEndDate(string endDate) {
+	_endDate = endDate;
+}
+
+string Task::getEndDate() {
+	return _endDate;
+}
+
+void Task::setEndTime(string endTime) {
+	_endTime = endTime;
+}
+
+string Task::getEndTime() {
+	return _endTime;
+}
+
+void Task::setCompletionStatusViaString(string isComplete) {
+	if (isComplete == COMPLETION_TRUE) {
+		_isComplete = true; 
+	}
+	else if (isComplete == COMPLETION_FALSE) {
+		_isComplete = false;
+	}
+	else {
+		//error message
+	}
+}
+
+void Task::setCompletionStatus(bool isComplete) {
+	_isComplete = isComplete;
+}
+
+bool Task::getCompletionStatus() {
+	return _isComplete;
+}
+
+string Task::getTaskIDAsString() {
+	 ostringstream ss;
+     ss << _taskID;
+     return ss.str();
+}
+
+string Task::getCompletionStatusAsString () {
+	if (_isComplete) {
+		return COMPLETION_TRUE;
+	}
+	else {
+		return COMPLETION_FALSE;
+	}
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Task.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Task.h
+	 */
+
+#ifndef TASK_H_
+#define TASK_H_
+
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+static const string EMPTY_STRING = "";
+static const string DEFAULT_TASK_NAME = "NULL";
+static const string DEFAULT_START_DATE = "NULL";
+static const string DEFAULT_START_TIME = "NULL";
+static const string DEFAULT_END_DATE = "NULL";
+static const string DEFAULT_END_TIME = "NULL";
+static const string COMPLETION_TRUE = "done";
+static const string COMPLETION_FALSE = "undone";
+static const string TASK_TYPE_FLOATING = "floating";
+static const string TASK_TYPE_DEADLINE = "deadline";
+static const string TASK_TYPE_TIMED = "timed";
+static const string TASK_TYPE_ALL = "all";
+
+class Task {
+private:
+	int _taskID;
+	string _taskName;
+	string _type;	
+	string _startDate;
+	string _startTime;
+	string _endDate;
+	string _endTime;
+	bool _isComplete;
+
+
+public:
+	Task();
+	Task(string taskName, string startDate, string startTime, string endDate, string endTime, string type);
+	Task(string taskName, int taskID, string type, string startDate, string startTime, string endDate, string endTime, bool isComplete);  
+	~Task();
+	void setTaskID (int taskID);
+	int getTaskID();
+	void setTaskName(string taskName);
+	string getTaskName();
+	void setType(string type);
+	string getType();
+	void setStartDate(string startDate);
+	string getStartDate();
+	void setStartTime(string startTime);
+	string getStartTime();
+	void setEndDate(string endDate);
+	string getEndDate();
+	void setEndTime(string endTime);
+	string getEndTime();
+	void setCompletionStatus(bool isComplete);
+	void setCompletionStatusViaString(string isComplete);
+	bool getCompletionStatus();
+	string getTaskIDAsString();
+	string getCompletionStatusAsString();
+};
+
+#endif
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Task.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+#include "TaskManager.h"
+
+TaskManager::TaskManager() {
+	_fileName = retrieveFileName();
+	load();
+	updateTaskIDOnLoad();
+}
+
+TaskManager::~TaskManager() {
+	//destructor
+}
+
+TaskManager* TaskManager::getInstance() {
+	static TaskManager _instance;
+	return &_instance;
+}
+
+void TaskManager::setFileName(string fileName) {
+	_fileName = fileName;
+	saveFileName();
+}
+
+//stores the file name/path in "filename.txt"
+//"filename.txt" will only have one line which is the last file path the user used
+void TaskManager::saveFileName() {
+	ofstream ofs;
+	ofs.open(FILE_NAME_KEEPER, ofstream::out | ofstream::trunc);
+	ofs << _fileName << endl;
+	ofs.close();
+}
+
+string TaskManager::retrieveFileName() {
+	string fileName;
+	ifstream ifs(FILE_NAME_KEEPER);
+	getline(ifs, fileName);
+	if (fileName == EMPTY_STRING) { 
+		fileName = DEFAULT_SAVE_FILE_NAME;
+	}
+	return fileName;
+}
+
+//combines all task data attributes into one string with white spaces between fields
+//and writes these strings to file line by line
+//one line represents all the data for one task
+//the order of arrangement is as per the function
+//the file is cleared before every save operation and the entire vector is re-written
+void TaskManager::save() {
+	ofstream ofs;
+	ofs.open(_fileName, ofstream::out | ofstream::trunc);
+	string wholeTask;
+	for (unsigned int i = 0; i < _tasks.size(); i++) {
+		 wholeTask = _tasks[i].getTaskName() + WHITE_SPACE +
+					 _tasks[i].getTaskIDAsString() + WHITE_SPACE +
+					 _tasks[i].getType() + WHITE_SPACE +
+					 _tasks[i].getStartDate() + WHITE_SPACE +
+					 _tasks[i].getStartTime() + WHITE_SPACE +
+					 _tasks[i].getEndDate() + WHITE_SPACE +
+					 _tasks[i].getEndTime() + WHITE_SPACE +
+					 _tasks[i].getCompletionStatusAsString();
+		 ofs << wholeTask << endl;
+	}
+	ofs.close();
+}
+
+//reads a file of strings line by line
+//each line representing a task is stored as an individual vector
+//a new task is constructed from this data and saved to _tasks
+void TaskManager::load() {
+	_tasks.clear();
+
+	string wholeTask;
+	vector<string> splitTask;
+	ifstream ifs(_fileName);
+
+	string tempTaskName;
+	string tempTaskID;
+	string tempType;
+	string tempStartDate;
+	string tempStartTime;
+	string tempEndDate;
+	string tempEndTime;
+	string tempCompletionStatus;
+	int tempTaskIDInt;
+	bool tempIsCompleteBool;
+
+	while (getline(ifs, wholeTask)) {
+		splitTask = splitParameters(wholeTask);
+
+		tempCompletionStatus = splitTask[splitTask.size() - 1];
+		splitTask.pop_back();
+		tempEndTime = splitTask[splitTask.size() - 1];
+		splitTask.pop_back();
+		tempEndDate = splitTask[splitTask.size() - 1];
+		splitTask.pop_back();
+		tempStartTime = splitTask[splitTask.size() - 1];
+		splitTask.pop_back();
+		tempStartDate = splitTask[splitTask.size() - 1];
+		splitTask.pop_back();
+		tempType = splitTask[splitTask.size() - 1];
+		splitTask.pop_back();
+		tempTaskID = splitTask[splitTask.size() - 1];
+		splitTask.pop_back();
+		tempTaskName = convertVectorToString(splitTask); //remainder of vector is taskName
+
+		tempTaskIDInt = convertTaskIDToInt(tempTaskID);
+		tempIsCompleteBool = convertStatusToBool(tempCompletionStatus);
+
+		Task reconstructedTask(tempTaskName, tempTaskIDInt, tempType, tempStartDate, tempStartTime, tempEndDate, tempEndTime, tempIsCompleteBool);
+		_tasks.push_back(reconstructedTask);
+	}
+	ifs.close();
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+void TaskManager::editTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime) {
+	Task* taskToEdit = findTask(taskID);
+	if (taskName != DEFAULT_TASK_NAME && taskName != EMPTY_STRING) {
+		taskToEdit->setTaskName(taskName);
+	}
+	if (startDate != DEFAULT_START_DATE && startDate != EMPTY_STRING) {
+		taskToEdit->setStartDate(startDate);
+	}
+	if (startTime != DEFAULT_START_TIME && startTime != EMPTY_STRING) {
+		taskToEdit->setStartTime(startTime);
+	}
+	if (endDate != DEFAULT_END_DATE && endDate != EMPTY_STRING) {
+		taskToEdit->setEndDate(endDate);
+	}
+	if (endTime != DEFAULT_END_TIME && endTime != EMPTY_STRING) {
+		taskToEdit->setEndTime(endTime);
+	}
+	_type = getType(taskToEdit->getTaskName(), taskToEdit->getStartDate(), taskToEdit->getStartTime(), taskToEdit->getEndDate(), taskToEdit->getEndTime());
+	taskToEdit->setType(_type);
+
+	save();
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+//completely overwrites a task
+void TaskManager::overwriteTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime, bool isComplete) {
+	Task* taskToEdit = findTask(taskID);	
+	taskToEdit->setTaskName(taskName);	
+	taskToEdit->setStartDate(startDate);	
+	taskToEdit->setStartTime(startTime);		
+	taskToEdit->setEndDate(endDate);
+	taskToEdit->setEndTime(endTime);
+	_type = getType(taskToEdit->getTaskName(), taskToEdit->getStartDate(), taskToEdit->getStartTime(), taskToEdit->getEndDate(), taskToEdit->getEndTime());
+	taskToEdit->setType(_type);
+	taskToEdit->setCompletionStatus(isComplete);
+
+	save();
+	logger.log(TASK_EDITED);
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+Task* TaskManager::findTask(int taskID) {
+	vector<Task>::iterator taskIter;
+	for (taskIter= _tasks.begin() ; taskIter != _tasks.end() ; taskIter++) {
+		if (taskIter->getTaskID() == taskID) {
+			return &(*taskIter);
+		}
+	}
+	return NULL;
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+string TaskManager::getTaskName(int taskID) {
+	vector<Task>::iterator taskIter;
+	for (taskIter= _tasks.begin(); taskIter != _tasks.end(); taskIter++) {
+		if (taskIter->getTaskID() == taskID) {
+			return taskIter->getTaskName();
+		}
+	}
+	return CANNOT_FIND_TASK;
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+void TaskManager::incrementTaskID() {
+	_taskID++;
+}
+
+void TaskManager::updateTaskIDOnLoad() {
+	int maxTaskID = 0;
+	for (unsigned int i = 0; i < _tasks.size(); i++) {
+		if (_tasks[i].getTaskID() > maxTaskID) {
+			maxTaskID = _tasks[i].getTaskID();
+		}
+	}
+	_taskID = maxTaskID + 1;
+}
+
+//deletes task with the matching task ID
+void TaskManager::deleteTask(int taskID) {
+	for (unsigned int i = 0; i < _tasks.size(); i++) {
+		if (_tasks[i].getTaskID() == taskID) {
+			_tasks.erase(_tasks.begin() + i);
+		}
+	}
+	save();
+	logger.log(TASK_DELETED);
+}
+
+void TaskManager::clearAllTasks() {
+	_tasks.clear();
+	save();
+	logger.log(TASK_DELETED_ALL);
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+//takes in a word to search for
+//returns a vector of Tasks in whose name the search term appears
+vector<Task>* TaskManager::searchForString(string keyword) {
+	vector<Task>* resultVector = new vector<Task>;
+	vector<Task>::iterator taskIter;
+	string taskName;
+	for (taskIter = _tasks.begin(); taskIter != _tasks.end(); taskIter++) {
+		taskName = (*taskIter).getTaskName();
+		if (taskName.find(keyword) != -1) {
+			resultVector->push_back(*taskIter);
+		}
+	}
+	return resultVector;
+}
+
+//takes in todays date in YYYYMMDD format
+//returns a vector of Tasks due "today"
+vector<Task> TaskManager::retrieveTodaysTasks(string todaysDate) {
+	vector<Task> searchResults;
+	for (unsigned int i = 0; i < _tasks.size(); i++) {
+		if (_tasks[i].getEndDate() == todaysDate) {
+			searchResults.push_back(_tasks[i]);
+		}
+	}
+	return searchResults;
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+vector<Task>* TaskManager::retrieveOverdueTasks() {
+	vector<Task>* overdueTasks;
+	string todaysDate = convertDate(retrieveTodayDate());
+	string now = processCurrentTime();
+
+	for (unsigned int i = 0; i < _tasks.size(); i++) {
+		if (todaysDate > convertDate(_tasks[i].getEndDate())) {
+			overdueTasks->push_back(_tasks.at(i));	
+		}
+		else if (todaysDate == convertDate(_tasks[i].getEndDate()) && now > _tasks[i].getEndTime()) {
+			overdueTasks->push_back(_tasks.at(i));  
+		}
+	}
+
+	return overdueTasks;
+}
+
+void TaskManager::setCompletionStatus(int index, bool isComplete) {
+	_tasks[index - 1].setCompletionStatus(isComplete);
+	save();
+}
+
+void TaskManager::sortTasksByAscendingAlphabet() {
+	sort(_tasks.begin(), _tasks.end(), keyLowestAlphabet);
+	save();
+	logger.log(TASKS_SORTED_ALPHABETICALLY);
+}
+
+void TaskManager::sortTasksByNearestDeadline() {
+	sort(_tasks.begin(), _tasks.end(), keyNearestDeadline);
+	save();
+	logger.log(TASKS_SORTED_BY_DEADLINE);
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+//takes in a string with all task info concatenated with whitespace between words
+//returns a vector of strings containing the individual words
+vector<string> TaskManager::splitParameters(string wholeTask) {
+	vector<string> tokens;
+	istringstream iss(wholeTask);
+    copy(istream_iterator<string>(iss),
+             istream_iterator<string>(),
+             back_inserter<vector<string> >(tokens));
+
+	return tokens;
+}
+
+int TaskManager::convertTaskIDToInt(string taskID) {
+	int taskIDInt;
+    istringstream ss(taskID);
+    ss.imbue(locale::classic());
+    ss >> taskIDInt;
+
+    return taskIDInt;
+}
+
+//takes in a vector containing words
+//and joins them to recreate the _taskName
+//while adding whitespaces after the first word
+string TaskManager::convertVectorToString(vector<string> taskName) {
+	string taskNameString;
+	stringstream ss;
+	for (unsigned int i = 0; i < taskName.size(); i++) {
+		if (i > 0) {
+			ss << WHITE_SPACE;
+		}
+		ss << taskName[i];
+	}
+	taskNameString = ss.str();
+
+	return taskNameString;
+}
+
+bool TaskManager::convertStatusToBool(string completionStatus) {
+	assert(completionStatus == COMPLETION_TRUE || completionStatus == COMPLETION_FALSE);
+	if (completionStatus == COMPLETION_TRUE) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+//sorting predicate for sorting by task name
+bool TaskManager::keyLowestAlphabet(Task& a, Task& b) { 
+   if (a.getTaskName() != b.getTaskName()) {
+	   return (a.getTaskName() < b.getTaskName());
+   }
+   else {
+	   return false;
+   }
+} 
+
+//sorting predicate for sorting by deadline
+//date is in DDMMYYYY format, so compare year by taking substring, followed by month then day
+//for sorting tasks by end date and within each tier sort again by end time
+bool TaskManager::keyNearestDeadline(Task& a, Task& b) { 
+   if (a.getEndDate().substr(4, 4) != b.getEndDate().substr(4, 4)) {
+	   return (a.getEndDate().substr(4, 4) < b.getEndDate().substr(4, 4));
+   }
+   else if (a.getEndDate().substr(2, 2) != b.getEndDate().substr(2, 2)) {
+	   return (a.getEndDate().substr(2, 2) < b.getEndDate().substr(2, 2));
+   }
+   else if (a.getEndDate().substr(0, 2) != b.getEndDate().substr(0, 2)) {
+	   return (a.getEndDate().substr(0, 2) < b.getEndDate().substr(0, 2));
+   }
+   else if (a.getEndTime() != b.getEndTime()) {
+	   return (a.getEndTime() < b.getEndTime());
+   }
+   else {
+	   return false;
+   }
+} 
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+string TaskManager::processCurrentTime() {
+	time_t t = time(0); 
+	char tmp[64]; 
+	strftime( tmp, sizeof(tmp), "%H%M",localtime(&t) );  
+	string now(tmp);
+
+	return now;
+}
+
+string TaskManager::convertDate(string date) {
+	string yearMonthDayFormat;
+	yearMonthDayFormat = date.substr(4,4) + date.substr(2,2) + date.substr(0,2);
+
+	return yearMonthDayFormat;
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.h
+	 */
+
+#ifndef TASKMANAGER_H_
+#define TASKMANAGER_H_
+
+#include "Task.h"
+#include "Logger.h"
+#include <vector>
+#include <fstream>
+#include <algorithm>
+#include <functional>
+#include <iostream>
+#include <assert.h>
+#include <time.h>
+
+using namespace std;
+
+static const string MATCH_FOUND = "The following entries match your query: ";
+static const string WHITE_SPACE = " ";
+static const string CANNOT_FIND_TASK = "CANNOT FIND TASK";
+static const string FILE_NAME_KEEPER = "filename.txt";
+static const string DEFAULT_SAVE_FILE_NAME = "defaultsavefile.txt";
+static const string DISPLAY_TODAY = "today";
+static const string DISPLAY_TOMORROW = "tomorrow";
+static const string DISPLAY_ALL = "all";
+static const string TASK_ADDED = "Task added";
+static const string TASK_MARKED_DONE = "Task marked as done";
+static const string TASK_MARKED_UNDONE = "Task marked as undone";
+static const string TASK_EDITED = "Task edited";
+static const string TASK_DELETED = "Task deleted";
+static const string TASK_DELETED_ALL = "All tasks deleted";
+static const string TASKS_SORTED_ALPHABETICALLY = "Tasks sorted alphabetically";
+static const string TASKS_SORTED_BY_DEADLINE = "Tasks sorted by deadline";
+static const string TASKS_SORTED_BY_STARTING_TIME = "Tasks sorted by starting time";
+
+class TaskManager {
+private:
+	Logger logger;
+	vector<Task> _tasks;
+//	static TaskManager* _instance;
+	TaskManager();
+	TaskManager(TaskManager const&);
+	void operator=(TaskManager const&);
+	Task* _newTask;
+	int _taskID;
+	string _type;
+	string _fileName;
+	string _timeIndicator;
+public:
+	static TaskManager* getInstance();
+	~TaskManager();
+	void setFileName(string fileName);
+	void saveFileName();
+	string retrieveFileName();
+	void save();
+	void load();
+	int addTask(string taskName, string startDate, string startTime, string endDate, string endTime);
+	void editTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime);
+	void overwriteTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime, bool isComplete);
+	void markTask(int taskID);
+	void unmarkTask(int taskID);
+	void deleteTask(int taskID);
+	void clearAllTasks();
+	vector<Task>* searchForString(string keyword);
+	vector<Task> retrieveTodaysTasks(string todaysDate);
+	vector<Task>* retrieveTimedTask(string timeIndicator);
+	void getTimedTaskVector(vector<Task>* timedTaskVector);
+	vector<Task>* retrieveFloatingTask(string timeIndicator);
+	void getFloatingTaskVector(vector<Task>* floatingTaskVector);
+	vector<Task>* retrieveDeadline(string timeIndicator);
+	void getDeadlineVector(vector<Task>* deadlineVector);
+	vector<Task>* retrieveOverdueTasks();
+	void setCompletionStatus(int index, bool isComplete);
+	void incrementTaskID();
+	void updateTaskIDOnLoad();
+	string getTaskName(int taskID);
+	string getTaskType(int taskID);
+	string processTimeIndicator(string input);
+	Task* findTask(int taskID);
+	string getType (string taskName, string startDate, string startTime, string endDate, string endTime);
+	void sortTasksByAscendingAlphabet();
+	void sortTasksByNearestDeadline();
+	void sortTasksByNearestStartingTime();
+	void getTaskDetails(int taskID, string &prevTaskName, string &prevStartDate, string &prevStartTime, string &prevEndDate, string &prevEndTime, bool &isPrevComplete);
+
+	//the following are support functions
+	vector<string> splitParameters(string wholeTask); 
+	int convertTaskIDToInt(string taskID);
+	string convertVectorToString(vector<string> taskName);
+	bool convertStatusToBool(string completionStatus);
+	static bool TaskManager::keyLowestAlphabet(Task& a, Task& b);
+	static bool TaskManager::keyNearestDeadline(Task& a, Task& b);
+	static bool TaskManager::keyNearestStartingTime(Task& a, Task& b);
+
+	string TaskManager::processCurrentTime();
+	string processToday();
+	string processTomorrow();
+	string intToString(int);
+	int stringToInt(string);
+	string retrieveTodayDate();
+	string convertDate(string date);
+	bool checkEndOfMonth(int day, string month);
+	bool isTaskStillOngoing(Task taskInput, string timeIndicator);
+	bool isDate1BeforeDate2(string date1, string date2);
+};
+
+#endif
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.h
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\LoggerTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+#define protected public
+#define private   public
+#include "TaskManager.h"
+#undef protected
+#undef private
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace ConstanTest {
+	TEST_CLASS(LoggerTest) {
+	public:
+		TEST_METHOD(LogTest) {
+			TaskManager* testTM = TaskManager::getInstance();
+			testTM->clearAllTasks();
+			testTM->addTask("eat lunch", "08032015", "1200", "08032015", "1400");
+
+			ifstream ifs(LOG_FILE_NAME);
+			string testString1;
+			getline(ifs, testString1);
+			string testString2;
+			getline(ifs, testString2);
+
+			Assert::AreEqual(testString1, TASK_DELETED_ALL);
+			Assert::AreEqual(testString2, TASK_ADDED);
+		}
+	};
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\LoggerTest.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\TaskManagerTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+#define protected public
+#define private   public
+#include "TaskManager.h"
+#undef protected
+#undef private
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace ConstanTest {
+	TEST_CLASS(TaskManagerTest)	{
+	public:
+		TEST_METHOD(AddTaskTest1) {
+			TaskManager* testTM = TaskManager::getInstance();
+			testTM->clearAllTasks();
+			testTM->addTask("eat lunch", "08032015", "1200", "08032015", "1400");
+			
+			Assert::AreEqual(testTM->_tasks[0].getStartTime(), string("1200"));
+		}
+
+		TEST_METHOD(EditTaskTest1) {
+			TaskManager* testTM = TaskManager::getInstance();
+			testTM->clearAllTasks();
+			testTM->addTask("eat lunch", DEFAULT_START_DATE, DEFAULT_START_TIME, DEFAULT_END_DATE, DEFAULT_END_TIME);
+			testTM->editTask(testTM->_tasks[0].getTaskID(), "eat lunch", "01012015", "1200", "01012015", "1300");
+
+			Assert::AreEqual(testTM->_tasks[0].getType(), TASK_TYPE_TIMED);
+			Assert::AreEqual(testTM->_tasks[0].getStartTime(), string("1200"));
+		}
+
+		TEST_METHOD(DeleteTaskTest1) {
+			TaskManager* testTM = TaskManager::getInstance();
+			testTM->clearAllTasks();
+			testTM->addTask("eat lunch", "08032015", "1200", "08032015", "1400");
+			testTM->addTask("eat dinner", "08032015", "1900", "08032015", "2100");
+			testTM->deleteTask(testTM->_tasks[0].getTaskID());
+
+			Assert::AreEqual(int(testTM->_tasks.size()), 1);
+			Assert::AreEqual(testTM->_tasks[0].getTaskName(), string("eat dinner"));
+		}
+
+		TEST_METHOD(ClearTasksTest1) {
+			TaskManager* testTM = TaskManager::getInstance();
+			testTM->clearAllTasks();
+			testTM->addTask("eat lunch", "08032015", "1200", "08032015", "1400");
+			testTM->addTask("eat dinner", "08032015", "1900", "08032015", "2100");
+			testTM->clearAllTasks();
+
+			Assert::AreEqual(int(testTM->_tasks.size()), 0);
+		}
+
+		
+		TEST_METHOD(SearchForStringTest1) {
+			TaskManager* testTM = TaskManager::getInstance();
+			vector<Task>* resultsPtrs;
+			testTM->clearAllTasks();
+			testTM->addTask("eat lunch", "08032015", "1200", "08032015", "1400");
+			testTM->addTask("eat dinner", "08032015", "1900", "08032015", "2100");
+			resultsPtrs = testTM->searchForString("dinner");
+			
+			Assert::AreEqual((*resultsPtrs)[0].getTaskName(), string("eat dinner"));
+		}
+		
+		TEST_METHOD(RetrieveTodaysTasksTest1) {
+			vector<Task> results;
+			TaskManager* testTM = TaskManager::getInstance();
+			testTM->clearAllTasks();
+			testTM->addTask("eat lunch", "08032015", "1200", "08032015", "1400");
+			testTM->addTask("eat dinner", "08032015", "1900", "08032015", "2100");
+			testTM->addTask("eat breakfast", "09032015", "0800", "09032015", "0900");
+			results = testTM->retrieveTodaysTasks("08032015");
+
+			Assert::AreEqual(int(results.size()), 2);
+			Assert::AreEqual(testTM->_tasks[0].getTaskName(), string("eat lunch"));
+		}
+
+		TEST_METHOD(SortByAlphabetTest1) {
+			TaskManager* testTM = TaskManager::getInstance();
+			testTM->clearAllTasks();
+			testTM->addTask("eat lunch", "08032015", "1200", "08032015", "1400");
+			testTM->addTask("eat dinner", "08032015", "1900", "08032015", "2100");
+			testTM->addTask("eat breakfast", "09032015", "0800", "09032015", "0900");
+			testTM->sortTasksByAscendingAlphabet();
+
+			Assert::AreEqual(testTM->_tasks[0].getTaskName(), string("eat breakfast"));
+			Assert::AreEqual(testTM->_tasks[1].getTaskName(), string("eat dinner"));
+			Assert::AreEqual(testTM->_tasks[2].getTaskName(), string("eat lunch"));
+		}
+
+		TEST_METHOD(SortByDeadlineTest1) {
+			TaskManager* testTM = TaskManager::getInstance();
+			testTM->clearAllTasks();
+			testTM->addTask("eat lunch", "08032015", "1200", "08032015", "1400");
+			testTM->addTask("eat dinner", "08032015", "1900", "08032015", "2100");
+			testTM->addTask("eat breakfast", "08032015", "0800", "08032015", "0900");
+			testTM->sortTasksByNearestDeadline();
+
+			Assert::AreEqual(testTM->_tasks[0].getTaskName(), string("eat breakfast"));
+			Assert::AreEqual(testTM->_tasks[1].getTaskName(), string("eat lunch"));
+			Assert::AreEqual(testTM->_tasks[2].getTaskName(), string("eat dinner"));
+		}
+
+		TEST_METHOD(RetrieveFileNameTest) {
+			TaskManager* testTM = TaskManager::getInstance();
+			testTM->setFileName("testfilename.txt"); //testfilename.txt written to filename.txt
+			
+			string fileName; 
+			fileName = testTM->retrieveFileName();
+
+			Assert::AreEqual(fileName, string("testfilename.txt"));
+		}
+
+		//save() is called indirectly through addTask()
+		TEST_METHOD(SaveTest1) { 
+			TaskManager* testTM = TaskManager::getInstance();
+			testTM->clearAllTasks();
+			testTM->addTask("eat lunch", "08032015", "1200", "08032015", "1400");
+			testTM->addTask("eat dinner", "08032015", "1900", "08032015", "2100");
+
+			ifstream ifs(testTM->_fileName);
+			string testString1;
+			getline(ifs, testString1);
+			string taskID = testTM->_tasks[0].getTaskIDAsString();
+			string testString2 = "eat lunch " + taskID +" timed 08032015 1200 08032015 1400 undone";			
+
+			Assert::AreEqual(testString1, testString2);
+		}
+
+		TEST_METHOD(LoadTest1) {
+			TaskManager* testTM = TaskManager::getInstance();
+			testTM->clearAllTasks();
+			testTM->addTask("eat lunch", "08032015", "1200", "08032015", "1400");
+			testTM->addTask("eat dinner", "08032015", "1900", "08032015", "2100");
+
+			testTM->load();
+			string testFirstLine;
+			testFirstLine = testTM->_tasks[0].getTaskName();
+			string testSecondLine;
+			testSecondLine = testTM->_tasks[1].getTaskName();
+
+			Assert::AreEqual(testFirstLine, string("eat lunch"));
+			Assert::AreEqual(testSecondLine, string("eat dinner"));
+		}
+	};
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\TaskManagerTest.cpp
+
+
+
+
+

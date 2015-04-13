@@ -1,0 +1,530 @@
+//@author: a0116180r
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+	 */
+
+Command* Parser::translateInput(vector<string>& inputVector) {
+	COMMAND_TYPE commandType = determineCommandType(inputVector[0]);
+	_report = INVALID_COMMAND_DEFAULT;
+	getReportType(inputVector);
+	if (commandType == ADD) {	
+		if(_report != INVALID_COMMAND_DEFAULT){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
+			    return invalidEntry;
+			} else {
+				getTaskName(inputVector);	
+				getStartingTime(inputVector);
+				getEndingTime(inputVector);
+				CommandAdd* addTask = new CommandAdd (_taskName, _startDate, _startTime, _endDate, _endTime, _currentDisplay, _currentDisplayIndicator);
+				return addTask;
+			}
+	} else if (commandType == DELETE_IT) {
+			if(_report != INVALID_COMMAND_DEFAULT){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
+				return invalidEntry;
+			} else {
+				getIndex(inputVector);
+				CommandDelete* deleteTask = new CommandDelete (_index, _currentDisplay, _currentDisplayIndicator);
+				return deleteTask;
+			}
+	} else if (commandType == DISPLAY) {			
+			if(_report != INVALID_COMMAND_DEFAULT){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
+			    return invalidEntry;
+			} else {
+				getDisplayType(inputVector);
+				CommandDisplay* displayTask = new CommandDisplay (_displayType, _currentDisplay, _currentDisplayIndicator);
+				return displayTask;
+			}
+	} else if (commandType == SEARCH) {
+			if(_report != INVALID_COMMAND_DEFAULT){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
+			    return invalidEntry;
+			} else {
+				getKeyword(inputVector);
+				CommandSearch* searchTask = new CommandSearch (_keyword, _currentDisplayIndicator);
+				return searchTask;
+			}
+	} else if (commandType == EDIT) {
+			if(_report != INVALID_COMMAND_DEFAULT){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
+			    return invalidEntry;
+			} else {
+				getIndex(inputVector);
+				getTaskName(inputVector);
+				getStartingTime(inputVector);
+				getEndingTime(inputVector);
+				CommandEdit* editTask = new CommandEdit (_index, _taskName, _startDate, _startTime, _endDate, _endTime, _currentDisplay, _currentDisplayIndicator);
+				return editTask;
+			}
+	} else if (commandType == MARK) {
+			if(_report != INVALID_COMMAND_DEFAULT){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
+				return invalidEntry;
+			} else {
+				getIndex(inputVector);
+				CommandMark* markTask = new CommandMark (_index, _currentDisplay, _currentDisplayIndicator);
+				return markTask;
+			}
+	} else if (commandType == UNMARK) {
+			if(_report != INVALID_COMMAND_DEFAULT){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
+				return invalidEntry;
+			} else {
+				getIndex(inputVector);
+				CommandUnmark* unmarkTask = new CommandUnmark (_index, _currentDisplay, _currentDisplayIndicator);
+				return unmarkTask;
+			}
+	} else if (commandType == SAVE) {
+			if(_report != INVALID_COMMAND_DEFAULT){
+				CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
+				return invalidEntry;
+			} else {
+				getFileName(inputVector);
+				CommandSave* saveTask = new CommandSave (_fileName, _currentDisplay, _currentDisplayIndicator);
+				return saveTask;
+			}
+	} else if (commandType == UNDO) {
+			CommandUndo* undoTask = new CommandUndo (_inverseCommandStack, _currentDisplayIndicator); 
+			return undoTask;
+	} else if (commandType == INVALID) {
+			CommandInvalid* invalidEntry = new CommandInvalid (_report, _currentDisplayIndicator);
+			return invalidEntry;
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+	 */
+
+void Parser::getReportType(vector<string> &inputVector){
+	string input = inputVector[0];
+	toStringLower(input);
+	if(input == COMMAND_ADD && inputVector.size() == 1){
+		_report = INVALID_COMMAND_ADD;
+	} else if(input == COMMAND_DELETE && inputVector.size() == 1){
+		_report = INVALID_COMMAND_DELETE;
+	} else if(input == COMMAND_EDIT && inputVector.size() == 1){
+		_report = INVALID_COMMAND_EDIT;
+	} else if(input == COMMAND_DISPLAY && inputVector.size() == 1){
+		_report = INVALID_COMMAND_DISPLAY;
+	} else if (input == COMMAND_SEARCH && inputVector.size() == 1){
+		_report = INVALID_COMMAND_SEARCH;
+	} else if (input == COMMAND_MARK && inputVector.size() == 1){
+		_report = INVALID_COMMAND_MARK;
+	} else if (input == COMMAND_UNMARK && inputVector.size() == 1){
+		_report = INVALID_COMMAND_UNMARK;
+	} else if (input == COMMAND_SAVE && inputVector.size() == 1){
+		_report = INVALID_COMMAND_SAVE;
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+	 */
+
+string Parser::processToday(){
+	time_t t = time(0); 
+	char tmp[64]; 
+	strftime( tmp, sizeof(tmp), "%d%m%Y",localtime(&t) );  
+	string today(tmp);
+
+	return today;
+}
+
+string Parser::processTomorrow(){
+	time_t t = time(0); 
+	char tmp[64]; 
+	strftime(tmp, sizeof(tmp), "%d%m%Y",localtime(&t));  
+	string today(tmp);
+
+	string day = today.substr(0,2);
+	string month = today.substr(2,2);
+	string year = today.substr(4,4);
+	string monthYear = today.substr(2,6);
+	int intDay = stringToInt(day);
+	intDay++;
+	if(checkEndOfMonth(intDay, month) == true){
+		int intMonth = stringToInt(month);
+		intMonth++;
+		intDay = 1;
+		day = intToString(intDay);
+		month = intToString(intMonth);
+		return day + month + year;
+	}
+	else{
+		day = intToString(intDay);
+		return day + monthYear;
+	}
+}
+
+bool Parser::checkEndOfMonth(int day, string month){
+	if(month == "01" && day == 32){
+		return true;
+	}
+	if(month == "02" && day == 29){
+		return true;
+	}
+	if(month == "03" && day == 32){
+		return true;
+	}
+	if(month == "04" && day == 31){
+		return true;
+	}
+	if(month == "05" && day == 32){
+		return true;
+	}
+	if(month == "06" && day == 31){
+		return true;
+	}
+	if(month == "07" && day == 32){
+		return true;
+	}
+	if(month == "08" && day == 32){
+		return true;
+	}
+	if(month == "09" && day == 31){
+		return true;
+	}
+	if(month == "10" && day == 32){
+		return true;
+	}
+	if(month == "11" && day == 31){
+		return true;
+	}
+	if(month == "12" && day == 32){
+		return true;
+	}
+
+	return false;
+}
+
+string Parser::intToString(int inputInt){
+
+	stringstream outputStream;
+
+	if(inputInt < 10){
+		outputStream << '0' << inputInt;
+	} else {
+		outputStream << inputInt;
+	}
+
+	return outputStream.str();
+}
+
+int Parser::stringToInt(string inputString){
+	int outputInt;
+	istringstream outputStream(inputString);
+
+	outputStream >> outputInt;
+
+	return outputInt;
+}
+
+MONTH_NAME Parser::determineMonthName(string month) {
+	toStringLower(month);
+	if(month == "jan")
+		return MONTH_NAME::JAN;
+
+	if (month == "feb")
+		return MONTH_NAME::FEB;
+
+	if (month == "mar")
+		return MONTH_NAME::MAR;
+
+	if (month == "apr")
+		return MONTH_NAME::APR;
+
+	if (month == "may")
+		return MONTH_NAME::MAY;
+	
+	if (month == "jun")
+		return MONTH_NAME::JUN;	 
+
+	if (month == "jul")
+		return MONTH_NAME::JUL;
+
+	if(month == "aug")
+		return MONTH_NAME::AUG;
+
+	if (month == "sep")
+		return MONTH_NAME::SEP;
+
+	if (month == "oct")
+		return MONTH_NAME::OCT;
+
+	if (month == "nov")
+		return MONTH_NAME::NOV;
+
+	if (month == "dec")
+		return MONTH_NAME::DEC;
+}
+
+string Parser::processDate(string input) {
+	if (input.size() != 8){
+		istringstream in(input);
+		vector<string> temp(3);
+		in>>temp[0];
+		in>>temp[1];
+		in>>temp[2];
+		toStringLower(temp[1]);
+
+		switch(determineMonthName(temp[1])){
+			case JAN:
+				return temp[0] + "01" + temp[2];
+				break;
+			case FEB:
+				return temp[0] + "02" + temp[2];
+				break;
+		    case MAR:
+		    	return temp[0]+ "03" + temp[2];
+				break;
+		    case APR:
+		    	return temp[0]+ "04" + temp[2];
+				break;
+			case MAY:
+				return temp[0]+ "05" + temp[2];
+				break;
+			case JUN:
+				return temp[0]+ "06" + temp[2];
+				break;
+			case JUL:
+				return temp[0]+ "07" + temp[2];
+				break;
+			case AUG:
+				return temp[0]+ "08" + temp[2];
+				break;
+			case SEP:
+				return temp[0]+ "09" + temp[2];
+				break;
+			case OCT:
+				return temp[0]+ "10" + temp[2];
+				break;
+			case NOV:
+				return temp[0]+ "11" + temp[2];
+				break;
+			case DEC:
+				return temp[0]+ "12" + temp[2];
+				break;
+		}
+	}
+	else {
+		return input;
+	}
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+string TaskManager::processToday(){
+	time_t t = time(0); 
+	char tmp[64]; 
+	strftime( tmp, sizeof(tmp), "%d%m%Y",localtime(&t) );  
+	string today(tmp);
+
+	return today;
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+string TaskManager::processTomorrow(){
+	time_t t = time(0); 
+	char tmp[64]; 
+	strftime(tmp, sizeof(tmp), "%d%m%Y",localtime(&t));  
+	string today(tmp);
+
+	string day = today.substr(0,2);
+	string month = today.substr(2,2);
+	string year = today.substr(4,4);
+	string monthYear = today.substr(2,6);
+	int intDay = stringToInt(day);
+	intDay++;
+	if(checkEndOfMonth(intDay, month) == true){
+		int intMonth = stringToInt(month);
+		intMonth++;
+		intDay = 1;
+		day = intToString(intDay);
+		month = intToString(intMonth);
+		return day + month + year;
+	}
+	else{
+		day = intToString(intDay);
+		return day + monthYear;
+	}
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+bool TaskManager::checkEndOfMonth(int day, string month){
+	if(month == "01" && day == 32){
+		return true;
+	}
+	if(month == "02" && day == 29){
+		return true;
+	}
+	if(month == "03" && day == 32){
+		return true;
+	}
+	if(month == "04" && day == 31){
+		return true;
+	}
+	if(month == "05" && day == 32){
+		return true;
+	}
+	if(month == "06" && day == 31){
+		return true;
+	}
+	if(month == "07" && day == 32){
+		return true;
+	}
+	if(month == "08" && day == 32){
+		return true;
+	}
+	if(month == "09" && day == 31){
+		return true;
+	}
+	if(month == "10" && day == 32){
+		return true;
+	}
+	if(month == "11" && day == 31){
+		return true;
+	}
+	if(month == "12" && day == 32){
+		return true;
+	}
+
+	return false;
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+string TaskManager::intToString(int inputInt){
+
+	stringstream outputStream;
+
+	if(inputInt < 10){
+		outputStream << '0' << inputInt;
+	} else {
+		outputStream << inputInt;
+	}
+
+	return outputStream.str();
+}
+
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 */
+
+int TaskManager::stringToInt(string inputString){
+	int outputInt;
+	istringstream outputStream(inputString);
+
+	outputStream >> outputInt;
+
+	return outputInt;
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+
+
+
+
+
+	/**
+	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\ParserTest.cpp
+	 */
+
+#include "stdafx.h"
+#include "CppUnitTest.h"
+#include "Parser.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace ConstanTest
+{
+	TEST_CLASS(ParserTest)
+	{
+	public:
+		
+		TEST_METHOD(TestreadDate1)
+		{
+			Parser p;
+			Assert::AreEqual(string("10102015"), p.readDate("10102015"));
+			// TODO: Your test code here
+		}
+		TEST_METHOD(TestreadDate2)
+		{
+			Parser p;
+			time_t t = time(0); 
+			char tmp[64]; 
+			strftime( tmp, sizeof(tmp), "%d%m%Y",localtime(&t) );  
+			Assert::AreEqual(string(tmp), p.readDate("today"));
+		}
+		TEST_METHOD(TestprocessDate1)
+		{
+			Parser p;
+			Assert::AreEqual(string("01012015"), p.processDate("01 Jan 2015"));
+		}
+		TEST_METHOD(TestprocessDateIncorrect)
+		{
+			Parser p;
+			Assert::AreEqual(string("01022015"), p.processDate("01 Jan 2015"));
+		}
+	};
+}
+	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\ParserTest.cpp
+
+
+
+
+
