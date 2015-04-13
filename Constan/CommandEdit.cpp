@@ -12,7 +12,7 @@ CommandEdit::CommandEdit(int index, string taskName, string startDate, string st
 	_currentDisplayIndicator = currentDisplayIndicator;
 }
 
-CommandEdit::~CommandEdit(void) {
+CommandEdit::~CommandEdit() {
 }
 
 bool CommandEdit::isIndexValid() {
@@ -23,17 +23,23 @@ void CommandEdit::execute() {
 	if (isIndexValid()) {
 		_taskID = _currentDisplay->at(_index-1).getTaskID();
 		TaskManager::getInstance()->getTaskDetails(_taskID, _prevTaskName, _prevStartDate, _prevStartTime, _prevEndDate, _prevEndTime, _isPrevComplete);
-		 if (isEditValid()) {
-			TaskManager::getInstance()->editTask(_taskID, _taskName, _startDate, _startTime, _endDate, _endTime);
-			TaskManager::getInstance()->getTaskDetails(_taskID, _taskName, _startDate, _startTime, _endDate, _endTime, _isComplete);
-			_type = TaskManager::getInstance()->getTaskType(_taskID);
-		 } else {
-			_errorType = ERROR_TYPE_5;
-		 }
+		processEdit();
 	} else {
 		_errorType = ERROR_TYPE_6;
 		_executionStatus = STATUS_UNSUCCESSFUL;
 	}
+}
+
+void CommandEdit::processEdit() {
+	if (isEditValid()) {
+		TaskManager::getInstance()->editTask(_taskID, _taskName, _startDate, _startTime, _endDate, _endTime);
+		TaskManager::getInstance()->getTaskDetails(_taskID, _taskName, _startDate, _startTime, _endDate, _endTime, _isComplete);
+		_type = TaskManager::getInstance()->getTaskType(_taskID);
+		_executionStatus = STATUS_SUCCESSFUL;
+	 } else {
+		_errorType = ERROR_TYPE_5;
+		_executionStatus = STATUS_UNSUCCESSFUL;
+	 }
 }
 
 bool CommandEdit::isEditValid() {
@@ -57,16 +63,12 @@ bool CommandEdit::isEditValid() {
 }
 
 bool CommandEdit::isStartAndEndTimeValid() {
-	if (stoi(_startDate.substr(5,4)) > stoi(_endDate.substr(5,4))) {
-		return false;
-	} else if (stoi(_startDate.substr(2,2)) > stoi(_endDate.substr(2,2))) {
-		return false;
-	} else if (stoi(_startDate.substr(0,2)) > stoi(_endDate.substr(0,2))) {
-		return false;
-	} else if (stoi(_startTime) > stoi(_endTime)) {
-		return false;
-	} else {
+	string modifiedStartingTime = _startDate.substr(4,4) + _startDate.substr(2,2) + _startDate.substr(0,2) + _startTime;
+	string modifiedEndingTime = _endDate.substr(4,4) + _endDate.substr(2,2) + _endDate.substr(0,2) + _endTime;
+	if (stoll(modifiedStartingTime) < stoll(modifiedEndingTime)) {
 		return true;
+	} else {
+		return false;
 	}
 }
 

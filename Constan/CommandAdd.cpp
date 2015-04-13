@@ -1,13 +1,12 @@
 #include "CommandAdd.h"
 #include <algorithm>
 
-CommandAdd::CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, int taskID, vector<Task>* currentDisplay, string currentDisplayIndicator) {
+CommandAdd::CommandAdd(string taskName, string startDate, string startTime, string endDate, string endTime, vector<Task>* currentDisplay, string currentDisplayIndicator) {
 	_taskName = taskName;
 	_startDate = startDate;
 	_startTime = startTime;
 	_endDate = endDate;
 	_endTime = endTime;
-	_taskID = taskID;
 	_currentDisplay = currentDisplay;
 	_currentDisplayIndicator = currentDisplayIndicator;
 }
@@ -22,9 +21,12 @@ CommandAdd::CommandAdd(string taskName, string startDate, string startTime, stri
 	_currentDisplay = currentDisplay;
 }
 
+CommandAdd::~CommandAdd() {
+}
+
 void CommandAdd::execute() {
 	if (isAddValid()) {
-		TaskManager::getInstance()->addTask(_taskName, _startDate, _startTime, _endDate, _endTime, _taskID);
+		_taskID = TaskManager::getInstance()->addTask(_taskName, _startDate, _startTime, _endDate, _endTime);
 		_executionStatus = STATUS_SUCCESSFUL;
 		_type = TaskManager::getInstance()->getTaskType(_taskID);
 	} else {
@@ -37,18 +39,24 @@ bool CommandAdd::isAddValid() {
 		_errorType = ERROR_TYPE_1;
 		return false;
 	}
+
+	//returns false when a task has a start date or time without end date and end time
 	if ((_startDate != NULL_STRING || _startTime != NULL_STRING) && _endDate == NULL_STRING && _endTime == NULL_STRING) {
 		_errorType = ERROR_TYPE_2;
 		return false;
 	}
+
+	//returns false when a task has a start time without a start date
 	if (_startDate != NULL_STRING && _startTime == NULL_STRING) {
-		_startTime == "0000";
+		_startTime == BEGINNING_OF_THE_DAY;
 	} else if (_startDate == NULL_STRING && _startTime != NULL_STRING) {
 		_errorType = ERROR_TYPE_3;
 		return false;
 	}
+
+	//returns false whe a task has a end date without a start date or end date 
 	if (_endDate != NULL_STRING && _endTime == NULL_STRING) {
-		_endTime == "2359";
+		_endTime == END_OF_THE_DAY;
 	} else if (_endDate == NULL_STRING && _endTime != NULL_STRING) {
 		if (_startDate != NULL_STRING) {
 			_endDate = _startDate;
@@ -57,25 +65,23 @@ bool CommandAdd::isAddValid() {
 			return false;
 		}
 	}
-	if (_startDate != NULL_STRING && _startTime == NULL_STRING && !isStartAndEndTimeValid()) {
+
+	//returns false if the start date and time of a task is later than its end date and time
+	if (_startDate != NULL_STRING && _startTime != NULL_STRING && !isStartAndEndTimeValid()) {
 		_errorType = ERROR_TYPE_5;
 		return false;
 	}
+
 	return true;
 }
 bool CommandAdd::isStartAndEndTimeValid() {
-	if (stoi(_startDate.substr(5,4)) > stoi(_endDate.substr(5,4))) {
-		return false;
-	} else if (stoi(_startDate.substr(2,2)) > stoi(_endDate.substr(2,2))) {
-		return false;
-	} else if (stoi(_startDate.substr(0,2)) > stoi(_endDate.substr(0,2))) {
-		return false;
-	} else if (stoi(_startTime) > stoi(_endTime)) {
-		return false;
-	} else {
+	string modifiedStartingTime = _startDate.substr(4,4) + _startDate.substr(2,2) + _startDate.substr(0,2) + _startTime;
+	string modifiedEndingTime = _endDate.substr(4,4) + _endDate.substr(2,2) + _endDate.substr(0,2) + _endTime;
+	if (stoll(modifiedStartingTime) < stoll(modifiedEndingTime)) {
 		return true;
+	} else {
+		return false;
 	}
-
 }
 
 vector<string>* CommandAdd::updateFeedback() {
@@ -105,9 +111,9 @@ Command* CommandAdd::getInverseCommand() {
 
 string CommandAdd::updateDisplayIndicator() {
 	if (_executionStatus == STATUS_SUCCESSFUL) {
-		if (_type == "timed") {
+		if (_type == TASK_TYPE_TIMED) {
 			_currentDisplayIndicator = _startDate;
-		} else if (_type == "deadline") {
+		} else if (_type == TASK_TYPE_DEADLINE) {
 			_currentDisplayIndicator = _endDate;
 		} else {
 			_currentDisplayIndicator = DISPLAY_ALL;
@@ -115,6 +121,3 @@ string CommandAdd::updateDisplayIndicator() {
 	}
 	return _currentDisplayIndicator;
 }
-
-//CommandAdd::~CommandAdd(void) {
-//}

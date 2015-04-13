@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef COMMANDDELETE_H_
 #define COMMANDDELETE_H_
 
@@ -16,15 +17,19 @@ private:
 	
 
 public:
+	//Main Constructor for CommandDelete
 	CommandDelete(int index, vector<Task>* currentDisplay,  string currentDisplayIndicator);
-	CommandDelete(vector<Task>* currentDisplay, int taskID);
-	void getTaskDetails();
-//	~CommandDelete(void);
 	
+	//Constructor for CommandDelete as inverse Command object of CommandAdd
+	CommandDelete(vector<Task>* currentDisplay, int taskID);
+	
+	~CommandDelete();
+	void getTaskDetails();
 	void execute();
-//	vector<Task>* updateDisplay();
 	vector<string>* updateFeedback();
 	Command* getInverseCommand();
+
+	//packages the details of a Task into vector<string> to be passed to Logic as the feedback
 	void insertTaskDetails();
 };
 

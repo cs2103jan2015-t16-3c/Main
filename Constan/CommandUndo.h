@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef COMMANDUNDO_H_
 #define COMMANDUNDO_H_
 
@@ -11,18 +12,17 @@ using namespace std;
 
 class CommandUndo :
 	public Command {
+
 private:
 	stack<Command*>* _inverseCommandStack;
 	Command* recentCommand;
+
 public:
 	CommandUndo(stack<Command*>* inverseCommandStack,  string currentDisplayIndicator);
+	~CommandUndo();
 	void execute();
 	Command* getInverseCommand();
 	vector<string>* updateFeedback();
-
-//	vector<Task>* updateDisplay();
-//	vector<Task> getTaskToDisplay();
-	//~CommandAdd(void);
 };
 
 #endif

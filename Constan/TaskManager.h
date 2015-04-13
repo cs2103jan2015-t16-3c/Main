@@ -17,6 +17,7 @@ static const string MATCH_FOUND = "The following entries match your query: ";
 static const string WHITE_SPACE = " ";
 static const string CANNOT_FIND_TASK = "CANNOT FIND TASK";
 static const string FILE_NAME_KEEPER = "filename.txt";
+static const string DEFAULT_SAVE_FILE_NAME = "defaultsavefile.txt";
 static const string DISPLAY_TODAY = "today";
 static const string DISPLAY_TOMORROW = "tomorrow";
 static const string DISPLAY_ALL = "all";
@@ -50,7 +51,7 @@ public:
 	string retrieveFileName();
 	void save();
 	void load();
-	void addTask(string taskName, string startDate, string startTime, string endDate, string endTime, int taskID);
+	int addTask(string taskName, string startDate, string startTime, string endDate, string endTime);
 	void editTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime);
 	void overwriteTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime, bool isComplete);
 	void markTask(int taskID);
@@ -94,6 +95,8 @@ public:
 	string retrieveTodayDate();
 	string convertDate(string date);
 	bool checkEndOfMonth(int day, string month);
+	bool isTaskStillOngoing(Task taskInput, string timeIndicator);
+	bool isDate1BeforeDate2(string date1, string date2);
 };
 
 #endif

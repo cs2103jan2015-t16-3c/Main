@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef COMMANDUNMARK_H_
 #define COMMANDUNMARK_H_
 
@@ -12,15 +13,11 @@ using namespace std;
 class CommandUnmark :
 	public Command {
 
-private:
-
 public:
 	CommandUnmark(int index, vector<Task>* currentDisplay,  string currentDisplayIndicator);
 	CommandUnmark(vector<Task>* currentDisplay, int taskID);
-//	~CommandUnmark(void);
-	
+	~CommandUnmark();
 	void execute();
-//	void updateDisplay(vector<Task>* currentDisplay);
 	vector<string>* updateFeedback();
 	Command* getInverseCommand();
 };

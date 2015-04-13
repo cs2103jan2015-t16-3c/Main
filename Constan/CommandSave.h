@@ -16,7 +16,7 @@ private:
 	string _fileName;
 public:
 	CommandSave(string fileName, vector<Task>* currentDisplay,  string currentDisplayIndicator);
-	~CommandSave(void);
+	~CommandSave();
 	void execute();
 	vector<string>* updateFeedback();
 };

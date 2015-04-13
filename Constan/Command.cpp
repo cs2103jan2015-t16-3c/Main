@@ -1,13 +1,9 @@
 #include "Command.h"
 
-
-Command::Command(void)
-{
+Command::Command() {
 }
 
-
-Command::~Command(void)
-{
+Command::~Command() {
 }
 
 void Command::execute(){
@@ -24,7 +20,6 @@ vector<Task>* Command::updateDisplay(){
 	_mergedDisplay = _timedTaskVector;
 	_mergedDisplay->insert (_mergedDisplay->end(), _deadlineVector->begin(), _deadlineVector->end());
 	_mergedDisplay->insert (_mergedDisplay->end(), _floatingTaskVector->begin(), _floatingTaskVector->end());
-	//merge (_timedTaskVector.begin(), _timedTaskVector.end(), _deadlineVector.begin(), _deadlineVector.end(), _mergedDisplay.begin(), Compare_Task());
 	return _mergedDisplay;
 }
 
@@ -38,9 +33,6 @@ string Command::updateDisplayIndicator() {
 
 vector<Task>* Command::updateDeadline() {
 	_deadlineVector = TaskManager::getInstance()->retrieveDeadline(DISPLAY_ALL);
-//	_mergedDisplay = _deadlineVector;
-//	_deadlineVector = TaskManager::getInstance()->retrieveDeadline(DISPLAY_TOMORROW);
-//	_mergedDisplay->insert (_mergedDisplay->end(), _deadlineVector->begin(), _deadlineVector->end());
 	return _deadlineVector;
 }
 
@@ -58,4 +50,14 @@ void Command::insertTaskDetails() {
 
 bool Command::isIndexValid() {
 	return _index > 0 && _index <= _currentDisplay->size();
+}
+
+void Command::getTaskID() {
+	if (isIndexValid()) {
+			_taskID = _currentDisplay->at(_index-1).getTaskID();
+	} else {
+		_errorType = ERROR_TYPE_6;
+		_executionStatus = STATUS_UNSUCCESSFUL;
+		return;
+	}
 }

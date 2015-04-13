@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef COMMANDDISPLAY_H_
 #define COMMANDDISPLAY_H_
 
@@ -13,15 +14,18 @@ private:
 	string _displayType;
 public:
 	CommandDisplay(string displayType, vector<Task>* currentDisplay, string currentDisplayIndicator);
-	~CommandDisplay(void);
-
+	~CommandDisplay();
 	void execute();
 	vector<Task>* updateDisplay();
 	vector<string>* updateFeedback();
 	Command* getInverseCommand();
 	vector<Task>* generateDisplay();
-	void toStringLower(string& input);
 	string updateDisplayIndicator();
+
+	//converts input to lower case
+	void toStringLower(string& input);
+	
+	//check if input contains a number
 	bool isNumberFound(string input);
 };
 #endif

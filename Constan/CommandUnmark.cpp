@@ -12,19 +12,12 @@ CommandUnmark::CommandUnmark(vector<Task>* currentDisplay, int taskID) {
 	_currentDisplay = currentDisplay;
 }
 
-/*CommandUnmark::~CommandUnmark(void)
-{
+CommandUnmark::~CommandUnmark() {
 }
-*/
+
 void CommandUnmark::execute() {
 	if (_taskID == EMPTY_NUMBER) {
-		if (isIndexValid()) {
-			_taskID = _currentDisplay->at(_index-1).getTaskID();
-		} else {
-			_errorType = ERROR_TYPE_6;
-			_executionStatus = STATUS_UNSUCCESSFUL;
-			return;
-		}
+		getTaskID();
 	}
 	TaskManager::getInstance()->unmarkTask(_taskID);
 	TaskManager::getInstance()->getTaskDetails(_taskID, _taskName, _startDate, _startTime, _endDate, _endTime, _isComplete);
@@ -45,6 +38,6 @@ vector<string>* CommandUnmark::updateFeedback() {
 }
 
 Command* CommandUnmark::getInverseCommand() {
-	CommandMark* invUnmark = new CommandMark ( _currentDisplay, _index);
+	CommandMark* invUnmark = new CommandMark ( _currentDisplay, _taskID);
 	return invUnmark;
 }

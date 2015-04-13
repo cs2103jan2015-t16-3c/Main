@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef COMMAND_H_
 #define COMMAND_H_
 
@@ -27,12 +28,13 @@ static const string ERROR_TYPE_4 = "error4";
 static const string ERROR_TYPE_5 = "error5";
 static const string ERROR_TYPE_6 = "error6";
 static const string ERROR_TYPE_7 = "error7";
-
-
+static const string BEGINNING_OF_THE_DAY = "0000";
+static const string END_OF_THE_DAY = "2359";
 
 static const int EMPTY_NUMBER = -1;
 
 class Command {
+
 protected:
 	vector<Task>* _mergedDisplay;
 	vector<Task>* _timedTaskVector;
@@ -43,39 +45,29 @@ protected:
 	string _executionStatus;
 	string _currentDisplayIndicator;
 	string _errorType;
-
 	string _taskName;
 	string _startDate;
 	string _startTime;
 	string _endDate;
 	string _endTime;
 	string _type;
-
-	bool _isComplete;
-
 	int _taskID;
 	int _index;
+	bool _isComplete;
 
 public:
-	Command(void);
-	~Command(void);
+	Command();
+	~Command();
 	virtual void execute();
 	virtual Command* getInverseCommand();
 	virtual vector<Task>* updateDisplay();
 	virtual vector<string>* updateFeedback();
+	virtual string updateDisplayIndicator();
 	vector<Task>* updateDeadline();
 	string updateTodayDate();
-	virtual string updateDisplayIndicator();
-	
 	void insertTaskDetails();
 	bool isIndexValid();
-
-/*	struct Compare_Task {
-		bool operator() (Task& t1, Task& t2) {
-			return (t1.getStartTime() < t2.getStartTime()) || ((t1.getStartTime() == t2.getStartTime()) && (t1.getEndTime() < t2.getEndTime()));
-		}
-	};
-*/
+	void getTaskID();
 };
 
 #endif

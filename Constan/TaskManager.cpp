@@ -1,11 +1,9 @@
 #include "TaskManager.h"
 
 TaskManager::TaskManager() {
-//	string fileName;
 	_fileName = retrieveFileName();
 	load();
 	updateTaskIDOnLoad();
-//	setFileName(fileName);
 }
 
 TaskManager::~TaskManager() {
@@ -35,8 +33,8 @@ string TaskManager::retrieveFileName() {
 	string fileName;
 	ifstream ifs(FILE_NAME_KEEPER);
 	getline(ifs, fileName);
-	if (fileName == "") { 
-		fileName = "data.txt";
+	if (fileName == EMPTY_STRING) { 
+		fileName = DEFAULT_SAVE_FILE_NAME;
 	}
 	return fileName;
 }
@@ -113,16 +111,17 @@ void TaskManager::load() {
 	ifs.close();
 }
 
-void TaskManager::addTask(string taskName, string startDate, string startTime, string endDate, string endTime, int taskID) {
+int TaskManager::addTask(string taskName, string startDate, string startTime, string endDate, string endTime) {
 	string type;
 	type = getType(taskName, startDate, startTime, endDate, endTime);
 	_newTask = new Task(taskName, startDate, startTime, endDate, endTime, type);
-//	incrementTaskID();
-	_newTask->setTaskID (taskID);
+	incrementTaskID();
+	_newTask->setTaskID (_taskID);
 	_tasks.push_back(*_newTask);
 	
 	save();
 	logger.log(TASK_ADDED);
+	return _taskID;
 }
 
 void TaskManager::markTask(int taskID) {
@@ -314,7 +313,7 @@ vector<Task>* TaskManager::retrieveTimedTask(string timeIndicator) {
 	if (_timeIndicator != TASK_TYPE_ALL) {
 		vector<Task>* newVector = new vector<Task>;	
 		for (unsigned int i = 0; i < timedTaskVector->size(); i++) {
-			if (timedTaskVector->at(i).getStartDate() == _timeIndicator) {
+			if (isTaskStillOngoing(timedTaskVector->at(i), _timeIndicator)) {
 				newVector->push_back(timedTaskVector->at(i));
 			}
 		}
@@ -322,6 +321,26 @@ vector<Task>* TaskManager::retrieveTimedTask(string timeIndicator) {
 	} 
 	else {
 		return timedTaskVector;
+	}
+}
+
+bool TaskManager::isTaskStillOngoing(Task taskInput, string timeIndicator) {
+	if (isDate1BeforeDate2(timeIndicator, taskInput.getStartDate())) {
+		return false;
+	} else if (isDate1BeforeDate2(taskInput.getEndDate(), timeIndicator)) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+bool TaskManager::isDate1BeforeDate2(string date1, string date2) {
+	string modifiedDate1 = date1.substr(4,4) + date1.substr(2,2) + date1.substr(0,2);
+	string modifiedDate2 = date2.substr(4,4) + date2.substr(2,2) + date2.substr(0,2);
+	if (stoi(modifiedDate1) < stoi(modifiedDate2)) {
+		return true;
+	} else {
+		return false;
 	}
 }
 
