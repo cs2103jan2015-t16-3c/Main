@@ -52,6 +52,7 @@ public:
 	static string ERROR_SEARCH_MESSAGE;
 	static string ERROR_MARK_MESSAGE;
 	static string ERROR_UNMARK_MESSAGE;
+	static string ERROR_INVALID_COMMAND_MESSAGE;
 
 
     static string ERROR_UNRECOGNISED_COMMAND_TYPE;
