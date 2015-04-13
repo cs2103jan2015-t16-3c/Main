@@ -20,7 +20,6 @@ private:
 	vector<Task>* _deadlineVector;
 	vector<string>* _feedback;
 	stack<Command*> inverseCommandStack;
-
 	string _todayDate;
 	string _currentDisplayIndicator;
 

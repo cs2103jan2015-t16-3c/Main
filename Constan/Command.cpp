@@ -51,3 +51,13 @@ void Command::insertTaskDetails() {
 bool Command::isIndexValid() {
 	return _index > 0 && _index <= _currentDisplay->size();
 }
+
+void Command::getTaskID() {
+	if (isIndexValid()) {
+			_taskID = _currentDisplay->at(_index-1).getTaskID();
+	} else {
+		_errorType = ERROR_TYPE_6;
+		_executionStatus = STATUS_UNSUCCESSFUL;
+		return;
+	}
+}

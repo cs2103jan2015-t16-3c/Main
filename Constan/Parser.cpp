@@ -1,6 +1,6 @@
 #include "Parser.h"
 
-Parser::Parser (){
+Parser::Parser () {
 }
 
 Parser::Parser(stack<Command*>* inverseCommandStack){
@@ -13,11 +13,6 @@ Command* Parser::parse(string input) {
 	splitInput(&inputVector, input);
 	return translateInput(inputVector);
 }
-
-//void Parser::generateTaskID(){
-//	_count++;
-//	_taskID = _count;
-//}
 
 void Parser::updateDisplay (vector<Task>* currentDisplay) {
 	_currentDisplay = currentDisplay;
@@ -43,7 +38,6 @@ Command* Parser::translateInput(vector<string>& inputVector) {
 				getTaskName(inputVector);	
 				getStartingTime(inputVector);
 				getEndingTime(inputVector);
-				//generateTaskID();
 				CommandAdd* addTask = new CommandAdd (_taskName, _startDate, _startTime, _endDate, _endTime, _currentDisplay, _currentDisplayIndicator);
 				return addTask;
 			}
@@ -122,10 +116,6 @@ Command* Parser::translateInput(vector<string>& inputVector) {
 	}
 }
 
-void Parser::getFileName(vector<string> &inputVector) {
-	_fileName = inputVector[1];
-}
-
 void Parser::getReportType(vector<string> &inputVector){
 	string input = inputVector[0];
 	toStringLower(input);
@@ -146,6 +136,10 @@ void Parser::getReportType(vector<string> &inputVector){
 	} else if (input == COMMAND_SAVE && inputVector.size() == 1){
 		_report = INVALID_COMMAND_SAVE;
 	}
+}
+
+void Parser::getFileName(vector<string> &inputVector) {
+	_fileName = inputVector[1];
 }
 
 void Parser::getKeyword(vector<string> &inputVector) {
@@ -228,8 +222,6 @@ bool Parser::isTaskNameDelimiterFound(vector<string> &inputVector, size_t &index
 	return false;
 }
 
-
-
 bool Parser::isDelimiter (string input) {
 	if (input == DELIMITER_TASKNAME || input == DELIMITER_STARTTIME || input == DELIMITER_ENDTIME) {
 		return true;
@@ -305,7 +297,6 @@ string Parser::readDate(string input) {
 		} else
 			return NULL_STRING;
 	} else {
-		//ALPHABETICAL_DATE alphaDate = determineAlphabeticalDate(input);
 		switch (determineAlphabeticalDate(input)){
 			case TODAY:
 				return processToday();
@@ -403,11 +394,7 @@ COMMAND_TYPE Parser::determineCommandType(string command) {
 	}
 }
 
-
 void Parser::splitInput(vector<string>* inputVector, string input) {
-	//vector<string>::iterator inputVectorIter;
-	//inputVectorIter = inputVector->begin();
-	
 	istringstream read(input);
 	string temporaryString;
 	
@@ -415,6 +402,10 @@ void Parser::splitInput(vector<string>* inputVector, string input) {
 		inputVector->push_back(temporaryString);
 	}
 }
+
+
+
+
 
 string Parser::processToday(){
 	time_t t = time(0); 
@@ -513,7 +504,6 @@ int Parser::stringToInt(string inputString){
 
 	return outputInt;
 }
-// end of edit
 
 MONTH_NAME Parser::determineMonthName(string month) {
 	toStringLower(month);
@@ -606,32 +596,3 @@ string Parser::processDate(string input) {
 		return input;
 	}
 }
-
-/*
-vector<string>* Parser::unparse(vector<Task>* vectorTask) {
-	_vectorString = new vector<string>;
-	vector<Task>::iterator taskIter;
-	string output;
-	for (taskIter= vectorTask->begin() ; taskIter != vectorTask->end() ; taskIter++) {
-		output = convertTaskToString(*taskIter);
-		_vectorString->push_back(output);
-	}
-	return _vectorString;
-}
-
-string Parser::convertTaskToString(Task& task) {
-	string taskName = task.getTaskName();
-	string startDate = task.getStartDate();
-	string startTime = task.getStartTime();
-	string endDate = task.getEndDate();
-	string endTime = task.getEndTime();
-	string type = task.getType();
-	if (type == "timed") {
-		return taskName + "\tStart: " + startDate + "\t(" + startTime + ")\tEnd: " + endDate + "\t(" + endTime + ")";
-	} else if (type == "deadline") {
-		return taskName + "\tDeadline: " + endDate + "\t(" + endTime + ")!!!!";
-	} else if (type == "floating") {
-		return taskName;
-	}
-}
-*/

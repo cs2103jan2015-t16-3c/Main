@@ -7,8 +7,7 @@ CommandInvalid::CommandInvalid(string report, string currentDisplayIndicator) {
 	_currentDisplayIndicator = currentDisplayIndicator;
 }
 
-CommandInvalid::~CommandInvalid(void)
-{
+CommandInvalid::~CommandInvalid() {
 }
 
 void CommandInvalid::execute() {

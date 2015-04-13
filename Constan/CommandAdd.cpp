@@ -21,7 +21,7 @@ CommandAdd::CommandAdd(string taskName, string startDate, string startTime, stri
 	_currentDisplay = currentDisplay;
 }
 
-CommandAdd::~CommandAdd(void) {
+CommandAdd::~CommandAdd() {
 }
 
 void CommandAdd::execute() {

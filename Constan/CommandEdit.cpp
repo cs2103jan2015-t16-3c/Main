@@ -12,7 +12,7 @@ CommandEdit::CommandEdit(int index, string taskName, string startDate, string st
 	_currentDisplayIndicator = currentDisplayIndicator;
 }
 
-CommandEdit::~CommandEdit(void) {
+CommandEdit::~CommandEdit() {
 }
 
 bool CommandEdit::isIndexValid() {

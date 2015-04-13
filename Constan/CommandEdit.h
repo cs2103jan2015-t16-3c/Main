@@ -19,8 +19,7 @@ private:
 	bool _isPrevComplete;
 public:
 	CommandEdit(int index, string taskName, string startDate, string startTime, string endDate, string endTime, vector<Task>* currentDisplay,  string currentDisplayIndicator);
-	~CommandEdit(void);
-
+	~CommandEdit();
 	void execute();
 	vector<string>* updateFeedback();
 	Command* getInverseCommand();
@@ -29,4 +28,5 @@ public:
 	bool isStartAndEndTimeValid();
 	bool isEditValid();
 };
+
 #endif

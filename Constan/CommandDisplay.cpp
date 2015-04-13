@@ -7,7 +7,7 @@ CommandDisplay::CommandDisplay(string displayType, vector<Task>* currentDisplay,
 	_displayType = displayType;
 }
 
-CommandDisplay::~CommandDisplay(void) {
+CommandDisplay::~CommandDisplay() {
 }
 
 void CommandDisplay::execute() {

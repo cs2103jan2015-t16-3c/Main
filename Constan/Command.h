@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef COMMAND_H_
 #define COMMAND_H_
 
@@ -66,6 +67,7 @@ public:
 	string updateTodayDate();
 	void insertTaskDetails();
 	bool isIndexValid();
+	void getTaskID();
 };
 
 #endif

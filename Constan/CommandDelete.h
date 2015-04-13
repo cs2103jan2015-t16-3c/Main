@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef COMMANDDELETE_H_
 #define COMMANDDELETE_H_
 

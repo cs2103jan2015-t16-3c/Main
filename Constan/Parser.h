@@ -28,23 +28,10 @@
 
 using namespace std;
 
-//static const string NULL_STRING = "NULL";
-/*static const string COMMAND_ADD = "add";
-static const string COMMAND_DELETE = "delete";
-static const string COMMAND_DISPLAY = "display";
-static const string COMMAND_MARK = "mark";
-static const string COMMAND_EDIT = "edit";
-static const string COMMAND_SEARCH = "search";
-static const string COMMAND_UNDO = "undo";
-static const string COMMAND_UNMARK = "unmark";
-static const string COMMAND_INVALID = "invalid";
-static const string DISPLAY_TODAY = "today";
-static const string DISPLAY_TOMORROW = "tomorrow"; */
 static const string COMMAND_EXIT = "exit"; 
 static const string DELIMITER_TASKNAME = "-t";
 static const string DELIMITER_STARTTIME = "-s";
 static const string DELIMITER_ENDTIME = "-e";
-
 static const string INVALID_COMMAND_ADD = "invalid_add";
 static const string INVALID_COMMAND_DELETE = "invalid_delete";
 static const string INVALID_COMMAND_DISPLAY = "invalid_display";
@@ -90,20 +77,17 @@ private:
 	string _fileName;
 	int _taskID;
 	int _count;
+	int _index;
 	vector<Task>* _currentDisplay;
 	vector<string>* _vectorString;
 	stack<Command*>* _inverseCommandStack;
 
-
-//	string strindex;
-	int _index;
 public:
 	Parser();
 	Parser(stack<Command*> *inverseCommandStack);
 	void updateDisplay(vector<Task>* currentDisplay);
 	void updateInverseCommandStack(stack<Command*> *inverseCommandStack);
 	void updateCurrentDisplayIndicator(string currentDisplayIndicator);
-//	Parser(vector<Task>* currentDisplay);
 
 	Command* parse(string input);
 	Command* translateInput(vector<string>& inputVector);
@@ -117,7 +101,6 @@ public:
 	void getTaskName(vector<string> &inputVector);
 	void splitInput(vector<string>* inputVector, string input);
 	void toStringLower(string& input);
-//	void generateTaskID();
 	void getReportType(vector<string> &inputVector);
 	void getFileName(vector<string> &inputVector);
 
@@ -128,27 +111,23 @@ public:
 	bool isNumberFound (string input);
 	bool isAlphabetFound(string input);
 	bool correctDisplay(string input);
+	bool checkEndOfMonth(int day, string month);
 
 	COMMAND_TYPE determineCommandType(string command);
+	MONTH_NAME determineMonthName(string month);
+	ALPHABETICAL_DATE determineAlphabeticalDate(string input);
 
 	string processToday();
 	string processTomorrow();
 	string processDate(string input);
-//	string convertTaskToString(Task& task);
 	string readDate(string input);
 	string intToString(int);
 	string verifyTime(string input);
 
 	int stringToInt(string);
 	int findFirstDelimiter(vector<string> &inputVector);
-	bool checkEndOfMonth(int day, string month);
 
-	MONTH_NAME determineMonthName(string month);
-//	vector<string>* unparse(vector<Task>* vectorTask);
-	ALPHABETICAL_DATE determineAlphabeticalDate(string input);
-//	void extractEndingTime (string input);
-//	void determineEndTimeOrDate(string input);
-//	bool isTime(string input);
+
 };
 
 #endif

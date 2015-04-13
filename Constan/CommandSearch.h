@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef COMMANDSEARCH_H_
 #define COMMANDSEARCH_H_
 
@@ -17,13 +18,11 @@ private:
 
 public:
 	CommandSearch(string keyword, string currentDisplayIndicator);
-	~CommandSearch(void);
-
+	~CommandSearch();
 	void execute();
 	vector<Task>* updateDisplay();
 	vector<string>* updateFeedback();
 	Command* getInverseCommand();
-//	string updateDisplayIndicator();
 };
 
 #endif

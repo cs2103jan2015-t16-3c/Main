@@ -11,7 +11,7 @@ CommandInverseEdit::CommandInverseEdit(int taskID, string taskName, string start
 	_isComplete = isComplete;
 }
 
-CommandInverseEdit::~CommandInverseEdit(void) {
+CommandInverseEdit::~CommandInverseEdit() {
 }
 
 void CommandInverseEdit::execute() {

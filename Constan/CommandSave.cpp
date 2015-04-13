@@ -1,16 +1,14 @@
 #include "CommandSave.h"
 
 
-CommandSave::CommandSave(string fileName, vector<Task>* currentDisplay,  string currentDisplayIndicator)
-{
+CommandSave::CommandSave(string fileName, vector<Task>* currentDisplay,  string currentDisplayIndicator) {
 	_fileName = fileName;
 	_currentDisplay = currentDisplay;
 	_currentDisplayIndicator = currentDisplayIndicator;
 }
 
 
-CommandSave::~CommandSave(void)
-{
+CommandSave::~CommandSave() {
 }
 
 void CommandSave::execute() {

@@ -6,6 +6,9 @@ CommandUndo::CommandUndo(stack<Command*>* inverseCommandStack, string currentDis
 	_currentDisplayIndicator = currentDisplayIndicator;
 }
 
+CommandUndo::~CommandUndo() {
+}
+
 void CommandUndo::execute() {
 	if (_inverseCommandStack->size()>0) {
 		recentCommand = _inverseCommandStack->top();
@@ -26,7 +29,3 @@ vector<string>* CommandUndo::updateFeedback() {
 Command* CommandUndo::getInverseCommand() {
 	return NULL;
 }
-
-/*CommandUndo::~CommandUndo(void) {
-}
-*/

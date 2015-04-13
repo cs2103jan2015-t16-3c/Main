@@ -17,6 +17,7 @@ static const string MATCH_FOUND = "The following entries match your query: ";
 static const string WHITE_SPACE = " ";
 static const string CANNOT_FIND_TASK = "CANNOT FIND TASK";
 static const string FILE_NAME_KEEPER = "filename.txt";
+static const string DEFAULT_SAVE_FILE_NAME = "defaultsavefile.txt";
 static const string DISPLAY_TODAY = "today";
 static const string DISPLAY_TOMORROW = "tomorrow";
 static const string DISPLAY_ALL = "all";

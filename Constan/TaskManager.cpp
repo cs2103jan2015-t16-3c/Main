@@ -1,11 +1,9 @@
 #include "TaskManager.h"
 
 TaskManager::TaskManager() {
-//	string fileName;
 	_fileName = retrieveFileName();
 	load();
 	updateTaskIDOnLoad();
-//	setFileName(fileName);
 }
 
 TaskManager::~TaskManager() {
@@ -35,8 +33,8 @@ string TaskManager::retrieveFileName() {
 	string fileName;
 	ifstream ifs(FILE_NAME_KEEPER);
 	getline(ifs, fileName);
-	if (fileName == "") { 
-		fileName = "data.txt";
+	if (fileName == EMPTY_STRING) { 
+		fileName = DEFAULT_SAVE_FILE_NAME;
 	}
 	return fileName;
 }

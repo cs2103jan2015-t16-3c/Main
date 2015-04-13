@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef COMMANDDISPLAY_H_
 #define COMMANDDISPLAY_H_
 
@@ -13,7 +14,7 @@ private:
 	string _displayType;
 public:
 	CommandDisplay(string displayType, vector<Task>* currentDisplay, string currentDisplayIndicator);
-	~CommandDisplay(void);
+	~CommandDisplay();
 	void execute();
 	vector<Task>* updateDisplay();
 	vector<string>* updateFeedback();
