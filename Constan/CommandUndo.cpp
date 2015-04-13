@@ -17,6 +17,8 @@ void CommandUndo::execute() {
 vector<string>* CommandUndo::updateFeedback() {
 	_feedback = new vector<string>;
 	_feedback->push_back (COMMAND_UNDO);
+	_feedback->push_back (STATUS_SUCCESSFUL);
+	_feedback->push_back ("");
 	return _feedback;
 }
 
