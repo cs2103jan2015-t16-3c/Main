@@ -1,5 +1,7 @@
+//@author A0113938B
+
 //this class act as the bridge between Logic and GUI.
-//it contains messages that would be displayed to user as feedbacks
+//it contains tasks that would be displayed to user
 //as well as passing the correct feedback message based on the command type
 //passes user command to Logic and receive feedback message and display
 
