@@ -121,9 +121,9 @@ public:
 	void getReportType(vector<string> &inputVector);
 	void getFileName(vector<string> &inputVector);
 
-	bool isStartTimeDelimiterFound(vector<string> &inputVector, int &index);
-	bool isEndTimeDelimiterFound(vector<string> &inputVector, int &index);
-	bool isTaskNameDelimiterFound(vector<string> &inputVector, int &index);
+	bool isStartTimeDelimiterFound(vector<string> &inputVector, size_t &index);
+	bool isEndTimeDelimiterFound(vector<string> &inputVector, size_t &index);
+	bool isTaskNameDelimiterFound(vector<string> &inputVector, size_t &index);
 	bool isDelimiter (string input);
 	bool isNumberFound (string input);
 	bool isAlphabetFound(string input);

@@ -198,7 +198,7 @@ void Parser::getType() {
 	}
 }
 
-bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, int &index) {
+bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, size_t &index) {
 	for (unsigned int i = 0; i<inputVector.size(); i++){
 		if (inputVector[i] == DELIMITER_STARTTIME){
 			index = i;
@@ -208,7 +208,7 @@ bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, int &index) 
 	return false;
 }
 
-bool Parser::isEndTimeDelimiterFound(vector<string> &inputVector, int &index) {
+bool Parser::isEndTimeDelimiterFound(vector<string> &inputVector, size_t &index) {
 	for (unsigned int i = 0; i<inputVector.size(); i++){
 		if (inputVector[i] == DELIMITER_ENDTIME){
 			index = i;
@@ -218,7 +218,7 @@ bool Parser::isEndTimeDelimiterFound(vector<string> &inputVector, int &index) {
 	return false;
 }
 
-bool Parser::isTaskNameDelimiterFound(vector<string> &inputVector, int &index) {
+bool Parser::isTaskNameDelimiterFound(vector<string> &inputVector, size_t &index) {
 	for (unsigned int i = 0; i<inputVector.size(); i++){
 		if (inputVector[i] == DELIMITER_TASKNAME){
 			index = i;
@@ -240,7 +240,7 @@ bool Parser::isDelimiter (string input) {
 
 void Parser::getEndingTime(vector<string> &inputVector) {
 	string tempString = EMPTY_STRING;
-	int index;
+	size_t index;
 	if(isEndTimeDelimiterFound(inputVector, index)) {
 		index++;
 		while (index < inputVector.size() && !isDelimiter(inputVector[index])){
@@ -267,7 +267,7 @@ void Parser::getEndingTime(vector<string> &inputVector) {
 
 void Parser::getStartingTime(vector<string> &inputVector) {
 	string tempString = EMPTY_STRING;
-	int index;
+	size_t index;
 	if(isStartTimeDelimiterFound(inputVector, index)) {
 		index++;
 		while (index < inputVector.size() && !isDelimiter(inputVector[index])){
@@ -353,7 +353,7 @@ bool Parser::isAlphabetFound(string input) {
 
 void Parser::getTaskName(vector<string> &inputVector) {
 	string tempString = EMPTY_STRING;
-	int index;
+	size_t index;
 	if(isTaskNameDelimiterFound(inputVector, index)) {
 		index++;
 		while (index < inputVector.size() && !isDelimiter(inputVector[index])){
