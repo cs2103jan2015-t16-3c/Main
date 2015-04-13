@@ -24,6 +24,7 @@
 #include "CommandInvalid.h"
 #include "CommandMark.h"
 #include "CommandUnmark.h"
+#include "CommandSave.h"
 
 using namespace std;
 
@@ -52,8 +53,8 @@ static const string INVALID_COMMAND_EDIT = "invalid_edit";
 static const string INVALID_COMMAND_SEARCH = "invalid_search";
 static const string INVALID_COMMAND_UNDO = "invalid_undo";
 static const string INVALID_COMMAND_UNMARK = "invalid_unmark";
-
-static const string DEFAULT_REPORT_STRING = "invalid_command";
+static const string INVALID_COMMAND_SAVE = "invalid_save";
+static const string INVALID_COMMAND_DEFAULT = "invalid_command";
 
 static const int INDEX_NOT_FOUND = -1;
 static const int ZERO = 0;
@@ -69,7 +70,7 @@ enum ALPHABETICAL_DATE {
 };
 	
 enum COMMAND_TYPE {
-	ADD, DISPLAY, DELETE_IT, INVALID, EDIT, SEARCH, EXIT, UNDO, MARK, UNMARK
+	ADD, DISPLAY, DELETE_IT, INVALID, EDIT, SEARCH, EXIT, UNDO, MARK, UNMARK, SAVE
 };
 	
 class Parser {
@@ -86,6 +87,7 @@ private:
 	string _keyword;
 	string _report;
 	string _currentDisplayIndicator;
+	string _fileName;
 	int _taskID;
 	int _count;
 	vector<Task>* _currentDisplay;
@@ -117,12 +119,14 @@ public:
 	void toStringLower(string& input);
 	void generateTaskID();
 	void getReportType(vector<string> &inputVector);
+	void getFileName(vector<string> &inputVector);
 
 	bool isStartTimeDelimiterFound(vector<string> &inputVector, int &index);
 	bool isEndTimeDelimiterFound(vector<string> &inputVector, int &index);
 	bool isTaskNameDelimiterFound(vector<string> &inputVector, int &index);
 	bool isDelimiter (string input);
 	bool isNumberFound (string input);
+	bool isAlphabetFound(string input);
 	bool correctDisplay(string input);
 
 	COMMAND_TYPE determineCommandType(string command);

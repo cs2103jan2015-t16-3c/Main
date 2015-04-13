@@ -12,7 +12,7 @@ class CommandDisplay :
 private:
 	string _displayType;
 public:
-	CommandDisplay(string displayType);
+	CommandDisplay(string displayType, vector<Task>* currentDisplay, string currentDisplayIndicator);
 	~CommandDisplay(void);
 
 	void execute();

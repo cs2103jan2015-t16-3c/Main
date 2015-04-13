@@ -1,7 +1,8 @@
 #include "CommandSearch.h"
 
-CommandSearch::CommandSearch(string keyword) {
+CommandSearch::CommandSearch(string keyword, string currentDisplayIndicator) {
 	_keyword = keyword;
+	_currentDisplayIndicator = currentDisplayIndicator;
 }
 
 

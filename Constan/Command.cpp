@@ -18,11 +18,12 @@ Command* Command::getInverseCommand() {
 }
 
 vector<Task>* Command::updateDisplay(){
-	//return _currentDisplay;
 	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask(_currentDisplayIndicator);
 	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline(_currentDisplayIndicator);
+	_floatingTaskVector  = TaskManager::getInstance()->retrieveFloatingTask(DISPLAY_ALL);
 	_mergedDisplay = _timedTaskVector;
 	_mergedDisplay->insert (_mergedDisplay->end(), _deadlineVector->begin(), _deadlineVector->end());
+	_mergedDisplay->insert (_mergedDisplay->end(), _floatingTaskVector->begin(), _floatingTaskVector->end());
 	//merge (_timedTaskVector.begin(), _timedTaskVector.end(), _deadlineVector.begin(), _deadlineVector.end(), _mergedDisplay.begin(), Compare_Task());
 	return _mergedDisplay;
 }
