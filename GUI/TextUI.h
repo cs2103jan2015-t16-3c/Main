@@ -20,7 +20,7 @@ class TextUI
 {
 public:
     enum COMMAND_TYPE_FEEDBACK {
-        ADD_TASK, DELETE_TASK, EDIT_TASK, DISPLAY_TASK, SEARCH_TASK,
+        ADD_TASK, DELETE_TASK, EDIT_TASK, DISPLAY_TASK, SEARCH_TASK, SAVE_TASK,
         INVALID_TASK, HELP, OTHERS, UNDO_TASK, MARK_TASK, UNMARK_TASK
     };
 
@@ -28,6 +28,14 @@ public:
 
 	static string EMPTY_STRING;
 	static string SPACE;
+	static string SEPARATOR;
+
+	static string FEEDBACK_SUCCESSFUL;
+	static string FEEDBACK_UNSUCCESSFUL;
+
+	static string TASK_STATUS_DONE;
+	static string TASK_STATUS_UNDONE;
+
 
     static string MESSAGE_WELCOME;
     static string MESSAGE_ADDED;
@@ -37,6 +45,7 @@ public:
 	static string MESSAGE_UNDONE;
     static string MESSAGE_MARKED;
 	static string MESSAGE_UNMARKED;
+	static string MESSAGE_SAVED;
 
 	static string ERROR1_MESSAGE;
 	static string ERROR2_MESSAGE;
@@ -60,6 +69,22 @@ public:
     static string ERROR_INVALID_DATE_TIME;
     static string ERROR_OTHERS;
     static string HELP_USER_GUIDE;
+
+	static string STARTS_FROM;
+	static string UNTIL;
+	static string DUE;
+
+	static string DISPLAY_TYPE_ALL;
+	static string DISPLAY_TYPE_TODAY;
+	static string DISPLAY_TYPE_TOMORROW;
+	static string DISPLAY_TYPE_SEARCH;
+
+	static string DISPLAY_TYPE_ALL_TASK;
+	static string DISPLAY_TYPE_TODAY_TASK;
+	static string DISPLAY_TYPE_TOMORROW_TASK;
+	static string DISPLAY_TYPE_SEARCH_TASK;
+	static string DISPLAY_TYPE_DATE;
+	static string COLON;
 
 	static string JANUARY;
 	static string FEBRUARY;
