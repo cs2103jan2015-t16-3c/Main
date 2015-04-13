@@ -1,3 +1,4 @@
+//@author A0113938B
 #include "TextUI.h"
 
 string TextUI::EMPTY_STRING = "";
@@ -10,7 +11,6 @@ string TextUI::FEEDBACK_UNSUCCESSFUL = "unsuccessful";
 string TextUI::TASK_STATUS_DONE = "done";
 string TextUI::TASK_STATUS_UNDONE = "undone";
 
-//string TextUI::MESSAGE_WELCOME = "Hello. Welcome to CONSTAN!";
 string TextUI::MESSAGE_ADDED = "Task added: ";
 string TextUI::MESSAGE_DELETED = "Task deleted: ";
 string TextUI::MESSAGE_EDITED = "Task edited: ";
@@ -101,11 +101,23 @@ void TextUI::setFeedback(string userCommand) {
 
 	if ( _feedback->at(1) == FEEDBACK_SUCCESSFUL ) {
 
-		string commandTypeString = _feedback->front();
+		displayFeedbackAccordingToType();
 
-		COMMAND_TYPE_FEEDBACK commandType = determineCommandType(commandTypeString);
+	} else if ( _feedback->at(1) == FEEDBACK_UNSUCCESSFUL ) {
 
-		switch (commandType) {
+		processErrorFeedback();
+
+	}
+
+}
+
+void TextUI::displayFeedbackAccordingToType() {
+
+	string commandTypeString = _feedback->front();
+
+	COMMAND_TYPE_FEEDBACK commandType = determineCommandType(commandTypeString);
+	
+	switch (commandType) {
 		case ADD_TASK: 
 			displayedFeedback(MESSAGE_ADDED);
 			return;
@@ -133,16 +145,10 @@ void TextUI::setFeedback(string userCommand) {
 		default:
 			displayedFeedback();
 			return;
-		}
-
-	} else if ( _feedback->at(1) == FEEDBACK_UNSUCCESSFUL ) {
-
-		_errorType = _feedback->at(2);
-		processErrorFeedback();
-
 	}
 
 }
+
 
 /*CHANGE COMMAND TYPE FROM STRING TO ENUM*/
 TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeString) {
@@ -182,13 +188,13 @@ TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeStr
 /*COMBINE FEEDBACK MESSAGE AND THE FEEDBACK FROM LOGIC*/
 void TextUI::displayedFeedback(string message) {
 
-	feedback = message + getFeedbackResult();
+	_feedbackString = message + getFeedbackResult();
 }
 
 /*CREATE FEEDBACK FOR ERROR INPUTS*/
 void TextUI::displayedFeedback() {
 
-	feedback = getFeedbackResult();
+	_feedbackString = getFeedbackResult();
 }
 
 /*GET FEEDBACK RESULT FROM LOGIC*/
@@ -238,59 +244,80 @@ string TextUI::getFeedbackResult() {
 
 void TextUI::processErrorFeedback() {
 
-	if (_errorType == ERROR_TYPE_1)
-		feedback = ERROR1_MESSAGE;
-	else if (_errorType == ERROR_TYPE_2)
-		feedback = ERROR2_MESSAGE;
-	else if (_errorType == ERROR_TYPE_3)
-		feedback = ERROR3_MESSAGE;
-	else if (_errorType == ERROR_TYPE_4)
-		feedback = ERROR4_MESSAGE;
-	else if (_errorType == ERROR_TYPE_5)
-		feedback = ERROR5_MESSAGE;
-	else if (_errorType == ERROR_TYPE_6)
-		feedback = ERROR6_MESSAGE;
-	else if (_errorType == ERROR_TYPE_7)
-		feedback = ERROR7_MESSAGE;
-	else if (_errorType == INVALID_COMMAND_ADD)
-		feedback = ERROR_ADD_MESSAGE;
-	else if (_errorType == INVALID_COMMAND_DELETE)
-		feedback = ERROR_DELETE_MESSAGE;
-	else if (_errorType == INVALID_COMMAND_EDIT)
-		feedback = ERROR_EDIT_MESSAGE;
-	else if (_errorType == INVALID_COMMAND_DISPLAY)
-		feedback = ERROR_DISPLAY_MESSAGE;
-	else if (_errorType == INVALID_COMMAND_SEARCH)
-		feedback = ERROR_SEARCH_MESSAGE;
-	else if (_errorType == INVALID_COMMAND_MARK)
-		feedback = ERROR_MARK_MESSAGE;
-	else if (_errorType == INVALID_COMMAND_UNMARK)
-		feedback = ERROR_UNMARK_MESSAGE;
-	else if (_errorType == INVALID_COMMAND_DEFAULT)
-		feedback = ERROR_INVALID_COMMAND_MESSAGE;
-	else 
-		feedback == ERROR_OTHERS;
+	_errorType = _feedback->at(2);
+
+	if (_errorType == ERROR_TYPE_1) {
+		_feedbackString = ERROR1_MESSAGE;
+
+	} else if (_errorType == ERROR_TYPE_2) {
+		_feedbackString = ERROR2_MESSAGE;
+
+	} else if (_errorType == ERROR_TYPE_3) {
+		_feedbackString = ERROR3_MESSAGE;
+
+	} else if (_errorType == ERROR_TYPE_4) {
+		_feedbackString = ERROR4_MESSAGE;
+
+	} else if (_errorType == ERROR_TYPE_5) {
+		_feedbackString = ERROR5_MESSAGE;
+
+	} else if (_errorType == ERROR_TYPE_6) {
+		_feedbackString = ERROR6_MESSAGE;
+
+	} else if (_errorType == ERROR_TYPE_7) {
+		_feedbackString = ERROR7_MESSAGE;
+
+	} else if (_errorType == INVALID_COMMAND_ADD) {
+		_feedbackString = ERROR_ADD_MESSAGE;
+
+	} else if (_errorType == INVALID_COMMAND_DELETE) {
+		_feedbackString = ERROR_DELETE_MESSAGE;
+
+	} else if (_errorType == INVALID_COMMAND_EDIT) {
+		_feedbackString = ERROR_EDIT_MESSAGE;
+
+	} else if (_errorType == INVALID_COMMAND_DISPLAY) {
+		_feedbackString = ERROR_DISPLAY_MESSAGE;
+
+	} else if (_errorType == INVALID_COMMAND_SEARCH) {
+		_feedbackString = ERROR_SEARCH_MESSAGE;
+
+	} else if (_errorType == INVALID_COMMAND_MARK) {
+		_feedbackString = ERROR_MARK_MESSAGE;
+
+	} else if (_errorType == INVALID_COMMAND_UNMARK) {
+		_feedbackString = ERROR_UNMARK_MESSAGE;
+
+	} else if (_errorType == INVALID_COMMAND_DEFAULT) {
+		_feedbackString = ERROR_INVALID_COMMAND_MESSAGE;
+
+	} else {
+		_feedbackString == ERROR_OTHERS;
+	}
 
 }
 
+/*PASS TODAY'S DATE TO GUI*/
 string TextUI::showTodayDate() {
 	
 	getTodayDateString();
-	return todayDate;
+	return _todayDate;
 }
 
+/*GET TODAY'S DATE FROM LOGIC*/
 void TextUI::getTodayDateString() {
 
-	todayDate = toLogic.getTodayDate();
-	todayDate = formatDate(todayDate);
+	_todayDate = toLogic.getTodayDate();
+	_todayDate = formatDate(_todayDate);
 }
 
-//pass the string of feedback to GUI
+/*PASS FEEDBACK TO GUI*/
 string TextUI::showFeedback() {
 
-	return feedback;
+	return _feedbackString;
 }
 
+/*GET AND PASS DISPLAY TYPE TO GUI*/
 string TextUI::showCurrentDisplayIndicator() {
 
 	getCurrentDisplayType();
@@ -307,29 +334,31 @@ void TextUI::getCurrentDisplayType() {
 
 void TextUI::unparseCurrentDisplayType() {
 
-	if (_displayType == DISPLAY_TYPE_ALL)
+	if (_displayType == DISPLAY_TYPE_ALL) {
 		_displayType = DISPLAY_TYPE_ALL_TASK;
 
-	else if (_displayType == DISPLAY_TYPE_TODAY) 
+	} else if (_displayType == DISPLAY_TYPE_TODAY) {
 		_displayType = DISPLAY_TYPE_TODAY_TASK;
 
-	else if (_displayType == DISPLAY_TYPE_TOMORROW)
+	} else if (_displayType == DISPLAY_TYPE_TOMORROW) {
 		_displayType = DISPLAY_TYPE_TOMORROW_TASK;
 
-	else if (_displayType == DISPLAY_TYPE_SEARCH)
+	} else if (_displayType == DISPLAY_TYPE_SEARCH) {
 		_displayType = DISPLAY_TYPE_SEARCH_TASK;
 
-	else {
+	} else {
 		_displayType = formatDate(_displayType);
-		if(_displayType == todayDate)
+
+		if(_displayType == _todayDate) {
 			_displayType = DISPLAY_TYPE_TODAY_TASK;
-		else
+		} else {
 		_displayType = DISPLAY_TYPE_DATE + _displayType + COLON;
+		}
 	}
 
 }
 
-//set the content of the display going to be printed 
+/*SET THE CONTENT OF THE DISPLAY GOING TO BE PRINTED*/
 void TextUI::setDisplay() {
 
 	getDisplayVector();
@@ -347,7 +376,7 @@ void TextUI::getDisplayVector() {
 
 void TextUI::unparseDisplayVector() {
 
-	display = EMPTY_STRING;
+	_display = EMPTY_STRING;
 
 	for ( size_t i=0 ; i < _displayVector->size() ; i++ ) {
 
@@ -357,7 +386,7 @@ void TextUI::unparseDisplayVector() {
 		string startDate = _displayVector->at(i).getStartDate();
 		if (startDate != NULL_STRING) {
 			startDate = formatDate(startDate);
-			if (startDate == todayDate)
+			if (startDate == _todayDate)
 				startDate = DISPLAY_TYPE_TODAY;
 		}
 
@@ -368,7 +397,7 @@ void TextUI::unparseDisplayVector() {
 		string endDate = _displayVector->at(i).getEndDate();
 		if (endDate != NULL_STRING) {
 			endDate = formatDate(endDate);
-			if (startDate == todayDate)
+			if (startDate == _todayDate)
 				startDate = DISPLAY_TYPE_TODAY;
 		}
 
@@ -377,7 +406,7 @@ void TextUI::unparseDisplayVector() {
 			endTime = formatTime(endTime);
 
 		string status = _displayVector->at(i).getCompletionStatusAsString();
-		display = display + taskName + SEPARATOR + startDate + SEPARATOR + startTime + SEPARATOR + endDate + SEPARATOR + endTime + SEPARATOR + status + SEPARATOR;
+		_display = _display + taskName + SEPARATOR + startDate + SEPARATOR + startTime + SEPARATOR + endDate + SEPARATOR + endTime + SEPARATOR + status + SEPARATOR;
 	}
 }
 
@@ -387,10 +416,9 @@ void TextUI::getDeadlineVector() {
 
 }
 
-
 void TextUI::unparseDeadlineVector() {
 
-	displayDeadline = EMPTY_STRING;
+	_displayDeadline = EMPTY_STRING;
 
 	for ( size_t i=0 ; i < _deadlineVector->size() ; i++ ) {
 
@@ -398,7 +426,7 @@ void TextUI::unparseDeadlineVector() {
 
 		string endDate = _deadlineVector->at(i).getEndDate();
 		endDate = formatDate(endDate);
-			if (endDate == todayDate)
+			if (endDate == _todayDate)
 				endDate = DISPLAY_TYPE_TODAY;			
 
 		string endTime = _deadlineVector->at(i).getEndTime();
@@ -407,48 +435,64 @@ void TextUI::unparseDeadlineVector() {
 		string status = _deadlineVector->at(i).getCompletionStatusAsString();
 
 		if (status == TASK_STATUS_UNDONE)
-			displayDeadline = displayDeadline + taskName + SEPARATOR + endDate + SEPARATOR + endTime + SEPARATOR;
+			_displayDeadline = _displayDeadline + taskName + SEPARATOR + endDate + SEPARATOR + endTime + SEPARATOR;
 	}
 }
 
-
+/*CHANGE THE DATE FORMAT FROM DDMMYYYY TO DD MMM YYYY*/
 string TextUI::formatDate(string date) {
 
 	string day = date.substr(0,2);
-	if( day == FIRST || day == SECOND || day == THIRD || day == FOURTH || day == FIFTH || day == SIXTH || day == SEVENTH || day == EIGHTH || day == NINTH )
+
+	if ( day == FIRST || day == SECOND || day == THIRD || day == FOURTH || day == FIFTH || day == SIXTH || day == SEVENTH || day == EIGHTH || day == NINTH ) {
 		day = day.substr(1,1);
+	}
+
 	string month = date.substr(2,2);
 	string year = date.substr(4,4);
 
-	if (month == FIRST)
+	if (month == FIRST) {
 		date = day + SPACE + JANUARY + SPACE + year;
-	if (month == SECOND)
+	}
+	if (month == SECOND) {
 		date = day + SPACE + FEBRUARY + SPACE + year;
-	if (month == THIRD)
+	}
+	if (month == THIRD) {
 		date = day + SPACE + MARCH + SPACE + year;
-	if (month == FOURTH)
+	}
+	if (month == FOURTH) {
 		date = day + SPACE + APRIL + SPACE + year;
-	if (month == FIFTH)
+	}
+	if (month == FIFTH) {
 		date = day + SPACE + MAY + SPACE + year;
-	if (month == SIXTH)
+	}
+	if (month == SIXTH) {
 		date = day + SPACE + JUNE + SPACE + year;
-	if (month == SEVENTH)
+	}
+	if (month == SEVENTH) {
 		date = day + SPACE + JULY + SPACE + year;
-	if (month == EIGHTH)
+	}
+	if (month == EIGHTH) {
 		date = day + SPACE + AUGUST + SPACE + year;
-	if (month == NINTH)
+	}
+	if (month == NINTH) {
 		date = day + SPACE + SEPTEMBER + SPACE + year;
-	if (month == TENTH)
+	}
+	if (month == TENTH) {
 		date = day + SPACE + OCTOBER + SPACE + year;
-	if (month == ELEVENTH)
+	}
+	if (month == ELEVENTH) {
 		date = day + SPACE + NOVEMBER + SPACE + year;
-	if (month == TWELFTH)
+	}
+	if (month == TWELFTH) {
 		date = day + SPACE + DECEMBER + SPACE + year;
+	}
 
 	return date;
 
 }
 
+/*CHANGE THE TIME FORMAT FROM HHMM TO HH:MM*/
 string TextUI::formatTime(string time) {
 
 	string hour = time.substr(0,2);
@@ -476,33 +520,31 @@ string Display::convertToCorrectFormat(string taskName) {
 }
 */
 
-//return ONE string of display for GUI class
+/*RETURN ONE STRING OF DISPLAY TO GUI*/
 string TextUI::showDisplay() {
 
-	return display;
+	return _display;
 }
 
+/*RETURN ONE STRING OF DEADLINE TASK TO GUI*/
 string TextUI::showDeadline() {
 
-	return displayDeadline;
+	return _displayDeadline;
 }
 
+/*RETURN NO OF TASK IN THE DISPLAY*/
 int TextUI::getNoOfTask() {
-	noOfTask = _displayVector->size();
-	return noOfTask;
+
+	_noOfTask = _displayVector->size();
+	return _noOfTask;
 }
 
+/*RETURN NO OF DEADLINE TASK DEADLINE DISPLAY*/
 int TextUI::getNoOfDeadline() {
-	noOfDeadline = _deadlineVector->size();
-	return noOfDeadline;
-}
 
-/*
-void TextUI::showToUser(string text) {
-	cout << text << endl;
+	_noOfDeadline = _deadlineVector->size();
+	return _noOfDeadline;
 }
-*/
-
 
 TextUI::TextUI(void) {
 }

@@ -1,5 +1,7 @@
+//@author A0113938B
+
 //this class act as the bridge between Logic and GUI.
-//it contains messages that would be displayed to user as feedbacks
+//it contains tasks that would be displayed to user
 //as well as passing the correct feedback message based on the command type
 //passes user command to Logic and receive feedback message and display
 
@@ -116,21 +118,22 @@ public:
 	vector<string>* _feedback;
 	vector<Task>* _displayVector;
 	vector<Task>* _deadlineVector;
-	string feedback;
-	string display;
-	string displayDeadline;
-	string todayDate;
+	string _feedbackString;
+	string _display;
+	string _displayDeadline;
+	string _todayDate;
 	string _displayType;
 	string _errorType;
-	int noOfTask;
-	int noOfDeadline;
+	int _noOfTask;
+	int _noOfDeadline;
 
     COMMAND_TYPE_FEEDBACK determineCommandType(string commandTypeString);
+
     void displayResult();
     void displayTaskList();
 	string getFeedbackResult();
     void setFeedback(string userCommand);
-    //void showToUser(string text);
+	void displayFeedbackAccordingToType();
 	void displayedFeedback(string message);
 	void displayedFeedback();
 	void processErrorFeedback();
