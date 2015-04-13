@@ -2,6 +2,13 @@
 
 string TextUI::EMPTY_STRING = "";
 string TextUI::SPACE = " ";
+string TextUI::SEPARATOR = "]";
+
+string TextUI::FEEDBACK_SUCCESSFUL = "successful";
+string TextUI::FEEDBACK_UNSUCCESSFUL = "unsuccessful";
+
+string TextUI::TASK_STATUS_DONE = "done";
+string TextUI::TASK_STATUS_UNDONE = "undone";
 
 //string TextUI::MESSAGE_WELCOME = "Hello. Welcome to CONSTAN!";
 string TextUI::MESSAGE_ADDED = "Task added: ";
@@ -11,6 +18,7 @@ string TextUI::MESSAGE_DISPLAYED = "Task displayed: ";
 string TextUI::MESSAGE_UNDONE = "Command undone.";
 string TextUI::MESSAGE_MARKED = "Task marked: ";
 string TextUI::MESSAGE_UNMARKED = "Task unmarked: ";
+string TextUI::MESSAGE_SAVED = "Task saved: ";
 
 string TextUI::ERROR1_MESSAGE = "Error: Please enter task name e.g. add -t My task ..";
 string TextUI::ERROR2_MESSAGE = "Error: Please specify when do you want to end this task";
@@ -33,6 +41,21 @@ string TextUI::ERROR_INVALID_DATE_TIME = "ERROR: Invalid date or time.";
 string TextUI::ERROR_OTHERS = "ERROR.";
 
 //string TextUI::HELP_USER_GUIDE = "General Command: \n1. Undo : \"undo\" \n2. Redo : \"redo\" \n3. Search : \"search [keyword(s)]\" \n\nTask Manipulation Commands: \n1. Creating/Adding task : \"add [task name] -s [start time] -e [end time]\" \n2. Displaying task : \"display\" \n3. Deleting task : \"delete [task index]\" \n4. Editing task : \"edit [task number] [task name] -s [start time] -e [end time]\" \n5. Mark task as done : \"mark [task index]\" \n6. Unmark \'done\' task : \"unmark [task index]\" ";
+
+string TextUI::STARTS_FROM = " starts from ";
+string TextUI::UNTIL = " to ";
+string TextUI::DUE = " due ";
+
+string TextUI::DISPLAY_TYPE_ALL = "all";
+string TextUI::DISPLAY_TYPE_TODAY = "today";
+string TextUI::DISPLAY_TYPE_TOMORROW = "tomorrow";
+string TextUI::DISPLAY_TYPE_SEARCH = "search";
+string TextUI::DISPLAY_TYPE_ALL_TASK = "All task:";
+string TextUI::DISPLAY_TYPE_TODAY_TASK = "Today's task:";
+string TextUI::DISPLAY_TYPE_TOMORROW_TASK = "Tomorrow's task:";
+string TextUI::DISPLAY_TYPE_SEARCH_TASK = "Search result(s):";
+string TextUI::DISPLAY_TYPE_DATE = "Task on ";
+string TextUI::COLON = ":";
 
 string TextUI::JANUARY = "Jan";
 string TextUI::FEBRUARY = "Feb";
@@ -63,7 +86,7 @@ string TextUI::TWELFTH = "12";
 /*RECEIVE USER INPUT FROM GUI AND PASS IT TO LOGIC*/
 //set the feedback and display
 void TextUI::processUserInput(string userCommand) {
-//	string cmd = userCommand;
+
 	toLogic.processCommand(userCommand);
 
 	setFeedback(userCommand);
@@ -76,7 +99,7 @@ void TextUI::setFeedback(string userCommand) {
 
 	_feedback = toLogic.getFeedback();
 
-	if ( _feedback->at(1) == "successful" ) {
+	if ( _feedback->at(1) == FEEDBACK_SUCCESSFUL ) {
 
 		string commandTypeString = _feedback->front();
 
@@ -104,12 +127,15 @@ void TextUI::setFeedback(string userCommand) {
 		case UNMARK_TASK:
 			displayedFeedback(MESSAGE_UNMARKED);
 			return;
+		case SAVE_TASK:
+			displayedFeedback(MESSAGE_SAVED);
+			return;
 		default:
 			displayedFeedback();
 			return;
 		}
 
-	} else if ( _feedback->at(1) == "unsuccessful" ) {
+	} else if ( _feedback->at(1) == FEEDBACK_UNSUCCESSFUL ) {
 
 		_errorType = _feedback->at(2);
 		processErrorFeedback();
@@ -121,29 +147,32 @@ void TextUI::setFeedback(string userCommand) {
 /*CHANGE COMMAND TYPE FROM STRING TO ENUM*/
 TextUI::COMMAND_TYPE_FEEDBACK TextUI::determineCommandType(string commandTypeString) {
 
-	if(commandTypeString == "add")
+	if(commandTypeString == COMMAND_ADD)
 		return COMMAND_TYPE_FEEDBACK::ADD_TASK;
 
-	if (commandTypeString == "delete")
+	if (commandTypeString == COMMAND_DELETE)
 		return COMMAND_TYPE_FEEDBACK::DELETE_TASK;
 
-	if (commandTypeString == "edit")
+	if (commandTypeString == COMMAND_EDIT)
 		return COMMAND_TYPE_FEEDBACK::EDIT_TASK;
 
-	if (commandTypeString == "display")
+	if (commandTypeString == COMMAND_DISPLAY)
 		return COMMAND_TYPE_FEEDBACK::DISPLAY_TASK;
 
-	if (commandTypeString == "undo")
+	if (commandTypeString == COMMAND_UNDO)
 		return COMMAND_TYPE_FEEDBACK::UNDO_TASK;
 
-	if (commandTypeString == "mark")
+	if (commandTypeString == COMMAND_MARK)
 		return COMMAND_TYPE_FEEDBACK::MARK_TASK;
 	
-	if (commandTypeString == "unmark")
+	if (commandTypeString == COMMAND_UNMARK)
 		return COMMAND_TYPE_FEEDBACK::UNMARK_TASK;
 
-	if (commandTypeString == "search")
+	if (commandTypeString == COMMAND_SEARCH)
 		return COMMAND_TYPE_FEEDBACK::SEARCH_TASK;
+
+	if (commandTypeString == COMMAND_SAVE)
+		return COMMAND_TYPE_FEEDBACK::SAVE_TASK;
 
 	else {
 		return COMMAND_TYPE_FEEDBACK::INVALID_TASK;
@@ -168,7 +197,7 @@ string TextUI::getFeedbackResult() {
 	string feedbackResult;
 	string commandType = _feedback->at(0);
 
-	if (commandType == "display" || commandType == "search" || commandType == "undo") {
+	if ( commandType == COMMAND_DISPLAY || commandType == COMMAND_SEARCH || commandType == COMMAND_UNDO || commandType == COMMAND_SAVE ) {
 		feedbackResult = _feedback->at(2);
 	
 	} else {
@@ -177,29 +206,29 @@ string TextUI::getFeedbackResult() {
 		feedbackResult = taskName;
 
 		string startDate = _feedback->at(3);
-		if (startDate != "NULL") {
+		if (startDate != NULL_STRING) {
 			startDate = formatDate(startDate);
 		}
 
 		string startTime = _feedback->at(4);
-		if (startTime != "NULL") {
+		if (startTime != NULL_STRING) {
 			startTime = formatDate(startTime);
 		}
 
 		string endDate = _feedback->at(5);
-		if (endDate != "NULL") {
+		if (endDate != NULL_STRING) {
 			endDate = formatDate(endDate);
 		}
 
 		string endTime = _feedback->at(6);
-		if (endTime != "NULL") {
+		if (endTime != NULL_STRING) {
 			endTime = formatDate(endTime);
 		}
 
-		if (startDate != "NULL")
-			feedbackResult = taskName + " starts from " + startDate + " " + startTime + " to " + endDate + " " + endTime;
-		else if (endDate != "NULL")
-			feedbackResult = taskName + " due " + endDate + " " + endTime;
+		if (startDate != NULL_STRING)
+			feedbackResult = taskName + STARTS_FROM + startDate + SPACE + startTime + UNTIL + endDate + SPACE + endTime;
+		else if (endDate != NULL_STRING)
+			feedbackResult = taskName + DUE + endDate + SPACE + endTime;
 		else
 			feedbackResult = taskName;
 	}
@@ -256,8 +285,6 @@ void TextUI::getTodayDateString() {
 	todayDate = formatDate(todayDate);
 }
 
-
-
 //pass the string of feedback to GUI
 string TextUI::showFeedback() {
 
@@ -280,24 +307,24 @@ void TextUI::getCurrentDisplayType() {
 
 void TextUI::unparseCurrentDisplayType() {
 
-	if (_displayType == "all")
-		_displayType = "All task:";
+	if (_displayType == DISPLAY_TYPE_ALL)
+		_displayType = DISPLAY_TYPE_ALL_TASK;
 
-	else if (_displayType == "today") 
-		_displayType = "Today's task:";
+	else if (_displayType == DISPLAY_TYPE_TODAY) 
+		_displayType = DISPLAY_TYPE_TODAY_TASK;
 
-	else if (_displayType == "tomorrow")
-		_displayType = "Tomorrow's task:";
+	else if (_displayType == DISPLAY_TYPE_TOMORROW)
+		_displayType = DISPLAY_TYPE_TOMORROW_TASK;
 
-	else if (_displayType == "search")
-		_displayType = "Search result(s):";
+	else if (_displayType == DISPLAY_TYPE_SEARCH)
+		_displayType = DISPLAY_TYPE_SEARCH_TASK;
 
 	else {
 		_displayType = formatDate(_displayType);
 		if(_displayType == todayDate)
-			_displayType = "Today's task:";
+			_displayType = DISPLAY_TYPE_TODAY_TASK;
 		else
-		_displayType = "Task on " + _displayType + ":";
+		_displayType = DISPLAY_TYPE_DATE + _displayType + COLON;
 	}
 
 }
@@ -328,29 +355,29 @@ void TextUI::unparseDisplayVector() {
 		//taskName = convertToCorrectFormat(taskName);
 
 		string startDate = _displayVector->at(i).getStartDate();
-		if (startDate != "NULL") {
+		if (startDate != NULL_STRING) {
 			startDate = formatDate(startDate);
 			if (startDate == todayDate)
-				startDate = "today";
+				startDate = DISPLAY_TYPE_TODAY;
 		}
 
 		string startTime = _displayVector->at(i).getStartTime();
-		if (startTime != "NULL")
+		if (startTime != NULL_STRING)
 			startTime = formatTime(startTime);
 
 		string endDate = _displayVector->at(i).getEndDate();
-		if (endDate != "NULL") {
+		if (endDate != NULL_STRING) {
 			endDate = formatDate(endDate);
 			if (startDate == todayDate)
-				startDate = "today";
+				startDate = DISPLAY_TYPE_TODAY;
 		}
 
 		string endTime = _displayVector->at(i).getEndTime();
-		if (endTime != "NULL")
+		if (endTime != NULL_STRING)
 			endTime = formatTime(endTime);
 
 		string status = _displayVector->at(i).getCompletionStatusAsString();
-		display = display + taskName + "]" + startDate + "]" + startTime + "]" + endDate + "]" + endTime + "]" + status + "]";
+		display = display + taskName + SEPARATOR + startDate + SEPARATOR + startTime + SEPARATOR + endDate + SEPARATOR + endTime + SEPARATOR + status + SEPARATOR;
 	}
 }
 
@@ -372,15 +399,15 @@ void TextUI::unparseDeadlineVector() {
 		string endDate = _deadlineVector->at(i).getEndDate();
 		endDate = formatDate(endDate);
 			if (endDate == todayDate)
-				endDate = "today";			
+				endDate = DISPLAY_TYPE_TODAY;			
 
 		string endTime = _deadlineVector->at(i).getEndTime();
 			endTime = formatTime(endTime);
 
 		string status = _deadlineVector->at(i).getCompletionStatusAsString();
 
-		if (status == "undone")
-			displayDeadline = displayDeadline + taskName + "]" + endDate + "]" + endTime + "]";
+		if (status == TASK_STATUS_UNDONE)
+			displayDeadline = displayDeadline + taskName + SEPARATOR + endDate + SEPARATOR + endTime + SEPARATOR;
 	}
 }
 
@@ -427,7 +454,7 @@ string TextUI::formatTime(string time) {
 	string hour = time.substr(0,2);
 	string min = time.substr(2,2);
 
-	time = hour + ":" + min;
+	time = hour + COLON + min;
 
 	return time;
 }
