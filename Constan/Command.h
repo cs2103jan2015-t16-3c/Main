@@ -16,6 +16,7 @@ static const string COMMAND_SEARCH = "search";
 static const string COMMAND_UNDO = "undo";
 static const string COMMAND_UNMARK = "unmark";
 static const string COMMAND_INVALID = "invalid";
+static const string COMMAND_SAVE = "save";
 static const string STATUS_SUCCESSFUL = "successful";
 static const string STATUS_UNSUCCESSFUL = "unsuccessful";
 static const string NULL_STRING = "NULL";

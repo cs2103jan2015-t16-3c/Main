@@ -1,11 +1,11 @@
 #include "TaskManager.h"
 
 TaskManager::TaskManager() {
+//	string fileName;
+	_fileName = retrieveFileName();
 	load();
 	updateTaskIDOnLoad();
-	string fileName;
-	fileName = retrieveFileName();
-	setFileName(fileName);
+//	setFileName(fileName);
 }
 
 TaskManager::~TaskManager() {
@@ -35,7 +35,9 @@ string TaskManager::retrieveFileName() {
 	string fileName;
 	ifstream ifs(FILE_NAME_KEEPER);
 	getline(ifs, fileName);
-
+	if (fileName == "") { 
+		fileName = "data.txt";
+	}
 	return fileName;
 }
 
@@ -66,7 +68,6 @@ void TaskManager::save() {
 //each line representing a task is stored as an individual vector
 //a new task is constructed from this data and saved to _tasks
 void TaskManager::load() {
-	TaskManager* getInstance();
 	_tasks.clear();
 
 	string wholeTask;

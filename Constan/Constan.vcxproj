@@ -19,6 +19,7 @@
     <ClInclude Include="CommandInverseEdit.h" />
     <ClInclude Include="CommandMark.h" />
     <ClInclude Include="CommandEdit.h" />
+    <ClInclude Include="CommandSave.h" />
     <ClInclude Include="CommandSearch.h" />
     <ClInclude Include="CommandUndo.h" />
     <ClInclude Include="CommandUnmark.h" />
@@ -37,6 +38,7 @@
     <ClCompile Include="CommandInverseEdit.cpp" />
     <ClCompile Include="CommandMark.cpp" />
     <ClCompile Include="CommandEdit.cpp" />
+    <ClCompile Include="CommandSave.cpp" />
     <ClCompile Include="CommandSearch.cpp" />
     <ClCompile Include="CommandUndo.cpp" />
     <ClCompile Include="CommandUnmark.cpp" />

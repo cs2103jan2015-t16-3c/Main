@@ -1,8 +1,9 @@
 #include "CommandDisplay.h"
 
 
-CommandDisplay::CommandDisplay(string displayType) {
-	if(isNumberFound(displayType)){
+CommandDisplay::CommandDisplay(string displayType, vector<Task>* currentDisplay, string currentDisplayIndicator) {
+	_currentDisplayIndicator = currentDisplayIndicator;
+/*	if(isNumberFound(displayType)){
 		_displayType = displayType;
 	} else {
 		toStringLower(displayType);
@@ -15,7 +16,9 @@ CommandDisplay::CommandDisplay(string displayType) {
 		} else {
 			_displayType = DISPLAY_INVALID;
 		}
-	}
+	}*/
+	 _currentDisplay = currentDisplay;
+	_displayType = displayType;
 }
 
 bool CommandDisplay::isNumberFound(string input) {
@@ -41,7 +44,7 @@ void CommandDisplay::execute() {
 }
 
 vector<Task>* CommandDisplay::updateDisplay() {
-	if (_displayType != DISPLAY_INVALID) {
+	if (_displayType != NULL_STRING) {
 		_executionStatus = STATUS_SUCCESSFUL;
 		return generateDisplay();
 	} else {
@@ -54,7 +57,7 @@ vector<Task>* CommandDisplay::updateDisplay() {
 vector<Task>* CommandDisplay::generateDisplay() {
 	_timedTaskVector = TaskManager::getInstance()->retrieveTimedTask(_displayType);
 	_deadlineVector  = TaskManager::getInstance()->retrieveDeadline(_displayType);
-	_floatingTaskVector  = TaskManager::getInstance()->retrieveFloatingTask(_displayType);
+	_floatingTaskVector  = TaskManager::getInstance()->retrieveFloatingTask(DISPLAY_ALL);
 	_mergedDisplay = _timedTaskVector;
 	_mergedDisplay->insert (_mergedDisplay->end(), _deadlineVector->begin(), _deadlineVector->end());
 	_mergedDisplay->insert (_mergedDisplay->end(), _floatingTaskVector->begin(), _floatingTaskVector->end());
@@ -62,7 +65,7 @@ vector<Task>* CommandDisplay::generateDisplay() {
 }
 
 string CommandDisplay::updateDisplayIndicator() {
-	if (_displayType != DISPLAY_INVALID) {
+	if (_displayType != NULL_STRING) {
 		_executionStatus = STATUS_SUCCESSFUL;
 	} else {
 		_executionStatus = STATUS_UNSUCCESSFUL;

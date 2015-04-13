@@ -16,7 +16,7 @@ private:
 	int _numberOfResults;
 
 public:
-	CommandSearch(string keyword);
+	CommandSearch(string keyword, string currentDisplayIndicator);
 	~CommandSearch(void);
 
 	void execute();

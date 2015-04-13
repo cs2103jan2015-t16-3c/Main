@@ -1,7 +1,7 @@
 #pragma once
+
 #ifndef LOGIC_H_
 #define LOGIC_H_
-
 
 #include <string>
 #include <vector>
@@ -13,27 +13,30 @@
 using namespace std;
 
 class Logic {
+
 private:
+	Parser parser;	
 	vector<Task>* _currentDisplay;
 	vector<Task>* _deadlineVector;
-	vector<string>* _feedbackLogic;
+	vector<string>* _feedback;
 	stack<Command*> inverseCommandStack;
-	Parser parser;
+
 	string _todayDate;
-	 string _currentDisplayIndicator;
+	string _currentDisplayIndicator;
+
+	void updateLogicAttributes(Command* cmd);
 
 public:
 	Logic();
-	~Logic(void);
+	~Logic();
 	void processCommand(string input);
-	//vector<string>* getDisplay();
 	vector<string>* getFeedback();
+	vector<Task>* getDisplayVector();
 	vector<Task>* getDeadlineVector();
 	string getTodayDate();
 	string getCurrentDisplayIndicator();
 
-	vector<Task>* getDisplayVector();
-//	string getFeedback();
+	//vector<string>* getDisplay();
 };
 
 #endif
