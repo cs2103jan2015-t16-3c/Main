@@ -31,13 +31,22 @@ namespace ConstanTest
 			vector<Task>* displayVector;
 			logic.processCommand("add -t task1 -s 13042015 1000 -e 13042015 1100");
 			displayVector = logic.getDisplayVector();
-			Task* expectedTask = new Task("task1", "13042015", "1000", "13042015", "1100", "timed");
 			Assert::AreEqual(string("task1"), displayVector->at(0).getTaskName());
 			Assert::AreEqual(string("13042015"), displayVector->at(0).getStartDate());
 			Assert::AreEqual(string("1000"), displayVector->at(0).getStartTime());
 			Assert::AreEqual(string("13042015"), displayVector->at(0).getEndDate());
 			Assert::AreEqual(string("1100"), displayVector->at(0).getEndTime());
 		}
+		
+		TEST_METHOD(CommandAdd_UpdateDisplayIndicator)
+		{
+			Logic logic;
+			string displayIndicator;
+			logic.processCommand("add -t task1 -s 13042015 1000 -e 13042015 1100");
+			displayIndicator = logic.getCurrentDisplayIndicator();
+			Assert::AreEqual(string("13042015"), displayIndicator);
+		}
+
 
 
 	};

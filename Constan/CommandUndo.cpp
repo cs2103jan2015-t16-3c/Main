@@ -12,13 +12,14 @@ void CommandUndo::execute() {
 		_inverseCommandStack->pop();
 		recentCommand->execute();
 	}
+	_executionStatus = STATUS_SUCCESSFUL;
 }
 
 vector<string>* CommandUndo::updateFeedback() {
 	_feedback = new vector<string>;
 	_feedback->push_back (COMMAND_UNDO);
-	_feedback->push_back (STATUS_SUCCESSFUL);
-	_feedback->push_back ("");
+	_feedback->push_back (_executionStatus);
+	_feedback->push_back (EMPTY_STRING);
 	return _feedback;
 }
 
@@ -26,7 +27,6 @@ Command* CommandUndo::getInverseCommand() {
 	return NULL;
 }
 
-/*CommandUndo::~CommandUndo(void)
-{
+/*CommandUndo::~CommandUndo(void) {
 }
 */
