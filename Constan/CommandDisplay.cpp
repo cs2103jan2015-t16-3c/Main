@@ -3,22 +3,14 @@
 
 CommandDisplay::CommandDisplay(string displayType, vector<Task>* currentDisplay, string currentDisplayIndicator) {
 	_currentDisplayIndicator = currentDisplayIndicator;
-/*	if(isNumberFound(displayType)){
-		_displayType = displayType;
-	} else {
-		toStringLower(displayType);
-		if (displayType == DISPLAY_TODAY){
-			_displayType = DISPLAY_TODAY;
-		} else if (displayType == DISPLAY_TOMORROW) {
-			_displayType = DISPLAY_TOMORROW;
-		} else if (displayType == DISPLAY_ALL) {
-			_displayType = DISPLAY_ALL;
-		} else {
-			_displayType = DISPLAY_INVALID;
-		}
-	}*/
 	 _currentDisplay = currentDisplay;
 	_displayType = displayType;
+}
+
+CommandDisplay::~CommandDisplay(void) {
+}
+
+void CommandDisplay::execute() {
 }
 
 bool CommandDisplay::isNumberFound(string input) {
@@ -34,13 +26,6 @@ void CommandDisplay::toStringLower(string& input) {
 	for (unsigned int i = 0; i < input.size(); i++) {
 		input[i] = tolower(input[i]);
 	}
-}
-
-
-CommandDisplay::~CommandDisplay(void) {
-}
-
-void CommandDisplay::execute() {
 }
 
 vector<Task>* CommandDisplay::updateDisplay() {

@@ -1,13 +1,9 @@
 #include "Command.h"
 
-
-Command::Command(void)
-{
+Command::Command() {
 }
 
-
-Command::~Command(void)
-{
+Command::~Command() {
 }
 
 void Command::execute(){
@@ -24,7 +20,6 @@ vector<Task>* Command::updateDisplay(){
 	_mergedDisplay = _timedTaskVector;
 	_mergedDisplay->insert (_mergedDisplay->end(), _deadlineVector->begin(), _deadlineVector->end());
 	_mergedDisplay->insert (_mergedDisplay->end(), _floatingTaskVector->begin(), _floatingTaskVector->end());
-	//merge (_timedTaskVector.begin(), _timedTaskVector.end(), _deadlineVector.begin(), _deadlineVector.end(), _mergedDisplay.begin(), Compare_Task());
 	return _mergedDisplay;
 }
 
@@ -38,9 +33,6 @@ string Command::updateDisplayIndicator() {
 
 vector<Task>* Command::updateDeadline() {
 	_deadlineVector = TaskManager::getInstance()->retrieveDeadline(DISPLAY_ALL);
-//	_mergedDisplay = _deadlineVector;
-//	_deadlineVector = TaskManager::getInstance()->retrieveDeadline(DISPLAY_TOMORROW);
-//	_mergedDisplay->insert (_mergedDisplay->end(), _deadlineVector->begin(), _deadlineVector->end());
 	return _deadlineVector;
 }
 

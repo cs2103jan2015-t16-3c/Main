@@ -35,8 +35,6 @@ public:
 	vector<Task>* getDeadlineVector();
 	string getTodayDate();
 	string getCurrentDisplayIndicator();
-
-	//vector<string>* getDisplay();
 };
 
 #endif

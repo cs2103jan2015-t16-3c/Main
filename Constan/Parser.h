@@ -117,7 +117,7 @@ public:
 	void getTaskName(vector<string> &inputVector);
 	void splitInput(vector<string>* inputVector, string input);
 	void toStringLower(string& input);
-	void generateTaskID();
+//	void generateTaskID();
 	void getReportType(vector<string> &inputVector);
 	void getFileName(vector<string> &inputVector);
 

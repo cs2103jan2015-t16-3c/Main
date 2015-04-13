@@ -22,6 +22,7 @@ void Logic::processCommand(string input) {
 	parser.updateInverseCommandStack(&inverseCommandStack);
 }
 
+
 void Logic::updateLogicAttributes(Command* cmd) {
 	_currentDisplayIndicator = cmd->updateDisplayIndicator();
 	_currentDisplay = cmd->updateDisplay();
@@ -49,10 +50,3 @@ string Logic::getTodayDate() {
 string Logic::getCurrentDisplayIndicator() {
 	return _currentDisplayIndicator;
 }
-
-
-/*
-vector<string>* Logic::getDisplay() {
-	return parser.unparse(_currentDisplay);
-}
-*/

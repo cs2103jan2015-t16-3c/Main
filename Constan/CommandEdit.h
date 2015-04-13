@@ -22,9 +22,9 @@ public:
 	~CommandEdit(void);
 
 	void execute();
-//	vector<Task>* updateDisplay();
 	vector<string>* updateFeedback();
 	Command* getInverseCommand();
+	void processEdit();
 	bool isIndexValid();
 	bool isStartAndEndTimeValid();
 	bool isEditValid();

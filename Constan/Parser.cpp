@@ -14,10 +14,10 @@ Command* Parser::parse(string input) {
 	return translateInput(inputVector);
 }
 
-void Parser::generateTaskID(){
-	_count++;
-	_taskID = _count;
-}
+//void Parser::generateTaskID(){
+//	_count++;
+//	_taskID = _count;
+//}
 
 void Parser::updateDisplay (vector<Task>* currentDisplay) {
 	_currentDisplay = currentDisplay;
@@ -43,8 +43,8 @@ Command* Parser::translateInput(vector<string>& inputVector) {
 				getTaskName(inputVector);	
 				getStartingTime(inputVector);
 				getEndingTime(inputVector);
-				generateTaskID();
-				CommandAdd* addTask = new CommandAdd (_taskName, _startDate, _startTime, _endDate, _endTime, _taskID, _currentDisplay, _currentDisplayIndicator);
+				//generateTaskID();
+				CommandAdd* addTask = new CommandAdd (_taskName, _startDate, _startTime, _endDate, _endTime, _currentDisplay, _currentDisplayIndicator);
 				return addTask;
 			}
 	} else if (commandType == DELETE_IT) {

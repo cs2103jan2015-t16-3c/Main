@@ -12,9 +12,8 @@ CommandDelete::CommandDelete(vector<Task>* currentDisplay, int taskID) {
 	_currentDisplay = currentDisplay;
 }
 
-//CommandDelete::~CommandDelete(void)
-//{
-//}
+CommandDelete::~CommandDelete() {
+}
 
 void CommandDelete::execute() {
 	if (_taskID == EMPTY_NUMBER) {
