@@ -1,11 +1,10 @@
+//@author A0112528M
 #include "Logger.h"
 
 Logger::Logger(void) {
-
 }
 
 Logger::~Logger(void) {
-
 }
 
 void Logger::log(string logMessage) {

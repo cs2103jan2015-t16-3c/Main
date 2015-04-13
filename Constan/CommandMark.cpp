@@ -1,3 +1,4 @@
+//@author A0116661J
 #include "CommandMark.h"
 
 CommandMark::CommandMark(int index, vector<Task>* currentDisplay, string currentDisplayIndicator) {
@@ -8,6 +9,9 @@ CommandMark::CommandMark(int index, vector<Task>* currentDisplay, string current
 }
 
 CommandMark::CommandMark(vector<Task>* currentDisplay, int taskID) {
+	
+	assert(_taskID != EMPTY_NUMBER);
+
 	_taskID = taskID;
 	_currentDisplay = currentDisplay;
 }

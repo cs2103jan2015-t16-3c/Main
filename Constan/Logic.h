@@ -1,3 +1,4 @@
+//@author A0116661J
 #pragma once
 
 #ifndef LOGIC_H_
@@ -26,9 +27,11 @@ private:
 	void updateLogicAttributes(Command* cmd);
 
 public:
+	//Constructor for Logic
 	Logic();
+
 	~Logic();
-	void processCommand(string input);
+	void processCommand(string input);	
 	vector<string>* getFeedback();
 	vector<Task>* getDisplayVector();
 	vector<Task>* getDeadlineVector();

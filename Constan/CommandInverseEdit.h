@@ -1,3 +1,4 @@
+//@author A0114148M
 #pragma once
 
 #ifndef COMMANDINVERSEEDIT_H_
@@ -12,7 +13,9 @@ class CommandInverseEdit :
 	public Command {
 
 public:
+	//Constructor for CommandInverseEdit
 	CommandInverseEdit(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime, bool isComplete);
+	
 	~CommandInverseEdit();
 	void execute();
 };

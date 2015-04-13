@@ -1,3 +1,4 @@
+//@author A0112528M
 #ifndef TASKMANAGER_H_
 #define TASKMANAGER_H_
 
@@ -29,6 +30,7 @@ static const string TASK_DELETED = "Task deleted";
 static const string TASK_DELETED_ALL = "All tasks deleted";
 static const string TASKS_SORTED_ALPHABETICALLY = "Tasks sorted alphabetically";
 static const string TASKS_SORTED_BY_DEADLINE = "Tasks sorted by deadline";
+static const string TASKS_SORTED_BY_STARTING_TIME = "Tasks sorted by starting time";
 
 class TaskManager {
 private:
@@ -77,6 +79,7 @@ public:
 	string getType (string taskName, string startDate, string startTime, string endDate, string endTime);
 	void sortTasksByAscendingAlphabet();
 	void sortTasksByNearestDeadline();
+	void sortTasksByNearestStartingTime();
 	void getTaskDetails(int taskID, string &prevTaskName, string &prevStartDate, string &prevStartTime, string &prevEndDate, string &prevEndTime, bool &isPrevComplete);
 
 	//the following are support functions
@@ -86,6 +89,7 @@ public:
 	bool convertStatusToBool(string completionStatus);
 	static bool TaskManager::keyLowestAlphabet(Task& a, Task& b);
 	static bool TaskManager::keyNearestDeadline(Task& a, Task& b);
+	static bool TaskManager::keyNearestStartingTime(Task& a, Task& b);
 
 	string TaskManager::processCurrentTime();
 	string processToday();

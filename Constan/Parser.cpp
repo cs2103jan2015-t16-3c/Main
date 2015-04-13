@@ -1,13 +1,15 @@
+//@author A0116661J
 #include "Parser.h"
 
 Parser::Parser () {
 }
 
+//This constructor takes inverseCommandStack and initialise Parser's own _inverseCommandStack to it.
 Parser::Parser(stack<Command*>* inverseCommandStack){
 	_inverseCommandStack = inverseCommandStack;
-	_count = 0;
 }
 
+//takes in user input and returns Command object pointer
 Command* Parser::parse(string input) {
 	vector<string> inputVector;
 	splitInput(&inputVector, input);
@@ -26,6 +28,7 @@ void Parser::updateInverseCommandStack(stack<Command*> *inverseCommandStack) {
 	_inverseCommandStack = inverseCommandStack;
 }
 
+//@author A0116180R
 Command* Parser::translateInput(vector<string>& inputVector) {
 	COMMAND_TYPE commandType = determineCommandType(inputVector[0]);
 	_report = INVALID_COMMAND_DEFAULT;
@@ -116,6 +119,7 @@ Command* Parser::translateInput(vector<string>& inputVector) {
 	}
 }
 
+//@author A0116180R
 void Parser::getReportType(vector<string> &inputVector){
 	string input = inputVector[0];
 	toStringLower(input);
@@ -138,6 +142,7 @@ void Parser::getReportType(vector<string> &inputVector){
 	}
 }
 
+//@author A0116661J
 void Parser::getFileName(vector<string> &inputVector) {
 	_fileName = inputVector[1];
 }
@@ -146,6 +151,8 @@ void Parser::getKeyword(vector<string> &inputVector) {
 	_keyword = inputVector[1];	
 }
 
+//takes in user input index and returns it as int
+//returns false if the input has alphabet in it
 void Parser::getIndex(vector<string> &inputVector) {
 	if (isAlphabetFound(inputVector[1])){
 		_index = INDEX_NOT_FOUND;
@@ -159,6 +166,7 @@ void Parser::getIndex(vector<string> &inputVector) {
 	}
 }
 
+//returns the location of the first delimiter (-t or -s or -e) found
 int Parser::findFirstDelimiter(vector<string> &inputVector) {
 	for (unsigned int i = 0; i < inputVector.size(); i++){
 		if (isDelimiter(inputVector[i])){
@@ -168,9 +176,10 @@ int Parser::findFirstDelimiter(vector<string> &inputVector) {
 	return INDEX_NOT_FOUND;
 }
 
+//takes in input as a string and returns it in the DDMMYYYY format
 void Parser::getDisplayType(vector<string> &inputVector) {
 	string tempString = EMPTY_STRING;	
-	int index = 1;
+	unsigned int index = 1;
 	while (index < inputVector.size() && !isDelimiter(inputVector[index])){
 		tempString = tempString + WHITE_SPACE + inputVector[index];
 		index++;
@@ -182,6 +191,7 @@ void Parser::getDisplayType(vector<string> &inputVector) {
 	}
 }
 
+//returns the type of the task
 void Parser::getType() {
 	if (_startTime != NULL_STRING && _endTime != NULL_STRING) {
 		_type = TASK_TYPE_TIMED;
@@ -192,6 +202,8 @@ void Parser::getType() {
 	}
 }
 
+//returns true if "-s" is found
+//if found, it assigns index to the location of "-s"
 bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, size_t &index) {
 	for (unsigned int i = 0; i<inputVector.size(); i++){
 		if (inputVector[i] == DELIMITER_STARTTIME){
@@ -202,6 +214,8 @@ bool Parser::isStartTimeDelimiterFound(vector<string> &inputVector, size_t &inde
 	return false;
 }
 
+//returns true if "-e" is found
+//if found, it assigns index to the location of "-e"
 bool Parser::isEndTimeDelimiterFound(vector<string> &inputVector, size_t &index) {
 	for (unsigned int i = 0; i<inputVector.size(); i++){
 		if (inputVector[i] == DELIMITER_ENDTIME){
@@ -212,6 +226,8 @@ bool Parser::isEndTimeDelimiterFound(vector<string> &inputVector, size_t &index)
 	return false;
 }
 
+//returns true if "-t" is found
+//if found, it assigns index to the location of "-t"
 bool Parser::isTaskNameDelimiterFound(vector<string> &inputVector, size_t &index) {
 	for (unsigned int i = 0; i<inputVector.size(); i++){
 		if (inputVector[i] == DELIMITER_TASKNAME){
@@ -222,6 +238,7 @@ bool Parser::isTaskNameDelimiterFound(vector<string> &inputVector, size_t &index
 	return false;
 }
 
+//returns true if input is one of the delimiters (-t or -s or -e)
 bool Parser::isDelimiter (string input) {
 	if (input == DELIMITER_TASKNAME || input == DELIMITER_STARTTIME || input == DELIMITER_ENDTIME) {
 		return true;
@@ -403,10 +420,7 @@ void Parser::splitInput(vector<string>* inputVector, string input) {
 	}
 }
 
-
-
-
-
+//@author A0116180R
 string Parser::processToday(){
 	time_t t = time(0); 
 	char tmp[64]; 

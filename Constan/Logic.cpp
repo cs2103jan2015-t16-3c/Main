@@ -1,3 +1,4 @@
+//@author A0116661J
 #include "Logic.h"
 
 Logic::Logic(): parser (&inverseCommandStack) {

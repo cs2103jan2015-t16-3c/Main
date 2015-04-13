@@ -1,3 +1,4 @@
+//@author A0112528M
 #include "TaskManager.h"
 
 TaskManager::TaskManager() {
@@ -111,6 +112,7 @@ void TaskManager::load() {
 	ifs.close();
 }
 
+//@author A0116661J
 int TaskManager::addTask(string taskName, string startDate, string startTime, string endDate, string endTime) {
 	string type;
 	type = getType(taskName, startDate, startTime, endDate, endTime);
@@ -124,6 +126,7 @@ int TaskManager::addTask(string taskName, string startDate, string startTime, st
 	return _taskID;
 }
 
+//@author A0116661J
 void TaskManager::markTask(int taskID) {
 	Task* taskToMark = findTask(taskID);
 	taskToMark->setCompletionStatus(true);
@@ -132,6 +135,7 @@ void TaskManager::markTask(int taskID) {
 	logger.log(TASK_MARKED_DONE);
 }
 
+//@author A0116661J
 void TaskManager::unmarkTask(int taskID) {
 	Task* taskToMark = findTask(taskID);
 	taskToMark->setCompletionStatus(false);
@@ -140,6 +144,7 @@ void TaskManager::unmarkTask(int taskID) {
 	logger.log(TASK_MARKED_UNDONE);
 }
 
+//@author A0116661J
 void TaskManager::getTaskDetails(int taskID, string &prevTaskName, string &prevStartDate, string &prevStartTime, string &prevEndDate, string &prevEndTime, bool &isPrevComplete) {
 	Task* taskToInspect = findTask(taskID);
 	prevTaskName = taskToInspect->getTaskName();
@@ -150,6 +155,7 @@ void TaskManager::getTaskDetails(int taskID, string &prevTaskName, string &prevS
 	isPrevComplete = taskToInspect->getCompletionStatus();
 }
 
+//@author A0112528M
 void TaskManager::editTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime) {
 	Task* taskToEdit = findTask(taskID);
 	if (taskName != DEFAULT_TASK_NAME && taskName != EMPTY_STRING) {
@@ -173,6 +179,7 @@ void TaskManager::editTask(int taskID, string taskName, string startDate, string
 	save();
 }
 
+//@author A0112528M
 //completely overwrites a task
 void TaskManager::overwriteTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime, bool isComplete) {
 	Task* taskToEdit = findTask(taskID);	
@@ -189,6 +196,7 @@ void TaskManager::overwriteTask(int taskID, string taskName, string startDate, s
 	logger.log(TASK_EDITED);
 }
 
+//@author A0116661J
 //returns type of task depending on task information
 string TaskManager::getType(string taskName, string startDate, string startTime, string endDate, string endTime) {
 	if (startTime != DEFAULT_START_TIME && endTime != DEFAULT_END_TIME) {
@@ -202,6 +210,7 @@ string TaskManager::getType(string taskName, string startDate, string startTime,
 	}
 }
 
+//@author A0112528M
 Task* TaskManager::findTask(int taskID) {
 	vector<Task>::iterator taskIter;
 	for (taskIter= _tasks.begin() ; taskIter != _tasks.end() ; taskIter++) {
@@ -212,6 +221,7 @@ Task* TaskManager::findTask(int taskID) {
 	return NULL;
 }
 
+//@author A0112528M
 string TaskManager::getTaskName(int taskID) {
 	vector<Task>::iterator taskIter;
 	for (taskIter= _tasks.begin(); taskIter != _tasks.end(); taskIter++) {
@@ -222,6 +232,7 @@ string TaskManager::getTaskName(int taskID) {
 	return CANNOT_FIND_TASK;
 }
 
+//@author A0116661J
 string TaskManager::getTaskType(int taskID) {
 	vector<Task>::iterator taskIter;
 	for (taskIter= _tasks.begin(); taskIter != _tasks.end(); taskIter++) {
@@ -232,6 +243,7 @@ string TaskManager::getTaskType(int taskID) {
 	return CANNOT_FIND_TASK;
 }
 
+//@author A0112528M
 void TaskManager::incrementTaskID() {
 	_taskID++;
 }
@@ -263,10 +275,12 @@ void TaskManager::clearAllTasks() {
 	logger.log(TASK_DELETED_ALL);
 }
 
+//@author A0116661J
 string TaskManager::retrieveTodayDate() {
 	return processToday();
 }
 
+//@author A0112528M
 //takes in a word to search for
 //returns a vector of Tasks in whose name the search term appears
 vector<Task>* TaskManager::searchForString(string keyword) {
@@ -294,6 +308,7 @@ vector<Task> TaskManager::retrieveTodaysTasks(string todaysDate) {
 	return searchResults;
 }
 
+//@author A0116661J
 string TaskManager::processTimeIndicator(string input) {
 	if (input == DISPLAY_TODAY) {
 		return processToday();
@@ -306,6 +321,7 @@ string TaskManager::processTimeIndicator(string input) {
 	}
 }
 
+//@author A0116661J
 vector<Task>* TaskManager::retrieveTimedTask(string timeIndicator) {
 	vector<Task>* timedTaskVector = new vector<Task>;
 	_timeIndicator = processTimeIndicator(timeIndicator);
@@ -324,6 +340,7 @@ vector<Task>* TaskManager::retrieveTimedTask(string timeIndicator) {
 	}
 }
 
+//@author A0116661J
 bool TaskManager::isTaskStillOngoing(Task taskInput, string timeIndicator) {
 	if (isDate1BeforeDate2(timeIndicator, taskInput.getStartDate())) {
 		return false;
@@ -334,6 +351,7 @@ bool TaskManager::isTaskStillOngoing(Task taskInput, string timeIndicator) {
 	}
 }
 
+//@author A0116661J
 bool TaskManager::isDate1BeforeDate2(string date1, string date2) {
 	string modifiedDate1 = date1.substr(4,4) + date1.substr(2,2) + date1.substr(0,2);
 	string modifiedDate2 = date2.substr(4,4) + date2.substr(2,2) + date2.substr(0,2);
@@ -344,6 +362,7 @@ bool TaskManager::isDate1BeforeDate2(string date1, string date2) {
 	}
 }
 
+//@author A0116661J
 vector<Task>* TaskManager::retrieveFloatingTask(string timeIndicator) {
 	vector<Task>* floatingTaskVector = new vector<Task>;
 	_timeIndicator = processTimeIndicator(timeIndicator);
@@ -362,6 +381,7 @@ vector<Task>* TaskManager::retrieveFloatingTask(string timeIndicator) {
 	}
 }
 
+//@author A0116661J
 vector<Task>* TaskManager::retrieveDeadline(string timeIndicator) {
 	vector<Task>* deadlineVector = new vector<Task>;
 	_timeIndicator = processTimeIndicator(timeIndicator);
@@ -379,7 +399,9 @@ vector<Task>* TaskManager::retrieveDeadline(string timeIndicator) {
 	}
 }
 
+//@author A0116661J
 void TaskManager::getTimedTaskVector(vector<Task>* timedTaskVector){
+	sortTasksByNearestStartingTime();
 	for (unsigned int i = 0; i < _tasks.size(); i++) {
 		if (_tasks[i].getType() == TASK_TYPE_TIMED) {
 			timedTaskVector->push_back(_tasks[i]);
@@ -387,7 +409,9 @@ void TaskManager::getTimedTaskVector(vector<Task>* timedTaskVector){
 	}
 }
 
+//@author A0116661J
 void TaskManager::getFloatingTaskVector(vector<Task>* floatingTaskVector) {
+	sortTasksByAscendingAlphabet();
 	for (unsigned int i = 0; i < _tasks.size(); i++) {
 		if (_tasks[i].getType() == TASK_TYPE_FLOATING) {
 			floatingTaskVector->push_back(_tasks[i]);
@@ -395,7 +419,9 @@ void TaskManager::getFloatingTaskVector(vector<Task>* floatingTaskVector) {
 	}
 }
 
+//@author A0116661J
 void TaskManager::getDeadlineVector(vector<Task>* deadlineVector) {
+	sortTasksByNearestDeadline();
 	for (unsigned int i = 0; i < _tasks.size(); i++) {
 		if (_tasks[i].getType() == TASK_TYPE_DEADLINE) {
 			deadlineVector->push_back(_tasks[i]);
@@ -403,6 +429,7 @@ void TaskManager::getDeadlineVector(vector<Task>* deadlineVector) {
 	}
 }
 
+//@author A0112528M
 vector<Task>* TaskManager::retrieveOverdueTasks() {
 	vector<Task>* overdueTasks;
 	string todaysDate = convertDate(retrieveTodayDate());
@@ -437,6 +464,14 @@ void TaskManager::sortTasksByNearestDeadline() {
 	logger.log(TASKS_SORTED_BY_DEADLINE);
 }
 
+//@author A0116661J
+void TaskManager::sortTasksByNearestStartingTime() {
+	sort(_tasks.begin(), _tasks.end(), keyNearestStartingTime);
+	save();
+	logger.log(TASKS_SORTED_BY_STARTING_TIME);
+}
+
+//@author A0112528M
 //takes in a string with all task info concatenated with whitespace between words
 //returns a vector of strings containing the individual words
 vector<string> TaskManager::splitParameters(string wholeTask) {
@@ -516,6 +551,26 @@ bool TaskManager::keyNearestDeadline(Task& a, Task& b) {
    }
 } 
 
+//@author A0116661J
+bool TaskManager::keyNearestStartingTime(Task& a, Task& b) { 
+	if (a.getStartDate().substr(4, 4) != b.getStartDate().substr(4, 4)) {
+	   return (a.getStartDate().substr(4, 4) < b.getStartDate().substr(4, 4));
+   }
+   else if (a.getStartDate().substr(2, 2) != b.getStartDate().substr(2, 2)) {
+	   return (a.getStartDate().substr(2, 2) < b.getStartDate().substr(2, 2));
+   }
+   else if (a.getStartDate().substr(0, 2) != b.getStartDate().substr(0, 2)) {
+	   return (a.getStartDate().substr(0, 2) < b.getStartDate().substr(0, 2));
+   }
+   else if (a.getStartTime() != b.getStartTime()) {
+	   return (a.getStartTime() < b.getStartTime());
+   }
+   else {
+	   return false;
+   }
+} 
+
+//@author A0112528M
 string TaskManager::processCurrentTime() {
 	time_t t = time(0); 
 	char tmp[64]; 
@@ -532,6 +587,7 @@ string TaskManager::convertDate(string date) {
 	return yearMonthDayFormat;
 }
 
+//@author A0116180R
 string TaskManager::processToday(){
 	time_t t = time(0); 
 	char tmp[64]; 
@@ -541,6 +597,7 @@ string TaskManager::processToday(){
 	return today;
 }
 
+//@author A0116180R
 string TaskManager::processTomorrow(){
 	time_t t = time(0); 
 	char tmp[64]; 
@@ -567,6 +624,7 @@ string TaskManager::processTomorrow(){
 	}
 }
 
+//@author A0116180R
 bool TaskManager::checkEndOfMonth(int day, string month){
 	if(month == "01" && day == 32){
 		return true;
@@ -608,6 +666,7 @@ bool TaskManager::checkEndOfMonth(int day, string month){
 	return false;
 }
 
+//@author A0116180R
 string TaskManager::intToString(int inputInt){
 
 	stringstream outputStream;
@@ -621,6 +680,7 @@ string TaskManager::intToString(int inputInt){
 	return outputStream.str();
 }
 
+//@author A0116180R
 int TaskManager::stringToInt(string inputString){
 	int outputInt;
 	istringstream outputStream(inputString);

@@ -1,9 +1,11 @@
+//@author A0114148M
 #pragma once
 
 #ifndef COMMAND_H_
 #define COMMAND_H_
 
 #include <string>
+#include <assert.h>
 #include "Task.h"
 #include "TaskManager.h"
 
@@ -56,7 +58,9 @@ protected:
 	bool _isComplete;
 
 public:
+	//Constructor for Command
 	Command();
+
 	~Command();
 	virtual void execute();
 	virtual Command* getInverseCommand();

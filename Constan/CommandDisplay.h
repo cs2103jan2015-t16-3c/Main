@@ -1,3 +1,4 @@
+//@author A0116661J
 #pragma once
 
 #ifndef COMMANDDISPLAY_H_
@@ -13,7 +14,9 @@ class CommandDisplay :
 private:
 	string _displayType;
 public:
+	//Constructor for CommandDisplay
 	CommandDisplay(string displayType, vector<Task>* currentDisplay, string currentDisplayIndicator);
+
 	~CommandDisplay();
 	void execute();
 	vector<Task>* updateDisplay();

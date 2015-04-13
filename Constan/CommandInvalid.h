@@ -1,3 +1,4 @@
+//@author A0116661J
 #pragma once
 
 #ifndef COMMANDINVALID_H_
@@ -10,7 +11,9 @@ class CommandInvalid :
 private:
 	string _report;
 public:
+	//Constructor for CommandInvalid
 	CommandInvalid(string report,  string currentDisplayIndicator);
+	
 	~CommandInvalid();
 	void execute();
 	vector<string>* updateFeedback();

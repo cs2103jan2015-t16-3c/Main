@@ -1,3 +1,4 @@
+//@author A0114148M
 #pragma once
 
 #ifndef COMMANDUNDO_H_
@@ -18,7 +19,9 @@ private:
 	Command* recentCommand;
 
 public:
+	//Constructor for CommandUndo
 	CommandUndo(stack<Command*>* inverseCommandStack,  string currentDisplayIndicator);
+	
 	~CommandUndo();
 	void execute();
 	Command* getInverseCommand();

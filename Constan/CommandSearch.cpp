@@ -1,3 +1,4 @@
+//@author A0116661J
 #include "CommandSearch.h"
 
 CommandSearch::CommandSearch(string keyword, string currentDisplayIndicator) {

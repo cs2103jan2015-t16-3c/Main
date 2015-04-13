@@ -1,3 +1,4 @@
+//@author A0116661J
 #pragma once
 
 #ifndef COMMANDSEARCH_H_
@@ -17,7 +18,9 @@ private:
 	int _numberOfResults;
 
 public:
+	////Constructor for CommandSearch
 	CommandSearch(string keyword, string currentDisplayIndicator);
+	
 	~CommandSearch();
 	void execute();
 	vector<Task>* updateDisplay();

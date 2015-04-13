@@ -1,5 +1,5 @@
+//@author A0114148M
 #include "CommandEdit.h"
-
 
 CommandEdit::CommandEdit(int index, string taskName, string startDate, string startTime, string endDate, string endTime, vector<Task>* currentDisplay, string currentDisplayIndicator) {
 	_index = index;

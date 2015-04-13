@@ -1,3 +1,4 @@
+//@author A0114148M
 #pragma once
 
 #ifndef COMMANDDELETE_H_
@@ -27,6 +28,8 @@ public:
 	void getTaskDetails();
 	void execute();
 	vector<string>* updateFeedback();
+
+	//returns CommandAdd object to support undo function
 	Command* getInverseCommand();
 
 	//packages the details of a Task into vector<string> to be passed to Logic as the feedback

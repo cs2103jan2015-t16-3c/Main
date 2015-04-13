@@ -1,3 +1,4 @@
+//@author A0116661J
 #pragma once
 
 #ifndef PARSER_H_
@@ -76,7 +77,6 @@ private:
 	string _currentDisplayIndicator;
 	string _fileName;
 	int _taskID;
-	int _count;
 	int _index;
 	vector<Task>* _currentDisplay;
 	vector<string>* _vectorString;

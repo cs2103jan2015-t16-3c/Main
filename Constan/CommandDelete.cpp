@@ -1,3 +1,4 @@
+//@author A0114148M
 #include "CommandDelete.h"
 
 CommandDelete::CommandDelete(int index, vector<Task>* currentDisplay, string currentDisplayIndicator) {
@@ -8,6 +9,9 @@ CommandDelete::CommandDelete(int index, vector<Task>* currentDisplay, string cur
 }
 
 CommandDelete::CommandDelete(vector<Task>* currentDisplay, int taskID) {
+
+	assert(_taskID != EMPTY_NUMBER);
+
 	_taskID = taskID;
 	_currentDisplay = currentDisplay;
 }

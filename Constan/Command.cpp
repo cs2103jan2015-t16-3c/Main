@@ -1,3 +1,4 @@
+//@author A0114148M
 #include "Command.h"
 
 Command::Command() {
@@ -53,6 +54,9 @@ bool Command::isIndexValid() {
 }
 
 void Command::getTaskID() {
+
+	assert(_taskID == EMPTY_NUMBER);
+
 	if (isIndexValid()) {
 			_taskID = _currentDisplay->at(_index-1).getTaskID();
 	} else {

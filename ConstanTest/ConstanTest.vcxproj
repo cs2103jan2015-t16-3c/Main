@@ -61,7 +61,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\Constan\Debug;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Command.obj;CommandAdd.obj;CommandDelete.obj;CommandDisplay.obj;CommandEdit.obj;CommandSearch.obj;CommandUndo.obj;Logic.obj;Main.obj;Parser.obj;Task.obj;TaskManager.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Command.obj;CommandAdd.obj;CommandDelete.obj;CommandDisplay.obj;CommandEdit.obj;CommandSearch.obj;CommandUndo.obj;Logic.obj;Parser.obj;Task.obj;TaskManager.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -95,12 +95,14 @@
     <ClCompile Include="CommandMarkTest.cpp" />
     <ClCompile Include="CommandSearchTest.cpp" />
     <ClCompile Include="CommandUnmarkTest.cpp" />
+    <ClCompile Include="LoggerTest.cpp" />
     <ClCompile Include="LogicTest.cpp" />
     <ClCompile Include="ParserTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TaskManagerTest.cpp" />
     <ClCompile Include="TextUITest.cpp" />
   </ItemGroup>
   <ItemGroup>

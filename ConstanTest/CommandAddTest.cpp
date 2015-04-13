@@ -1,3 +1,4 @@
+//@author A0114148M
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "CommandAdd.h"
@@ -14,7 +15,8 @@ namespace ConstanTest
 		TEST_METHOD(CommandAdd_GetInverseCommand)
 		{
 			vector<Task>* _currentDisplay = new vector<Task>;
-			Command* cmd = new CommandAdd ("dinner", "11042015", "1000", "11042015", "1100", 1, _currentDisplay);
+			string _currentDisplayIndicator;
+			Command* cmd = new CommandAdd ("dinner", "11042015", "1000", "11042015", "1100", _currentDisplay, _currentDisplayIndicator);
 			Command* invCommand = cmd->getInverseCommand();
 			CommandDelete* inv2 = dynamic_cast<CommandDelete*>(invCommand);
 			Assert::IsNotNull(inv2);// assert that invCommand is of type CommandDelete
@@ -25,11 +27,11 @@ namespace ConstanTest
 		{
 			Logic logic;
 			vector<string>* feedback;
-			logic.processCommand("add -t task1 -s 13042015 1000 -e 13042015 1100");
+			logic.processCommand("add -t meeting -s 13042015 1000 -e 13042015 1100");
 			feedback = logic.getFeedback();
 			Assert::AreEqual(string("add"), feedback->at(0));
 			Assert::AreEqual(string("successful"), feedback->at(1));
-			Assert::AreEqual(string("task1"), feedback->at(2));
+			Assert::AreEqual(string("meeting"), feedback->at(2));
 			Assert::AreEqual(string("13042015"), feedback->at(3));
 			Assert::AreEqual(string("1000"), feedback->at(4));
 			Assert::AreEqual(string("13042015"), feedback->at(5));
@@ -40,9 +42,9 @@ namespace ConstanTest
 		{
 			Logic logic;
 			vector<Task>* displayVector;
-			logic.processCommand("add -t task1 -s 13042015 1000 -e 13042015 1100");
+			logic.processCommand("add -t meeting -s 13042015 1000 -e 13042015 1100");
 			displayVector = logic.getDisplayVector();
-			Assert::AreEqual(string("task1"), displayVector->at(0).getTaskName());
+			Assert::AreEqual(string("meeting"), displayVector->at(0).getTaskName());
 			Assert::AreEqual(string("13042015"), displayVector->at(0).getStartDate());
 			Assert::AreEqual(string("1000"), displayVector->at(0).getStartTime());
 			Assert::AreEqual(string("13042015"), displayVector->at(0).getEndDate());

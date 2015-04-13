@@ -1,5 +1,5 @@
+//@author A0116661J
 #include "CommandDisplay.h"
-
 
 CommandDisplay::CommandDisplay(string displayType, vector<Task>* currentDisplay, string currentDisplayIndicator) {
 	_currentDisplayIndicator = currentDisplayIndicator;

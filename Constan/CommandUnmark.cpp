@@ -1,3 +1,4 @@
+//@author A0114148M
 #include "CommandUnmark.h"
 
 CommandUnmark::CommandUnmark(int index, vector<Task>* currentDisplay, string currentDisplayIndicator) {
@@ -8,6 +9,9 @@ CommandUnmark::CommandUnmark(int index, vector<Task>* currentDisplay, string cur
 }
 
 CommandUnmark::CommandUnmark(vector<Task>* currentDisplay, int taskID) {
+	
+	assert(_taskID != EMPTY_NUMBER);
+
 	_taskID = taskID;
 	_currentDisplay = currentDisplay;
 }

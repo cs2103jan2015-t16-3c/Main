@@ -1,3 +1,4 @@
+//@author A0116661J
 #pragma once
 
 #ifndef COMMANDADD_H_
@@ -24,7 +25,7 @@ public:
 	void execute();
 	vector<string>* updateFeedback();
 	
-	//returns CommandDelete object to delete the newly created Task
+	//returns CommandDelete object to support undo function
 	Command* getInverseCommand();
 	
 	//checks the Task member fields received from Parser.
