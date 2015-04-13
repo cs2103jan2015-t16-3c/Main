@@ -31,13 +31,15 @@ namespace GUIProject {
 	TextUI userInterface;
 
 	/// <summary>
-	/// Summary for ConstanGUI
+	/// ConstanGUI creates a Graphical User Interface for Task manager app CONSTAN.
+	/// The GUI consisted of 3 main elements: input textbox, task display (ListView type), and feedback box
+	/// additional elements include: Welcome & today's date widget, Deadline due side box (ListView type)
+	///								 Display's title, search box, help page, and color theme picker.
+	/// user can type input in input textbox and search textbox.
+	/// user can also enter input for mark/unmark using the checkboxes available in the task display
 	/// </summary>
 	public ref class ConstanGUI : public System::Windows::Forms::Form
 	{
-
-
-
 
 	public:
 		ConstanGUI(void)
@@ -65,11 +67,7 @@ namespace GUIProject {
 
 	protected: 
 
-
-
 	private: System::Windows::Forms::TextBox^  InputTextBox;
-	//private: System::Resources::ResourceManager^ Resources;
-
 
 	private: System::Windows::Forms::ListView^  listViewDisplay;
 	private: System::Windows::Forms::ColumnHeader^  taskHeader;
@@ -121,12 +119,6 @@ namespace GUIProject {
 
 	private: System::Windows::Forms::Label^  helpLabel4;
 
-
-
-
-
-
-
 	private: System::Windows::Forms::Label^  helpPageClose;
 
 	private: System::Windows::Forms::Label^  helpLabel11;
@@ -139,9 +131,6 @@ namespace GUIProject {
 	private: System::Windows::Forms::Label^  helpLabel16;
 	private: System::Windows::Forms::Label^  helpLabel5;
 	private: System::Windows::Forms::Label^  helpLabel6;
-
-
-
 
 	protected: 
 
@@ -823,7 +812,7 @@ namespace GUIProject {
 #pragma endregion
 
 /*USER OPEN APP*/
-//clear all the display
+//clear all the display from previous use
 //set initial display -> Today's task and deadline due
 private: System::Void ConstanGUI_Load(System::Object^  sender, System::EventArgs^  e) {
 
@@ -845,11 +834,10 @@ private: System::Void ConstanGUI_Load(System::Object^  sender, System::EventArgs
 
 /*USER PRESS ENTER ON INPUT TEXTBOX*/
 //get user input and pass it to TextUI class
-//print the display
-private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
-			 
+//print the displays
+private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {		 
 
-			 if (e->KeyChar == /*Keys::Enter*/ (char)13){
+			 if (e->KeyChar == /*Keys::Enter*/ (char)13) {
 
 				 String^ SYSTEM_EMPTY_STRING = gcnew String(EMPTY_STRING.c_str());
 
@@ -896,7 +884,8 @@ private: System::Void InputTextBox_KeyPress_1(System::Object^  sender, System::W
 //print the resulted display
 private: System::Void searchTextBox_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
 			
-			 if (e->KeyChar == /*Keys::Enter*/ (char)13){
+			 if (e->KeyChar == /*Keys::Enter*/ (char)13) {
+
 				 feedbackLabel->Text = "";
 				 //clear the display box first
 				 listViewDisplay->Items->Clear(); 
@@ -951,139 +940,154 @@ private: System::Void Print() {
 			 listViewGroup3->Name = L"FloatingGroup";
 			 
 			 this->listViewDisplay->Groups->AddRange(gcnew cli::array< System::Windows::Forms::ListViewGroup^  >(3) {listViewGroup1, listViewGroup2, listViewGroup3});
+			 
+			 String^ displayResult;
+			 String^ taskComponent;
+			 String^ taskIndex;
+			 String^ taskTitle;
+			 String^ taskStartDate;
+			 String^ taskStartTime;
+			 String^ taskEndDate;
+			 String^ taskEndTime;					  
+			 String^ taskStatus;
+			 String^ SYSTEM_EMPTY_STRING = "";
+			 String^ SYSTEM_NULL_STRING = "NULL";
+			 String^ TASK_STATUS_DONE = "done";
+			 String^ TASK_STATUS_UNDONE = "undone";
+			 
+			 //get A STRING of the tasks list and their details to be displayed from TextUI
+			 stdDisplayResult = userInterface.showDisplay();
+			 displayResult = gcnew String(stdDisplayResult.c_str());
 
-					  String^ displayResult;
-					  String^ taskComponent;
-					  String^ taskIndex;
-					  String^ taskTitle;
-					  String^ taskStartDate;
-					  String^ taskStartTime;
-					  String^ taskEndDate;
-					  String^ taskEndTime;					  
-					  String^ taskStatus;
-					  String^ SYSTEM_EMPTY_STRING = "";
-					  String^ SYSTEM_NULL_STRING = "NULL";
-					  String^ TASK_STATUS_DONE = "done";
-					  String^ TASK_STATUS_UNDONE = "undone";
-					  
-					  //get A STRING of the tasks list and their details to be displayed from TextUI
-					  stdDisplayResult = userInterface.showDisplay();
-					  displayResult = gcnew String(stdDisplayResult.c_str());
+			 int frontTask;
+			 int endTask = -1;
+			 int count;
+			 int index = 1;
 
-					  int frontTask, endTask = -1, count, index = 1;
+			 count = userInterface.getNoOfTask();
 
-					  count = userInterface.getNoOfTask();
+			 while (count > 0) {
+				 /*INDEX*/
+				 taskIndex = System::Convert::ToString(index);
+				 index++;
 
-					  while (count > 0) {
+				 /*TITLE*/
+				 frontTask = endTask + 1;
+				 //extract the task title
+				 endTask = stdDisplayResult.find_first_of(SEPARATOR, frontTask);
+				 stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+				 //convert to std string
+				 taskComponent = gcnew String(stdTaskComponent.c_str());
+				 //add into a system string object
+				 taskTitle = taskComponent;
 
-						  /*INDEX*/
-						  taskIndex = System::Convert::ToString(index);
-						  index++;
+				 /*START DATE*/
+				 frontTask = endTask + 1;
+				 //extract the task's start date
+				 endTask = stdDisplayResult.find_first_of(SEPARATOR, frontTask);
+				 stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+				 //convert to std string
+				 taskComponent = gcnew String(stdTaskComponent.c_str());
+				 if (taskComponent == SYSTEM_NULL_STRING) {
+					 taskStartDate = SYSTEM_EMPTY_STRING;
+				 } else {
+					 //add into a system string object
+					 taskStartDate = taskComponent;
+				 }
 
-						  /*TITLE*/
-						  frontTask = endTask + 1;
-						  //extract the task title
-						  endTask = stdDisplayResult.find_first_of(SEPARATOR, frontTask);
-						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
-						  //convert to std string
-						  taskComponent = gcnew String(stdTaskComponent.c_str());
-						  //add into a system string object
-						  taskTitle = taskComponent;
+				 /*START TIME*/
+				 frontTask = endTask + 1;
+				 //extract the task's start time
+				 endTask = stdDisplayResult.find_first_of(SEPARATOR, frontTask);
+				 stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+				 //convert to std string
+				 taskComponent = gcnew String(stdTaskComponent.c_str());
+				 if (taskComponent == SYSTEM_NULL_STRING) {
+					 taskStartTime = SYSTEM_EMPTY_STRING;
+				 } else {
+					 //add into a system string object
+					 taskStartTime = taskComponent;
+				 }
 
-						  /*START DATE*/
-						  frontTask = endTask + 1;
-						  //extract the task's start date
-						  endTask = stdDisplayResult.find_first_of(SEPARATOR, frontTask);
-						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
-						  //convert to std string
-						  taskComponent = gcnew String(stdTaskComponent.c_str());
-						  if(taskComponent == SYSTEM_NULL_STRING)
-							  taskStartDate = SYSTEM_EMPTY_STRING;
-						  else
-							  //add into a system string object
-							  taskStartDate = taskComponent;
+				 /*END DATE*/
+				 frontTask = endTask + 1;
+				 //extract the task's end date
+				 endTask = stdDisplayResult.find_first_of(SEPARATOR, frontTask);
+				 stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+				 //convert to std string
+				 taskComponent = gcnew String(stdTaskComponent.c_str());
+				 if (taskComponent == SYSTEM_NULL_STRING) {
+					 taskEndDate = SYSTEM_EMPTY_STRING;
+				 } else {
+					 //add into a system string object
+					 taskEndDate = taskComponent;
+				 }
 
-						  /*START TIME*/
-						  frontTask = endTask + 1;
-						  //extract the task's start time
-						  endTask = stdDisplayResult.find_first_of(SEPARATOR, frontTask);
-						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
-						  //convert to std string
-						  taskComponent = gcnew String(stdTaskComponent.c_str());
-						  if(taskComponent == SYSTEM_NULL_STRING)
-							  taskStartTime = SYSTEM_EMPTY_STRING;
-						  else
-							  //add into a system string object
-							  taskStartTime = taskComponent;
+				 /*END TIME*/
+				 frontTask = endTask + 1;
+				 //extract the task's start time
+				 endTask = stdDisplayResult.find_first_of(SEPARATOR, frontTask);
+				 stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+				 //convert to std string
+				 taskComponent = gcnew String(stdTaskComponent.c_str());
+				 if (taskComponent == SYSTEM_NULL_STRING) {
+					 taskEndTime = SYSTEM_EMPTY_STRING;
+				 } else {
+					 //add into a system string object
+					 taskEndTime = taskComponent;
+				 }
 
-						  /*END DATE*/
-						  frontTask = endTask + 1;
-						  //extract the task's end date
-						  endTask = stdDisplayResult.find_first_of(SEPARATOR, frontTask);
-						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
-						  //convert to std string
-						  taskComponent = gcnew String(stdTaskComponent.c_str());
-						  if(taskComponent == SYSTEM_NULL_STRING)
-							  taskEndDate = SYSTEM_EMPTY_STRING;
-						  else
-							  //add into a system string object
-							  taskEndDate = taskComponent;
+				 /*MARK/UNMARKED*/
+				 frontTask = endTask + 1;
+				 //extract the task's status
+				 endTask = stdDisplayResult.find_first_of(SEPARATOR, frontTask);
+				 stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
+				 //convert to std string
+				 taskComponent = gcnew String(stdTaskComponent.c_str());
+				 //add into a system string object
+				 taskStatus = taskComponent;
 
-						  /*END TIME*/
-						  frontTask = endTask + 1;
-						  //extract the task's start time
-						  endTask = stdDisplayResult.find_first_of(SEPARATOR, frontTask);
-						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
-						  //convert to std string
-						  taskComponent = gcnew String(stdTaskComponent.c_str());
-						  if(taskComponent == SYSTEM_NULL_STRING)
-							  taskEndTime = SYSTEM_EMPTY_STRING;
-						  else
-							  //add into a system string object
-							  taskEndTime = taskComponent;
+				 aListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^  >(6) { taskTitle, taskStartDate, taskStartTime, taskEndDate, taskEndTime, taskIndex }, -1));
 
-						  /*MARK/UNMARKED*/
-						  frontTask = endTask + 1;
-						  //extract the task's status
-						  endTask = stdDisplayResult.find_first_of(SEPARATOR, frontTask);
-						  stdTaskComponent = stdDisplayResult.substr(frontTask, endTask-frontTask);
-						  //convert to std string
-						  taskComponent = gcnew String(stdTaskComponent.c_str());
-						  //add into a system string object
-						  taskStatus = taskComponent;
+				 //group according to task type and mark done/undone
+				 int TICKED = 1;
+				 int UNTICKED = 0;
 
-						  aListViewItem = (gcnew System::Windows::Forms::ListViewItem(gcnew cli::array< System::String^  >(6) { taskTitle, taskStartDate, taskStartTime, taskEndDate, taskEndTime, taskIndex }, -1));
+				 if (taskStartTime != SYSTEM_EMPTY_STRING && taskEndTime != SYSTEM_EMPTY_STRING) {
+					 aListViewItem->Group = listViewGroup1;
 
-						  //group according to task type and mark done/undone
-						  int TICKED = 1;
-						  int UNTICKED = 0;
-						  if(taskStartTime != SYSTEM_EMPTY_STRING && taskEndTime != SYSTEM_EMPTY_STRING) {
-							  aListViewItem->Group = listViewGroup1;
-							  if(taskStatus == TASK_STATUS_DONE) {
-								aListViewItem->StateImageIndex = TICKED;
-								aListViewItem->ForeColor = System::Drawing::Color::LightGray;
-							  } else if(taskStatus == TASK_STATUS_UNDONE)
-								  aListViewItem->StateImageIndex = UNTICKED;
-						  } else if(taskStartTime == SYSTEM_EMPTY_STRING && taskEndTime != SYSTEM_EMPTY_STRING) {
-							  aListViewItem->Group = listViewGroup2;
-							  if(taskStatus == TASK_STATUS_DONE) {
-								aListViewItem->StateImageIndex = TICKED;
-								aListViewItem->ForeColor = System::Drawing::Color::LightGray;
-							  } else if(taskStatus == TASK_STATUS_UNDONE)
-								  aListViewItem->StateImageIndex = UNTICKED;
-						  } else {
-							  aListViewItem->Group = listViewGroup3;
-							  if(taskStatus == TASK_STATUS_DONE) {
-								aListViewItem->StateImageIndex = TICKED;
-								aListViewItem->ForeColor = System::Drawing::Color::LightGray;
-							  } else if(taskStatus == TASK_STATUS_UNDONE)
-								  aListViewItem->StateImageIndex = UNTICKED;
-						  }
+					 if (taskStatus == TASK_STATUS_DONE) {
+						 aListViewItem->StateImageIndex = TICKED;
+						 aListViewItem->ForeColor = System::Drawing::Color::LightGray;
 
-						  listViewDisplay->Items->Add(this->aListViewItem);
+					 } else if (taskStatus == TASK_STATUS_UNDONE)
+						 aListViewItem->StateImageIndex = UNTICKED;
 
-						  count--;
-					  }
+				 } else if (taskStartTime == SYSTEM_EMPTY_STRING && taskEndTime != SYSTEM_EMPTY_STRING) {
+					 aListViewItem->Group = listViewGroup2;
+					 
+					 if (taskStatus == TASK_STATUS_DONE) {
+						 aListViewItem->StateImageIndex = TICKED;
+						 aListViewItem->ForeColor = System::Drawing::Color::LightGray;
+
+					 } else if (taskStatus == TASK_STATUS_UNDONE)
+						 aListViewItem->StateImageIndex = UNTICKED;
+
+				 } else {
+					 aListViewItem->Group = listViewGroup3;
+					 
+					 if (taskStatus == TASK_STATUS_DONE) {
+						 aListViewItem->StateImageIndex = TICKED;
+						 aListViewItem->ForeColor = System::Drawing::Color::LightGray;
+
+					 } else if (taskStatus == TASK_STATUS_UNDONE)
+						 aListViewItem->StateImageIndex = UNTICKED;
+				 }
+
+				 listViewDisplay->Items->Add(this->aListViewItem);
+
+				 count--;
+			}
 
 					  //clear input box for the next command
 						InputTextBox->Clear();
@@ -1094,6 +1098,7 @@ private: System::Void PrintFeedback() {
 
 			 String^ SYSTEM_EMPTY_STRING = "";
 			 String^ feedbackStr;
+
 			 //get A STRING of feedback message to be displayed from TextUI
 			 feedback = userInterface.showFeedback();
 
@@ -1122,58 +1127,62 @@ private: System::Void PrintDeadline() {
 			//convert std string to System string
 			 deadlineList = gcnew String(stdDisplayResult.c_str());
 
-					  int frontTask, endTask = -1, count, index = 1;
+			 int frontTask;
+			 int endTask = -1;
+			 int count;
+			 int index = 1;
 
-					  count = userInterface.getNoOfDeadline();
+			 count = userInterface.getNoOfDeadline();
 
-					  while (count > 0) {
+			 while (count > 0) {
 
-						  /*TITLE*/
-						  frontTask = endTask + 1;
-						  //extract the task title
-						  endTask = stdDeadline.find_first_of(SEPARATOR, frontTask);
-						  stdTaskComponent = stdDeadline.substr(frontTask, endTask-frontTask);
-						  if (stdTaskComponent.size() < MEDIUM_SIZE_STRING && stdTaskComponent.size() > SMALL_SIZE_STRING)
-							  stdTaskComponent = stdTaskComponent + SMALL_BLANK_SPACE;
-						  if (stdTaskComponent.size() <= SMALL_SIZE_STRING)
-							  stdTaskComponent = stdTaskComponent + LONG_BLANK_SPACE;
-						  //convert to std string
-						  taskComponent = gcnew String(stdTaskComponent.c_str());
-						  //add into a system string object
-						  taskTitle = taskComponent;
+				 /*TITLE*/
+				 frontTask = endTask + 1;
+				 //extract the task title
+				 endTask = stdDeadline.find_first_of(SEPARATOR, frontTask);
+				 stdTaskComponent = stdDeadline.substr(frontTask, endTask-frontTask);
+				 if (stdTaskComponent.size() < MEDIUM_SIZE_STRING && stdTaskComponent.size() > SMALL_SIZE_STRING) {
+					 stdTaskComponent = stdTaskComponent + SMALL_BLANK_SPACE;
+				 }
+				 if (stdTaskComponent.size() <= SMALL_SIZE_STRING) {
+					 stdTaskComponent = stdTaskComponent + LONG_BLANK_SPACE;
+				 }
+				 //convert to std string
+				 taskComponent = gcnew String(stdTaskComponent.c_str());
+				 //add into a system string object
+				 taskTitle = taskComponent;
 
-						  /*END DATE*/
-						  frontTask = endTask + 1;
-						  //extract the task's end date
-						  endTask = stdDeadline.find_first_of(SEPARATOR, frontTask);
-						  stdTaskComponent = stdDeadline.substr(frontTask, endTask-frontTask);
-						  //convert to std string
-						  taskComponent = gcnew String(stdTaskComponent.c_str());
-						  taskEndDate = taskComponent;
+				 /*END DATE*/
+				 frontTask = endTask + 1;
+				 //extract the task's end date
+				 endTask = stdDeadline.find_first_of(SEPARATOR, frontTask);
+				 stdTaskComponent = stdDeadline.substr(frontTask, endTask-frontTask);
+				 //convert to std string
+				 taskComponent = gcnew String(stdTaskComponent.c_str());
+				 taskEndDate = taskComponent;
 
-						  /*END TIME*/
-						  frontTask = endTask + 1;
-						  //extract the task's start time
-						  endTask = stdDeadline.find_first_of(SEPARATOR, frontTask);
-						  stdTaskComponent = stdDeadline.substr(frontTask, endTask-frontTask);
-						  //convert to std string
-						  taskComponent = gcnew String(stdTaskComponent.c_str());
-						  taskEndTime = taskComponent;
+				 /*END TIME*/
+				 frontTask = endTask + 1;
+				 //extract the task's start time
+				 endTask = stdDeadline.find_first_of(SEPARATOR, frontTask);
+				 stdTaskComponent = stdDeadline.substr(frontTask, endTask-frontTask);
+				 //convert to std string
+				 taskComponent = gcnew String(stdTaskComponent.c_str());
+				 taskEndTime = taskComponent;
 
-//CONVERT END DATE TO TODAY OR TOMORROW
-						  deadline = taskEndDate + SPACE + taskEndTime;
+				 deadline = taskEndDate + SPACE + taskEndTime;
 
-						  ListViewItem^ aListViewItem = deadlineListView->Items->Add(taskTitle);
-						  deadlineListView->ForeColor = chosenColor;
-						  deadlineListView->Font = gcnew System::Drawing::Font( L"Calibri",9,System::Drawing::FontStyle::Bold );
+				 ListViewItem^ aListViewItem = deadlineListView->Items->Add(taskTitle);
+				 deadlineListView->ForeColor = chosenColor;
+				 deadlineListView->Font = gcnew System::Drawing::Font( L"Calibri",9,System::Drawing::FontStyle::Bold );
 						 
-						  aListViewItem->UseItemStyleForSubItems = false;
+				 aListViewItem->UseItemStyleForSubItems = false;
 						  
-						  ListViewItem::ListViewSubItem ^ deadlineDateTime =  aListViewItem->SubItems->Add(deadline);
-						  deadlineDateTime->ForeColor = System::Drawing::Color::DimGray;
-						  deadlineDateTime->Font = gcnew System::Drawing::Font( L"Calibri Light",9,System::Drawing::FontStyle::Regular );
+				 ListViewItem::ListViewSubItem ^ deadlineDateTime =  aListViewItem->SubItems->Add(deadline);
+				 deadlineDateTime->ForeColor = System::Drawing::Color::DimGray;
+				 deadlineDateTime->Font = gcnew System::Drawing::Font( L"Calibri Light",9,System::Drawing::FontStyle::Regular );
 						  
-						  count--;
+				 count--;
 
 					 }
 		 }
@@ -1199,28 +1208,28 @@ private: System::Void InputTextBox_TextChanged(System::Object^  sender, System::
 			 String^ INPUT_SEARCH_GUIDE = "search [keyword(s)]";
 			 String^ INPUT_SAVE_GUIDE = "save [directory\\filename.txt]";
 
-			 if(InputTextBox->Text == INPUT_ADD) {
+			 if (InputTextBox->Text == INPUT_ADD) {
 				 feedbackLabel->Text = INPUT_ADD_GUIDE;
 
-			 }else if(InputTextBox->Text == INPUT_DISPLAY) {
+			 } else if (InputTextBox->Text == INPUT_DISPLAY) {
 				 feedbackLabel->Text = INPUT_DISPLAY_GUIDE; 
 
-			 }else if(InputTextBox->Text == INPUT_EDIT) {
+			 } else if (InputTextBox->Text == INPUT_EDIT) {
 				 feedbackLabel->Text = INPUT_EDIT_GUIDE;
 
-			 }else if(InputTextBox->Text == INPUT_DELETE) {
+			 } else if (InputTextBox->Text == INPUT_DELETE) {
 				 feedbackLabel->Text = INPUT_DELETE_GUIDE; 
 
-			 }else if(InputTextBox->Text == INPUT_MARK) {
+			 } else if (InputTextBox->Text == INPUT_MARK) {
 				 feedbackLabel->Text = INPUT_MARK_GUIDE;
 
-			 }else if(InputTextBox->Text == INPUT_UNMARK) {
+			 } else if (InputTextBox->Text == INPUT_UNMARK) {
 				 feedbackLabel->Text = INPUT_UNMARK_GUIDE;
 
-			 }else if(InputTextBox->Text == INPUT_SEARCH) {
+			 } else if (InputTextBox->Text == INPUT_SEARCH) {
 				 feedbackLabel->Text = INPUT_SEARCH_GUIDE;
 
-			 }else if(InputTextBox->Text == INPUT_SAVE) {
+			 } else if (InputTextBox->Text == INPUT_SAVE) {
 				 feedbackLabel->Text = INPUT_SAVE_GUIDE;
 			 }
 		 }
@@ -1242,6 +1251,7 @@ private: System::Void InputTextBox_DoubleClick(System::Object^  sender, System::
 //function run when the user tick/unticked the checkbox
 //print the display
 private: System::Void listViewDisplay_ItemCheck(System::Object^  sender, System::Windows::Forms::ItemCheckEventArgs^  e) {
+
 			 String^ SYSTEM_EMPTY_STRING = "";
 			
 			 feedbackLabel->Text = SYSTEM_EMPTY_STRING;
@@ -1252,11 +1262,11 @@ private: System::Void listViewDisplay_ItemCheck(System::Object^  sender, System:
 			 string unmark = "unmark ";
 			 string mark = "mark ";
 
-			 if(e->CurrentValue == CheckState::Checked) {
+			 if (e->CurrentValue == CheckState::Checked) {
 				 userInterface.processUserInput( unmark + index );
 				 item1->ForeColor = System::Drawing::Color::Black;
 
-			 } else if(e->CurrentValue == CheckState::Unchecked) {
+			 } else if (e->CurrentValue == CheckState::Unchecked) {
 				 userInterface.processUserInput( mark + index );
 				 item1->ForeColor = System::Drawing::Color::LightGray;
 			 }
@@ -1269,11 +1279,13 @@ private: System::Void listViewDisplay_ItemCheck(System::Object^  sender, System:
 
 /*CUSTOM EXIT BUTTON*/
 private: System::Void ExitButton_Click(System::Object^  sender, System::EventArgs^  e) {
-			  Application::Exit();
+			 
+			 Application::Exit();
 		 }
 
 /*CUSTOM MINIMIZE BUTTON*/
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+			
 			 this->WindowState = FormWindowState::Minimized;
 		 }
 
@@ -1531,10 +1543,11 @@ private: System::Void blueTheme_Click(System::Object^  sender, System::EventArgs
 /*HELP BUTTON -> DISPLAY AND CLOSE HELP PAGE WHEN CLICKED*/
 private: System::Void helpButton_Click(System::Object^  sender, System::EventArgs^  e) {
 			 
-			 if (helpDisplayed == false)
+			 if (helpDisplayed == false) {
 				 displayHelp();
-			 else if (helpDisplayed == true)
+			 } else if (helpDisplayed == true) {
 				 closeHelp();			 
+			 }
 
 		 }
 
@@ -1599,10 +1612,11 @@ private: System::Void ConstanGUI_KeyDown(System::Object^  sender, System::Window
 			 /*F1 for help*/
 			if (e->KeyCode == Keys::F1) {
 
-				if (helpDisplayed == false)
+				if (helpDisplayed == false) {
 				 displayHelp();
-				else if (helpDisplayed == true)
+				} else if (helpDisplayed == true) {
 				 closeHelp();
+				}
 			}
 
 			/*CTRL+F for search*/
@@ -1617,13 +1631,13 @@ private: System::Void ConstanGUI_KeyDown(System::Object^  sender, System::Window
 				feedbackLabel->Text = SYSTEM_EMPTY_STRING;
 				listViewDisplay->Items->Clear(); 
 					  
-					  string undo = "undo";
-					  //convert to std string
-					  command = undo;
-					  userInterface.processUserInput(command);
-					  Print();
-					  PrintDisplayType();
-					  PrintFeedback();
+				string undo = "undo";
+				//convert to std string
+				command = undo;
+				userInterface.processUserInput(command);
+				Print();
+				PrintDisplayType();
+				PrintFeedback();
 			}
 
 			/*CTRL+ENTER to enter command*/
@@ -1636,14 +1650,17 @@ private: System::Void ConstanGUI_KeyDown(System::Object^  sender, System::Window
 		 }
 
 
-
-private: System::Void InputTextBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+/*SCROLL UP AND DOWN WITH PGUP AND PGDN*/
+private: System::Void InputTextBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {		 
+			 
+			 //scroll down when pgdn is held down
 			 if (e->KeyCode == Keys::PageDown) {
 				 listViewDisplay->Focus();
 				 SendKeys::SendWait("{PGDN}");
 				 InputTextBox->Focus();
 			 }
 
+			 //scroll up when pgup is held down
 			 else if (e->KeyCode == Keys::PageUp) {
 				 listViewDisplay->Focus();
 				 SendKeys::SendWait("{PGUP}");

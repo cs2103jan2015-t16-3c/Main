@@ -116,21 +116,22 @@ public:
 	vector<string>* _feedback;
 	vector<Task>* _displayVector;
 	vector<Task>* _deadlineVector;
-	string feedback;
-	string display;
-	string displayDeadline;
-	string todayDate;
+	string _feedbackString;
+	string _display;
+	string _displayDeadline;
+	string _todayDate;
 	string _displayType;
 	string _errorType;
-	int noOfTask;
-	int noOfDeadline;
+	int _noOfTask;
+	int _noOfDeadline;
 
     COMMAND_TYPE_FEEDBACK determineCommandType(string commandTypeString);
+
     void displayResult();
     void displayTaskList();
 	string getFeedbackResult();
     void setFeedback(string userCommand);
-    //void showToUser(string text);
+	void displayFeedbackAccordingToType();
 	void displayedFeedback(string message);
 	void displayedFeedback();
 	void processErrorFeedback();
