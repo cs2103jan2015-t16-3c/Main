@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\GUI\ConstanGUI.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\GUI\ConstanGUI.cpp
 	 */
 
 #include "ConstanGUI.h"
@@ -25,14 +25,14 @@ int main(array<String^>^ argv) {
 }
 
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\GUI\ConstanGUI.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\GUI\ConstanGUI.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\GUI\ConstanGUI.h
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\GUI\ConstanGUI.h
 	 */
 
 #pragma once
@@ -1710,14 +1710,14 @@ private: System::Void InputTextBox_KeyDown(System::Object^  sender, System::Wind
 }
 
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\GUI\ConstanGUI.h
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\GUI\ConstanGUI.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\GUI\TextUI.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\GUI\TextUI.cpp
 	 */
 
 #include "TextUI.h"
@@ -2275,14 +2275,14 @@ TextUI::~TextUI(void) {
 }
 
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\GUI\TextUI.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\GUI\TextUI.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\GUI\TextUI.h
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\GUI\TextUI.h
 	 */
 
 
@@ -2451,7 +2451,7 @@ public:
 
 #endif
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\GUI\TextUI.h
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\GUI\TextUI.h
 
 
 

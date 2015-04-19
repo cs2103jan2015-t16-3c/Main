@@ -420,7 +420,7 @@ void Parser::splitInput(vector<string>* inputVector, string input) {
 	}
 }
 
-//@author A0116180R
+//@author A0116180R-reused
 string Parser::processToday(){
 	time_t t = time(0); 
 	char tmp[64]; 
@@ -456,6 +456,7 @@ string Parser::processTomorrow(){
 	}
 }
 
+//@author A0116180R
 bool Parser::checkEndOfMonth(int day, string month){
 	if(month == "01" && day == 32){
 		return true;

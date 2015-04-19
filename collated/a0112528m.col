@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Logger.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\Logger.cpp
 	 */
 
 #include "Logger.h"
@@ -20,14 +20,14 @@ void Logger::log(string logMessage) {
 	ofs << logMessage << endl;
 	ofs.close();
 }
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Logger.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\Logger.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Logger.h
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\Logger.h
 	 */
 
 #ifndef LOGGER_H_
@@ -50,14 +50,14 @@ public:
 };
 
 #endif
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Logger.h
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\Logger.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Task.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\Task.cpp
 	 */
 
 #include "Task.h"
@@ -189,14 +189,14 @@ string Task::getCompletionStatusAsString () {
 		return COMPLETION_FALSE;
 	}
 }
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Task.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\Task.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Task.h
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\Task.h
 	 */
 
 #ifndef TASK_H_
@@ -259,14 +259,14 @@ public:
 };
 
 #endif
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Task.h
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\Task.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 #include "TaskManager.h"
@@ -382,14 +382,14 @@ void TaskManager::load() {
 	ifs.close();
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 void TaskManager::editTask(int taskID, string taskName, string startDate, string startTime, string endDate, string endTime) {
@@ -415,14 +415,14 @@ void TaskManager::editTask(int taskID, string taskName, string startDate, string
 	save();
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 //completely overwrites a task
@@ -441,14 +441,14 @@ void TaskManager::overwriteTask(int taskID, string taskName, string startDate, s
 	logger.log(TASK_EDITED);
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 Task* TaskManager::findTask(int taskID) {
@@ -461,14 +461,14 @@ Task* TaskManager::findTask(int taskID) {
 	return NULL;
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 string TaskManager::getTaskName(int taskID) {
@@ -481,14 +481,14 @@ string TaskManager::getTaskName(int taskID) {
 	return CANNOT_FIND_TASK;
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 void TaskManager::incrementTaskID() {
@@ -522,14 +522,14 @@ void TaskManager::clearAllTasks() {
 	logger.log(TASK_DELETED_ALL);
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 //takes in a word to search for
@@ -559,14 +559,14 @@ vector<Task> TaskManager::retrieveTodaysTasks(string todaysDate) {
 	return searchResults;
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 vector<Task>* TaskManager::retrieveOverdueTasks() {
@@ -603,14 +603,14 @@ void TaskManager::sortTasksByNearestDeadline() {
 	logger.log(TASKS_SORTED_BY_DEADLINE);
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 //takes in a string with all task info concatenated with whitespace between words
@@ -692,14 +692,14 @@ bool TaskManager::keyNearestDeadline(Task& a, Task& b) {
    }
 } 
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 string TaskManager::processCurrentTime() {
@@ -718,14 +718,14 @@ string TaskManager::convertDate(string date) {
 	return yearMonthDayFormat;
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.h
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.h
 	 */
 
 #ifndef TASKMANAGER_H_
@@ -833,14 +833,14 @@ public:
 };
 
 #endif
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.h
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.h
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\LoggerTest.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\ConstanTest\LoggerTest.cpp
 	 */
 
 #include "stdafx.h"
@@ -872,14 +872,14 @@ namespace ConstanTest {
 		}
 	};
 }
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\LoggerTest.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\ConstanTest\LoggerTest.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\TaskManagerTest.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\ConstanTest\TaskManagerTest.cpp
 	 */
 
 #include "stdafx.h"
@@ -1028,7 +1028,7 @@ namespace ConstanTest {
 		}
 	};
 }
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\TaskManagerTest.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\ConstanTest\TaskManagerTest.cpp
 
 
 

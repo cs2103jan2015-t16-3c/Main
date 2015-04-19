@@ -1,0 +1,49 @@
+//@author: a0116180r-reused
+
+
+
+	/**
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\Parser.cpp
+	 */
+
+string Parser::processToday(){
+	time_t t = time(0); 
+	char tmp[64]; 
+	strftime( tmp, sizeof(tmp), "%d%m%Y",localtime(&t) );  
+	string today(tmp);
+
+	return today;
+}
+
+string Parser::processTomorrow(){
+	time_t t = time(0); 
+	char tmp[64]; 
+	strftime(tmp, sizeof(tmp), "%d%m%Y",localtime(&t));  
+	string today(tmp);
+
+	string day = today.substr(0,2);
+	string month = today.substr(2,2);
+	string year = today.substr(4,4);
+	string monthYear = today.substr(2,6);
+	int intDay = stringToInt(day);
+	intDay++;
+	if(checkEndOfMonth(intDay, month) == true){
+		int intMonth = stringToInt(month);
+		intMonth++;
+		intDay = 1;
+		day = intToString(intDay);
+		month = intToString(intMonth);
+		return day + month + year;
+	}
+	else{
+		day = intToString(intDay);
+		return day + monthYear;
+	}
+}
+
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\Parser.cpp
+
+
+
+
+

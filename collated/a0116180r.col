@@ -3,7 +3,7 @@
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\Parser.cpp
 	 */
 
 Command* Parser::translateInput(vector<string>& inputVector) {
@@ -96,14 +96,14 @@ Command* Parser::translateInput(vector<string>& inputVector) {
 	}
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\Parser.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\Parser.cpp
 	 */
 
 void Parser::getReportType(vector<string> &inputVector){
@@ -128,50 +128,15 @@ void Parser::getReportType(vector<string> &inputVector){
 	}
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\Parser.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\Parser.cpp
 	 */
-
-string Parser::processToday(){
-	time_t t = time(0); 
-	char tmp[64]; 
-	strftime( tmp, sizeof(tmp), "%d%m%Y",localtime(&t) );  
-	string today(tmp);
-
-	return today;
-}
-
-string Parser::processTomorrow(){
-	time_t t = time(0); 
-	char tmp[64]; 
-	strftime(tmp, sizeof(tmp), "%d%m%Y",localtime(&t));  
-	string today(tmp);
-
-	string day = today.substr(0,2);
-	string month = today.substr(2,2);
-	string year = today.substr(4,4);
-	string monthYear = today.substr(2,6);
-	int intDay = stringToInt(day);
-	intDay++;
-	if(checkEndOfMonth(intDay, month) == true){
-		int intMonth = stringToInt(month);
-		intMonth++;
-		intDay = 1;
-		day = intToString(intDay);
-		month = intToString(intMonth);
-		return day + month + year;
-	}
-	else{
-		day = intToString(intDay);
-		return day + monthYear;
-	}
-}
 
 bool Parser::checkEndOfMonth(int day, string month){
 	if(month == "01" && day == 32){
@@ -327,14 +292,14 @@ string Parser::processDate(string input) {
 		return input;
 	}
 }
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\Parser.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\Parser.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 string TaskManager::processToday(){
@@ -346,14 +311,14 @@ string TaskManager::processToday(){
 	return today;
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 string TaskManager::processTomorrow(){
@@ -382,14 +347,14 @@ string TaskManager::processTomorrow(){
 	}
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 bool TaskManager::checkEndOfMonth(int day, string month){
@@ -433,14 +398,14 @@ bool TaskManager::checkEndOfMonth(int day, string month){
 	return false;
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 string TaskManager::intToString(int inputInt){
@@ -456,14 +421,14 @@ string TaskManager::intToString(int inputInt){
 	return outputStream.str();
 }
 
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 	 */
 
 int TaskManager::stringToInt(string inputString){
@@ -474,14 +439,14 @@ int TaskManager::stringToInt(string inputString){
 
 	return outputInt;
 }
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\Constan\TaskManager.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\Constan\TaskManager.cpp
 
 
 
 
 
 	/**
-	 * origin: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\ParserTest.cpp
+	 * origin: C:\Users\nicho_000\Desktop\Main\Main\ConstanTest\ParserTest.cpp
 	 */
 
 #include "stdafx.h"
@@ -522,7 +487,7 @@ namespace ConstanTest
 		}
 	};
 }
-	// End of segment: C:\Users\Felix\Desktop\CONSTAN\Main\ConstanTest\ParserTest.cpp
+	// End of segment: C:\Users\nicho_000\Desktop\Main\Main\ConstanTest\ParserTest.cpp
 
 
 
